@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Nivora – Wrapped in Mom's Love</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+
+<!-- LINK CSS -->
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">The Online Shopping Store</span> &nbsp;·&nbsp; For your <span>LOVELY BABIES </span> Buy our premium cloth wears 🌸</div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a class="logo-wrap" onclick="showPage('home')">
+      <div class="logo-mark"><img src="images/NIVORA LOGO.png"></div>
+
+      <div>
+        <div class="logo-title">Nivora</div>
+        <div class="logo-sub">Wrapped in Mom's Love</div>
+      </div>
+    </a>
+    <nav id="main-nav">
+      <a onclick="showPage('home')" data-page="home" class="active">Home</a>
+      <a onclick="showPage('categories')" data-page="categories">Categories</a>
+      <a onclick="document.getElementById('products-home').scrollIntoView({behavior:'smooth'});showPage('home')" data-page="">Shop</a>
+      <a onclick="scrollToSection('why-home')" data-page="">About Us</a>
+      <a onclick="scrollToSection('contact-home')" data-page="">Contact</a>
+    </nav>
+    <div class="header-icons">
+      <button class="icon-btn" onclick="toggleSearch()" title="Search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </button>
+      <button class="icon-btn" id="user-icon-btn" title="Account" onclick="handleUserIcon()">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </button>
+      <button class="icon-btn" title="Cart" onclick="showPage('cart')">
+        <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="cart-badge" id="cart-count">2</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- SEARCH OVERLAY -->
+<div class="search-overlay" id="search-overlay" onclick="if(event.target===this)toggleSearch()">
+  <div class="search-box">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9B7A82" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" placeholder="Search baby dresses, rompers, sets…" id="search-input"/>
+    <button class="search-close" onclick="toggleSearch()">✕</button>
+  </div>
+</div>
+
+<!-- LOGIN MODAL -->
+<div class="modal-overlay" id="login-modal" onclick="if(event.target===this)closeModal('login-modal')">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('login-modal')">✕</button>
+    <h2>Welcome Back 🌸</h2>
+    <p class="sub">Sign in to your Nivora account</p>
+    <div id="login-form-wrap">
+      <div class="form-group"><label>Email Address</label><input type="email" id="login-email" placeholder="hello@email.com"/></div>
+      <div class="form-group"><label>Password</label><input type="password" id="login-pass" placeholder="••••••••"/></div>
+      <button class="btn-rose" style="width:100%;margin-top:.5rem" onclick="doLogin()">Sign In</button>
+      <div class="form-alt">Don't have an account? <a onclick="switchToRegister()">Register here</a></div>
+      <div class="form-alt" style="margin-top:.5rem"><a onclick="showAdminLogin()">Admin Login →</a></div>
+    </div>
+    <div id="register-form-wrap" style="display:none">
+      <div class="form-row">
+        <div class="form-group"><label>First Name</label><input type="text" placeholder="Priya"/></div>
+        <div class="form-group"><label>Last Name</label><input type="text" placeholder="Sharma"/></div>
+      </div>
+      <div class="form-group"><label>Email Address</label><input type="email" placeholder="hello@email.com"/></div>
+      <div class="form-group"><label>Password</label><input type="password" placeholder="Create a password"/></div>
+      <div class="form-group"><label>Confirm Password</label><input type="password" placeholder="Repeat password"/></div>
+      <button class="btn-rose" style="width:100%;margin-top:.5rem" onclick="doRegister()">Create Account</button>
+      <div class="form-alt">Already have an account? <a onclick="switchToLogin()">Sign in</a></div>
+    </div>
+    <div id="admin-form-wrap" style="display:none">
+      <div style="background:rgba(212,99,122,.06);border:1px solid rgba(212,99,122,.2);border-radius:10px;padding:.8rem 1rem;margin-bottom:1.2rem;font-size:.83rem;color:var(--muted)">🔐 Admin Access — Use <strong>admin</strong> / <strong>admin123</strong></div>
+      <div class="form-group"><label>Admin Username</label><input type="text" id="admin-user" placeholder="admin"/></div>
+      <div class="form-group"><label>Password</label><input type="password" id="admin-pass" placeholder="••••••••"/></div>
+      <button class="btn-rose" style="width:100%;margin-top:.5rem" onclick="doAdminLogin()">Admin Sign In</button>
+      <div class="form-alt"><a onclick="switchToLogin()">← Back to User Login</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT QUICK VIEW MODAL -->
+<div class="modal-overlay" id="product-modal" onclick="if(event.target===this)closeModal('product-modal')">
+  <div class="modal" style="max-width:600px">
+    <button class="modal-close" onclick="closeModal('product-modal')">✕</button>
+    <div id="product-modal-content"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- ===================== HOME PAGE ===================== -->
+<div id="page-home" class="page active">
+  <!-- HERO -->
+  <section class="hero-section">
+    <div class="hero">
+      <div class="hero-text">
+        <div class="petal petal1"></div>
+        <div class="hero-eyebrow">New Muslin Collection 2025</div>
+        <h1>Soft as a<br/><em>Mother's Touch.</em></h1>
+        <p class="hero-desc">Nivora crafts breathable, 100% muslin cotton dresses for your little one — gentle on delicate skin, made with a mother's love in every stitch.</p>
+        <div class="hero-btns">
+          <button class="btn-rose" onclick="document.getElementById('products-home').scrollIntoView({behavior:'smooth'})">Shop Now 🌸</button>
+          <button class="btn-ghost" onclick="document.getElementById('why-home').scrollIntoView({behavior:'smooth'})">Our Story</button>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-img-frame">
+          <div class="petal petal2"></div>
+          <div class="hero-placeholder">👶</div>
+          <div class="hero-label"><strong>Muslin Bloom Collection</strong>100% Organic Muslin Cotton</div>
+        </div>
+        <div class="hero-tag-float">New In<br/><span>Summer '25</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-section">
+    <div class="marquee-track" id="marquee-track">
+      <span>Free Shipping Over ₹999</span><span class="dot">✦</span>
+      <span>100% Organic Muslin</span><span class="dot">✦</span>
+      <span>Toxin-Free & Baby-Safe</span><span class="dot">✦</span>
+      <span>30-Day Easy Returns</span><span class="dot">✦</span>
+      <span>Gift Wrapping Available</span><span class="dot">✦</span>
+      <span>New Collection Every Season</span><span class="dot">✦</span>
+      <span>Free Shipping Over ₹999</span><span class="dot">✦</span>
+      <span>100% Organic Muslin</span><span class="dot">✦</span>
+      <span>Toxin-Free & Baby-Safe</span><span class="dot">✦</span>
+      <span>30-Day Easy Returns</span><span class="dot">✦</span>
+      <span>Gift Wrapping Available</span><span class="dot">✦</span>
+      <span>New Collection Every Season</span><span class="dot">✦</span>
+    </div>
+  </div>
+
+  <!-- CATEGORIES STRIP -->
+  <section class="cats-section">
+    <div style="max-width:1280px;margin:0 auto">
+      <div class="section-eyebrow">Browse by Type</div>
+      <div class="section-title">Shop by Category</div>
+    </div>
+    <div class="cats-grid">
+      <a class="cat-card" onclick="goToCategory('dresses')"><div class="cat-icon">👗</div><div class="cat-name">Dresses</div><div class="cat-count">24 items</div></a>
+      <a class="cat-card" onclick="goToCategory('rompers')"><div class="cat-icon">🧸</div><div class="cat-name">Rompers</div><div class="cat-count">18 items</div></a>
+      <a class="cat-card" onclick="goToCategory('sleepsuits')"><div class="cat-icon">🌙</div><div class="cat-name">Sleep Suits</div><div class="cat-count">12 items</div></a>
+      <a class="cat-card" onclick="goToCategory('giftsets')"><div class="cat-icon">🎁</div><div class="cat-name">Gift Sets</div><div class="cat-count">8 items</div></a>
+      <a class="cat-card" onclick="goToCategory('accessories')"><div class="cat-icon">🎀</div><div class="cat-name">Accessories</div><div class="cat-count">15 items</div></a>
+    </div>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section class="products-section" id="products-home">
+    <div class="section-header reveal">
+      <div><div class="section-eyebrow">Featured Products</div><div class="section-title">Our Little Ones' Favourites</div></div>
+      <button class="view-all" onclick="showPage('categories')">View All →</button>
+    </div>
+    <div class="filter-tabs reveal">
+      <button class="tab active" onclick="filterTab(this)">All</button>
+      <button class="tab" onclick="filterTab(this)">New Arrivals</button>
+      <button class="tab" onclick="filterTab(this)">Dresses</button>
+      <button class="tab" onclick="filterTab(this)">Rompers</button>
+      <button class="tab" onclick="filterTab(this)">Sleep Suits</button>
+      <button class="tab" onclick="filterTab(this)">Gift Sets</button>
+    </div>
+    <div class="products-grid" id="home-products-grid"></div>
+  </section>
+
+  <!-- WHY CHOOSE US -->
+  <section class="why-section" id="why-home">
+    <div class="why-inner">
+      <div class="reveal"><div class="section-eyebrow">Why Nivora</div><div class="section-title">Crafted for the Tiniest Hearts.</div></div>
+      <div class="why-grid">
+        <div class="reveal">
+          <div class="why-main-card">
+            <div class="why-big-num">♡</div>
+            <div class="why-card-title">Born from a Mother's Vision</div>
+            <p class="why-card-desc">Nivora was founded by a mom who couldn't find clothing gentle enough for her newborn's skin. Every dress we make is tested by real moms, designed for real babies — breathable, soft, and free from harsh chemicals.</p>
+          </div>
+          <div class="why-float-card">
+            <div class="why-float-num">20K+ Happy Mamas 🌸</div>
+            <div class="why-float-label">And their precious little ones</div>
+          </div>
+        </div>
+        <div class="why-features reveal">
+          <div class="feature-item"><div class="feature-icon">🌿</div><div><div class="feature-title">100% Muslin Cotton</div><p class="feature-desc">GOTS-certified organic muslin — naturally breathable, ultra-soft, and safe for newborn skin. Gets softer with every wash.</p></div></div>
+          <div class="feature-item"><div class="feature-icon">🧪</div><div><div class="feature-title">Toxin-Free & Tested</div><p class="feature-desc">No harmful dyes, no synthetic chemicals. Every fabric batch is dermatologically tested and baby-safe certified.</p></div></div>
+          <div class="feature-item"><div class="feature-icon">🚚</div><div><div class="feature-title">Fast & Free Shipping</div><p class="feature-desc">Orders over ₹999 ship free. Carefully gift-wrapped with love — perfect for baby showers and new arrivals.</p></div></div>
+          <div class="feature-item"><div class="feature-icon">🔄</div><div><div class="feature-title">Hassle-Free Returns</div><p class="feature-desc">Not the right fit? Return within 30 days. We'll make it right, because your baby deserves the best.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testi-section">
+    <div style="max-width:1280px;margin:0 auto">
+      <div class="reveal"><div class="section-eyebrow">Happy Mamas</div><div class="section-title">What Mothers Are Saying 💬</div></div>
+      <div class="testi-grid">
+        <div class="testi-card reveal"><div class="testi-quote">"</div><p class="testi-text">The muslin fabric is absolutely divine! My 3-month-old sleeps so much better in Nivora. I've already ordered 3 more pieces. The packaging is beautiful too — perfect for gifting!</p><div class="testi-author"><div class="testi-avatar">👩</div><div><div class="testi-name">Priya Sharma</div><div class="testi-role">Mom to Aarav, 3 months</div></div></div></div>
+        <div class="testi-card reveal"><div class="testi-quote">"</div><p class="testi-text">I was skeptical ordering online but Nivora exceeded all my expectations. The Blossom Frill Dress is even more gorgeous in person. My daughter gets compliments everywhere she goes!</p><div class="testi-author"><div class="testi-avatar">👩‍🦱</div><div><div class="testi-name">Anita Reddy</div><div class="testi-role">Mom to Kavya, 6 months</div></div></div></div>
+        <div class="testi-card reveal"><div class="testi-quote">"</div><p class="testi-text">As a pediatrician and a mom, I trust Nivora completely. The toxin-free certification matters so much for newborns. These clothes are safe, soft, and beautiful. Highly recommended!</p><div class="testi-author"><div class="testi-avatar">👩‍⚕️</div><div><div class="testi-name">Dr. Meera Nair</div><div class="testi-role">Mom to Siya, 9 months</div></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BANNER -->
+  <section class="banner-section">
+    <div class="banner-inner reveal">
+      <div class="banner-text">
+        <h2>Your First Order Gets 15% Off 🎀</h2>
+        <p>Join the Nivora family and save on your first purchase. Free shipping on all orders over ₹999.</p>
+        <div class="banner-code"><small>Use Code</small><span>NIVORA15</span><small>at checkout</small></div>
+      </div>
+      <button class="btn-rose" style="flex-shrink:0" onclick="showPage('categories')">Shop Now →</button>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact-home" id="contact-home">
+    <div style="max-width:1280px;margin:0 auto">
+      <div class="reveal"><div class="section-eyebrow">Get in Touch</div><div class="section-title">We'd Love to Hear From You 💌</div></div>
+    </div>
+    <div class="contact-form-wrap reveal">
+      <div class="form-row"><div class="form-group"><label>Your Name</label><input type="text" placeholder="Priya Sharma"/></div><div class="form-group"><label>Email Address</label><input type="email" placeholder="hello@email.com"/></div></div>
+      <div class="form-group"><label>Subject</label><select><option>General Enquiry</option><option>Order Support</option><option>Return / Refund</option><option>Product Info</option></select></div>
+      <div class="form-group"><label>Message</label><textarea rows="4" placeholder="How can we help you, mama? 🌸"></textarea></div>
+      <button class="btn-rose" onclick="showToast('Message sent! We\'ll reply within 24 hours 🌸')">Send Message</button>
+    </div>
+    <div class="contact-details-strip reveal">
+      <div class="cds-card"><div class="cds-icon">📍</div><div><div class="cds-label">Address</div><div class="cds-val">12 Blossom Lane, Studio 4<br/>Mumbai, MH 400001</div></div></div>
+      <div class="cds-card"><div class="cds-icon">📞</div><div><div class="cds-label">Phone</div><div class="cds-val">+91 98765 43210</div></div></div>
+      <div class="cds-card"><div class="cds-icon">📧</div><div><div class="cds-label">Email</div><div class="cds-val">hello@nivora.in</div></div></div>
+      <div class="cds-card"><div class="cds-icon">🕐</div><div><div class="cds-label">Hours</div><div class="cds-val">Mon–Sat: 10am–6pm IST<br/>Sun: Closed</div></div></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="brand-name">Nivora 🌸</div>
+          <div class="brand-tagline">Wrapped in Mom's Love</div>
+          <p>Soft muslin cotton baby dresses crafted with care — because your little one deserves nothing but the gentlest touch.</p>
+          <div class="socials">
+            <a class="social-icon" href="#">◉</a><a class="social-icon" href="#">𝒫</a>
+            <a class="social-icon" href="#">f</a><a class="social-icon" href="#">𝕏</a>
+          </div>
+          <div class="newsletter">
+            <h4>Baby Updates & Offers 🌷</h4>
+            <div class="newsletter-row"><input type="email" placeholder="your@email.com"/><button onclick="showToast('Subscribed! 🌸')">Subscribe</button></div>
+          </div>
+        </div>
+        <div class="footer-col"><h4>Quick Links</h4><ul><li><a onclick="showPage('home')">Home</a></li><li><a onclick="showPage('categories')">Shop All</a></li><li><a onclick="showPage('categories')">Categories</a></li><li><a onclick="document.getElementById('why-home').scrollIntoView({behavior:'smooth'})">About Us</a></li><li><a onclick="document.getElementById('contact-home').scrollIntoView({behavior:'smooth'})">Contact Us</a></li></ul></div>
+        <div class="footer-col"><h4>Help & Support</h4><ul><li><a onclick="showPage('dashboard')">Track Your Order</a></li><li><a>Returns & Refunds</a></li><li><a>Shipping Policy</a></li><li><a>Size Guide</a></li><li><a>Care Instructions</a></li><li><a>FAQs</a></li></ul></div>
+        <div class="footer-col"><h4>Contact Us</h4>
+          <p style="font-size:.85rem;color:rgba(255,249,245,.5);line-height:1.8">📍 21, K A S Nagar, Marappalam 1st Street 2nd Cross , Karungalpalayam<br/>Erode-638003 , TamilNadu<br/><br/>📞 +91 93611 48040<br/>📧thenivorastores@gmail.com <br/>🕐 Mon–Sat: 10am–6pm IST</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-copy">© 2026 Nivora. Made with 🌸 for mamas everywhere.</div>
+        <div class="footer-badges"><span class="badge-pill">Visa</span><span class="badge-pill">Mastercard</span><span class="badge-pill">UPI</span><span class="badge-pill">Razorpay</span></div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<!-- ===================== CATEGORIES PAGE ===================== -->
+<div id="page-categories" class="page">
+  <div class="page-title-bar">
+    <div class="page-title-bar-inner">
+      <div class="page-breadcrumb"><a onclick="showPage('home')">Home</a> / Categories</div>
+      <h1>All Categories</h1>
+    </div>
+  </div>
+  <div class="cats-page">
+    <div class="cats-page-inner">
+      <div class="filter-tabs" style="margin-bottom:2rem">
+        <button class="tab active" onclick="filterTab(this)">All</button>
+        <button class="tab" onclick="filterTab(this)">Dresses</button>
+        <button class="tab" onclick="filterTab(this)">Rompers</button>
+        <button class="tab" onclick="filterTab(this)">Sleep Suits</button>
+        <button class="tab" onclick="filterTab(this)">Gift Sets</button>
+        <button class="tab" onclick="filterTab(this)">Accessories</button>
+        <button class="tab" onclick="filterTab(this)">New Arrivals</button>
+        <button class="tab" onclick="filterTab(this)">On Sale</button>
+      </div>
+
+      <div class="cat-section">
+        <div class="cat-section-header"><div class="cat-section-icon">👗</div><div><h2>Dresses</h2><p class="meta">24 products · Sizes 0–24 months</p></div></div>
+        <div class="products-grid" id="cat-dresses-grid"></div>
+      </div>
+
+      <div class="cat-section" style="margin-top:3rem">
+        <div class="cat-section-header"><div class="cat-section-icon">🧸</div><div><h2>Rompers</h2><p class="meta">18 products · Sizes 0–18 months</p></div></div>
+        <div class="products-grid" id="cat-rompers-grid"></div>
+      </div>
+
+      <div class="cat-section" style="margin-top:3rem">
+        <div class="cat-section-header"><div class="cat-section-icon">🌙</div><div><h2>Sleep Suits</h2><p class="meta">12 products · Sizes 0–12 months</p></div></div>
+        <div class="products-grid" id="cat-sleep-grid"></div>
+      </div>
+
+      <div class="cat-section" style="margin-top:3rem">
+        <div class="cat-section-header"><div class="cat-section-icon">🎁</div><div><h2>Gift Sets</h2><p class="meta">8 sets · Beautifully packaged</p></div></div>
+        <div class="products-grid" id="cat-gifts-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-grid">
+        <div class="footer-brand"><div class="brand-name">Nivora 🌸</div><div class="brand-tagline">Wrapped in Mom's Love</div><p>Soft muslin cotton baby dresses crafted with care.</p></div>
+        <div class="footer-col"><h4>Quick Links</h4><ul><li><a onclick="showPage('home')">Home</a></li><li><a onclick="showPage('categories')">Shop All</a></li></ul></div>
+        <div class="footer-col"><h4>Help</h4><ul><li><a>Returns & Refunds</a></li><li><a>Shipping Policy</a></li></ul></div>
+        <div class="footer-col"><h4>Contact</h4><p style="font-size:.85rem;color:rgba(255,249,245,.5)">hello@nivora.in<br/>+91 98765 43210</p></div>
+      </div>
+      <div class="footer-bottom"><div class="footer-copy">© 2026 Nivora. Made with 🌸</div></div>
+    </div>
+  </footer>
+</div>
+
+<!-- ===================== CART PAGE ===================== -->
+<div id="page-cart" class="page">
+  <div class="page-title-bar">
+    <div class="page-title-bar-inner">
+      <div class="page-breadcrumb"><a onclick="showPage('home')">Home</a> / Shopping Cart</div>
+      <h1>Your Cart 🛒</h1>
+    </div>
+  </div>
+  <div class="cart-page">
+    <div class="cart-inner">
+      <div class="cart-layout">
+        <div class="cart-items">
+          <div class="cart-header"><h2>Cart Items</h2><button class="btn-ghost btn-sm" onclick="clearCart()">Clear All</button></div>
+          <div id="cart-items-list"></div>
+        </div>
+        <div class="order-summary">
+          <h3>Order Summary</h3>
+          <div class="summary-row"><span>Subtotal</span><span id="cart-subtotal">₹0</span></div>
+          <div class="summary-row"><span>Shipping</span><span id="cart-shipping">FREE</span></div>
+          <div class="summary-row"><span>Discount</span><span id="cart-discount" style="color:var(--rose)">-₹0</span></div>
+          <div class="summary-row total"><span>Total</span><span id="cart-total">₹0</span></div>
+          <div class="coupon-row"><input type="text" id="coupon-input" placeholder="Coupon code"/><button onclick="applyCoupon()">Apply</button></div>
+          <button class="btn-rose" style="width:100%;margin-top:.8rem" onclick="showPage('checkout')">Proceed to Checkout →</button>
+          <button class="btn-ghost" style="width:100%;margin-top:.6rem" onclick="showPage('categories')">Continue Shopping</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== CHECKOUT PAGE ===================== -->
+<div id="page-checkout" class="page">
+  <div class="page-title-bar">
+    <div class="page-title-bar-inner">
+      <div class="page-breadcrumb"><a onclick="showPage('home')">Home</a> / <a onclick="showPage('cart')">Cart</a> / Checkout</div>
+      <h1>Checkout 🌸</h1>
+    </div>
+  </div>
+  <div class="checkout-page">
+    <div class="checkout-inner">
+      <div class="checkout-steps" style="max-width:500px;margin:0 auto 2.5rem">
+        <div class="step done" id="step1"><div class="step-num">✓</div><div class="step-label">Cart</div></div>
+        <div class="step active" id="step2"><div class="step-num">2</div><div class="step-label">Details</div></div>
+        <div class="step" id="step3"><div class="step-num">3</div><div class="step-label">Payment</div></div>
+        <div class="step" id="step4"><div class="step-num">4</div><div class="step-label">Confirm</div></div>
+      </div>
+
+      <div class="checkout-layout">
+        <div>
+          <!-- STEP 2: ADDRESS -->
+          <div id="checkout-step-2">
+            <div class="checkout-form-box">
+              <h3>📍 Delivery Details</h3>
+              <div class="form-row">
+                <div class="form-group"><label>First Name</label><input type="text" id="co-fname" placeholder="Priya"/></div>
+                <div class="form-group"><label>Last Name</label><input type="text" id="co-lname" placeholder="Sharma"/></div>
+              </div>
+              <div class="form-group"><label>Email Address</label><input type="email" id="co-email" placeholder="priya@email.com"/></div>
+              <div class="form-group"><label>Phone Number</label><input type="tel" id="co-phone" placeholder="+91 98765 43210"/></div>
+              <div class="form-group"><label>Address Line 1</label><input type="text" id="co-addr1" placeholder="House / Flat No., Street Name"/></div>
+              <div class="form-group"><label>Address Line 2 (Optional)</label><input type="text" id="co-addr2" placeholder="Landmark, Area"/></div>
+              <div class="form-row">
+                <div class="form-group"><label>City</label><input type="text" id="co-city" placeholder="Mumbai"/></div>
+                <div class="form-group"><label>Pincode</label><input type="text" id="co-pin" placeholder="400001"/></div>
+              </div>
+              <div class="form-group"><label>State</label><select id="co-state"><option>Maharashtra</option><option>Delhi</option><option>Karnataka</option><option>Tamil Nadu</option><option>Gujarat</option><option>Rajasthan</option><option>West Bengal</option></select></div>
+              <button class="btn-rose" style="margin-top:.5rem" onclick="goToPayment()">Continue to Payment →</button>
+            </div>
+          </div>
+          <!-- STEP 3: PAYMENT -->
+          <div id="checkout-step-3" style="display:none">
+            <div class="checkout-form-box">
+              <h3>💳 Payment Method</h3>
+              <div class="payment-methods">
+                <label class="pay-method selected" onclick="selectPayMethod(this)"><input type="radio" name="pay" checked/><div class="pay-method-icon">💳</div><div class="pay-method-info"><h4>Credit / Debit Card</h4><p>Visa, Mastercard, RuPay</p></div></label>
+                <label class="pay-method" onclick="selectPayMethod(this)"><input type="radio" name="pay"/><div class="pay-method-icon">📱</div><div class="pay-method-info"><h4>UPI</h4><p>GPay, PhonePe, Paytm, BHIM</p></div></label>
+                <label class="pay-method" onclick="selectPayMethod(this)"><input type="radio" name="pay"/><div class="pay-method-icon">🏦</div><div class="pay-method-info"><h4>Net Banking</h4><p>All major banks supported</p></div></label>
+                <label class="pay-method" onclick="selectPayMethod(this)"><input type="radio" name="pay"/><div class="pay-method-icon">💵</div><div class="pay-method-info"><h4>Cash on Delivery</h4><p>Pay when your order arrives</p></div></label>
+              </div>
+              <div id="card-fields">
+                <div class="form-group"><label>Card Number</label><input type="text" placeholder="1234 5678 9012 3456" maxlength="19" oninput="formatCard(this)"/></div>
+                <div class="form-row">
+                  <div class="form-group"><label>Expiry Date</label><input type="text" placeholder="MM / YY" maxlength="7"/></div>
+                  <div class="form-group"><label>CVV</label><input type="text" placeholder="•••" maxlength="3"/></div>
+                </div>
+                <div class="form-group"><label>Name on Card</label><input type="text" placeholder="PRIYA SHARMA"/></div>
+              </div>
+              <div style="display:flex;gap:1rem;margin-top:.5rem">
+                <button class="btn-ghost" onclick="backToAddress()">← Back</button>
+                <button class="btn-rose" onclick="placeOrder()">Place Order 🌸</button>
+              </div>
+            </div>
+          </div>
+          <!-- STEP 4: CONFIRM -->
+          <div id="checkout-step-4" style="display:none">
+            <div class="checkout-form-box" style="text-align:center;padding:3rem">
+              <div style="font-size:4rem;margin-bottom:1rem">🎉</div>
+              <h2 style="font-family:var(--ff-head);font-size:2rem;margin-bottom:.6rem">Order Placed!</h2>
+              <p style="color:var(--muted);margin-bottom:.5rem">Thank you for shopping with Nivora 🌸</p>
+              <p style="color:var(--muted);margin-bottom:2rem">Order <strong style="color:var(--rose)" id="order-id">#NVR2025001</strong> confirmed. You'll receive an email shortly.</p>
+              <div style="background:var(--warm);border-radius:14px;padding:1.4rem;margin-bottom:2rem;text-align:left">
+                <div style="font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.8rem">Estimated Delivery</div>
+                <div style="font-family:var(--ff-head);font-size:1.2rem">3–5 Business Days 🚚</div>
+              </div>
+              <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+                <button class="btn-rose" onclick="showPage('dashboard');showDashSection('orders')">Track Order</button>
+                <button class="btn-ghost" onclick="showPage('home')">Continue Shopping</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ORDER SUMMARY SIDEBAR -->
+        <div class="order-summary" style="position:sticky;top:90px">
+          <h3>Order Summary</h3>
+          <div id="checkout-items-list"></div>
+          <div class="summary-row" style="margin-top:1rem"><span>Subtotal</span><span id="co-subtotal">₹0</span></div>
+          <div class="summary-row"><span>Shipping</span><span>FREE</span></div>
+          <div class="summary-row total"><span>Total</span><span id="co-total">₹0</span></div>
+          <div style="margin-top:1rem;background:rgba(212,99,122,.06);border-radius:10px;padding:.7rem 1rem;font-size:.78rem;color:var(--muted)">🔒 Your payment is secured by Razorpay</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== USER DASHBOARD ===================== -->
+<div id="page-dashboard" class="page">
+  <div class="page-title-bar">
+    <div class="page-title-bar-inner">
+      <div class="page-breadcrumb"><a onclick="showPage('home')">Home</a> / My Account</div>
+      <h1>My Account 👤</h1>
+    </div>
+  </div>
+  <div class="dash-page">
+    <div class="dash-inner">
+      <div class="dash-layout">
+        <div class="dash-sidebar">
+          <div class="dash-user-info">
+            <div class="dash-avatar">👩</div>
+            <div class="dash-username">Priya Sharma</div>
+            <div class="dash-email">priya@email.com</div>
+          </div>
+          <div class="dash-nav">
+            <div class="dash-nav-item active" onclick="showDashSection('overview')"><span class="nav-icon">🏠</span>Overview</div>
+            <div class="dash-nav-item" onclick="showDashSection('orders')"><span class="nav-icon">📦</span>My Orders</div>
+            <div class="dash-nav-item" onclick="showDashSection('wishlist')"><span class="nav-icon">♡</span>Wishlist</div>
+            <div class="dash-nav-item" onclick="showDashSection('addresses')"><span class="nav-icon">📍</span>Addresses</div>
+            <div class="dash-nav-item" onclick="showDashSection('profile')"><span class="nav-icon">✏️</span>Edit Profile</div>
+            <div class="dash-nav-item" onclick="logoutUser()" style="margin-top:1rem;color:var(--red)"><span class="nav-icon">🚪</span>Sign Out</div>
+          </div>
+        </div>
+        <div class="dash-content">
+          <!-- OVERVIEW -->
+          <div class="dash-section active" id="dash-overview">
+            <div class="dash-section-title">Welcome back, Priya! 🌸</div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-bottom:2rem">
+              <div class="stat-card" data-icon="📦"><div class="stat-label">Total Orders</div><div class="stat-val">7</div></div>
+              <div class="stat-card" data-icon="♡"><div class="stat-label">Wishlist Items</div><div class="stat-val">4</div></div>
+              <div class="stat-card" data-icon="💰"><div class="stat-label">Total Spent</div><div class="stat-val">₹4,820</div></div>
+            </div>
+            <div class="dash-section-title" style="font-size:1.1rem">Recent Orders</div>
+            <table class="orders-table">
+              <thead><tr><th>Order ID</th><th>Date</th><th>Items</th><th>Total</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td><strong>#NVR2025007</strong></td><td>Apr 18, 2025</td><td>Blossom Frill Dress</td><td>₹840</td><td><span class="order-status status-shipped">Shipped</span></td></tr>
+                <tr><td><strong>#NVR2025006</strong></td><td>Mar 30, 2025</td><td>Sage Dream Sleep Suit + Romper</td><td>₹1,240</td><td><span class="order-status status-delivered">Delivered</span></td></tr>
+                <tr><td><strong>#NVR2025005</strong></td><td>Mar 12, 2025</td><td>Rosy Welcome Gift Set</td><td>₹1,740</td><td><span class="order-status status-delivered">Delivered</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- ORDERS -->
+          <div class="dash-section" id="dash-orders">
+            <div class="dash-section-title">My Orders 📦</div>
+            <table class="orders-table">
+              <thead><tr><th>Order ID</th><th>Date</th><th>Items</th><th>Total</th><th>Status</th><th>Action</th></tr></thead>
+              <tbody>
+                <tr><td><strong>#NVR2025007</strong></td><td>Apr 18, 2025</td><td>Blossom Frill Dress</td><td>₹840</td><td><span class="order-status status-shipped">Shipped</span></td><td><button class="btn-ghost btn-sm">Track</button></td></tr>
+                <tr><td><strong>#NVR2025006</strong></td><td>Mar 30, 2025</td><td>Sage Sleep Suit, Romper</td><td>₹1,240</td><td><span class="order-status status-delivered">Delivered</span></td><td><button class="btn-ghost btn-sm">Invoice</button></td></tr>
+                <tr><td><strong>#NVR2025005</strong></td><td>Mar 12, 2025</td><td>Rosy Gift Set</td><td>₹1,740</td><td><span class="order-status status-delivered">Delivered</span></td><td><button class="btn-ghost btn-sm">Invoice</button></td></tr>
+                <tr><td><strong>#NVR2025004</strong></td><td>Feb 20, 2025</td><td>Lavender Flutter Dress</td><td>₹900</td><td><span class="order-status status-delivered">Delivered</span></td><td><button class="btn-ghost btn-sm">Invoice</button></td></tr>
+                <tr><td><strong>#NVR2025003</strong></td><td>Feb 01, 2025</td><td>Sky Petal Snap Romper</td><td>₹870</td><td><span class="order-status status-delivered">Delivered</span></td><td><button class="btn-ghost btn-sm">Invoice</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- WISHLIST -->
+          <div class="dash-section" id="dash-wishlist">
+            <div class="dash-section-title">My Wishlist ♡</div>
+            <div class="wishlist-grid" id="wishlist-grid"></div>
+          </div>
+          <!-- ADDRESSES -->
+          <div class="dash-section" id="dash-addresses">
+            <div class="dash-section-title">Saved Addresses 📍</div>
+            <div class="addr-card"><div class="addr-default">Default</div><h4>Home</h4><p>Priya Sharma<br/>12/B Sunrise Apartments, Andheri West<br/>Mumbai, Maharashtra – 400058<br/>📞 +91 98765 43210</p><div style="display:flex;gap:.6rem;margin-top:.8rem"><button class="btn-ghost btn-sm">Edit</button><button class="btn-ghost btn-sm">Delete</button></div></div>
+            <div class="addr-card"><h4>Office</h4><p>Priya Sharma<br/>Tower B, Floor 3, BKC Business Park<br/>Bandra Kurla Complex, Mumbai – 400051<br/>📞 +91 98765 43210</p><div style="display:flex;gap:.6rem;margin-top:.8rem"><button class="btn-ghost btn-sm">Edit</button><button class="btn-ghost btn-sm">Set as Default</button><button class="btn-ghost btn-sm">Delete</button></div></div>
+            <button class="btn-rose btn-sm" style="margin-top:1rem" onclick="showToast('Add address form coming soon!')">+ Add New Address</button>
+          </div>
+          <!-- PROFILE -->
+          <div class="dash-section" id="dash-profile">
+            <div class="dash-section-title">Edit Profile ✏️</div>
+            <div class="form-row"><div class="form-group"><label>First Name</label><input type="text" value="Priya"/></div><div class="form-group"><label>Last Name</label><input type="text" value="Sharma"/></div></div>
+            <div class="form-group"><label>Email Address</label><input type="email" value="priya@email.com"/></div>
+            <div class="form-group"><label>Phone Number</label><input type="tel" value="+91 98765 43210"/></div>
+            <div class="form-group"><label>Date of Birth</label><input type="date" value="1992-03-15"/></div>
+            <div style="font-family:var(--ff-head);font-size:1rem;margin:1.5rem 0 .8rem;padding-top:1.2rem;border-top:1px solid rgba(212,99,122,.1)">Change Password</div>
+            <div class="form-group"><label>Current Password</label><input type="password" placeholder="••••••••"/></div>
+            <div class="form-row"><div class="form-group"><label>New Password</label><input type="password" placeholder="••••••••"/></div><div class="form-group"><label>Confirm New</label><input type="password" placeholder="••••••••"/></div></div>
+            <button class="btn-rose" onclick="showToast('Profile updated! 🌸')">Save Changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== ADMIN DASHBOARD ===================== -->
+<div id="page-admin" class="page">
+  <div class="admin-page">
+    <div class="admin-inner">
+      <div class="admin-layout">
+        <div class="admin-sidebar">
+          <div class="admin-logo">
+            <div class="admin-logo-icon">🌸</div>
+            <div><div class="admin-logo-text">Nivora Admin</div><div class="admin-logo-sub">Control Panel</div></div>
+          </div>
+          <div class="admin-nav">
+            <div class="admin-nav-item active" onclick="showAdminSection('dashboard')"><span class="nav-icon">📊</span>Dashboard</div>
+            <div class="admin-nav-item" onclick="showAdminSection('products')"><span class="nav-icon">👗</span>Products</div>
+            <div class="admin-nav-item" onclick="showAdminSection('orders')"><span class="nav-icon">📦</span>Orders</div>
+            <div class="admin-nav-item" onclick="showAdminSection('customers')"><span class="nav-icon">👥</span>Customers</div>
+            <div class="admin-nav-item" onclick="showAdminSection('categories')"><span class="nav-icon">🗂️</span>Categories</div>
+            <div class="admin-nav-item" onclick="showAdminSection('settings')"><span class="nav-icon">⚙️</span>Settings</div>
+            <div class="admin-nav-item" style="margin-top:2rem;border-top:1px solid rgba(255,255,255,.08);padding-top:1rem" onclick="logoutAdmin()"><span class="nav-icon">🚪</span>Logout</div>
+          </div>
+        </div>
+
+        <div>
+          <!-- ADMIN: DASHBOARD -->
+          <div class="admin-section active" id="admin-dashboard">
+            <div class="admin-section-title">Dashboard Overview 📊</div>
+            <div class="stats-grid">
+              <div class="stat-card" data-icon="💰"><div class="stat-label">Total Revenue</div><div class="stat-val">₹2.4L</div><div class="stat-change">↑ 18% this month</div></div>
+              <div class="stat-card" data-icon="📦"><div class="stat-label">Total Orders</div><div class="stat-val">847</div><div class="stat-change">↑ 12% this month</div></div>
+              <div class="stat-card" data-icon="👥"><div class="stat-label">Customers</div><div class="stat-val">2,341</div><div class="stat-change">↑ 23% this month</div></div>
+              <div class="stat-card" data-icon="👗"><div class="stat-label">Products</div><div class="stat-val">64</div><div class="stat-change">8 new this month</div></div>
+            </div>
+            <div style="background:var(--cream);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem">
+              <div style="font-family:var(--ff-head);font-size:1.1rem;margin-bottom:1.2rem">Recent Orders</div>
+              <table class="admin-table">
+                <thead><tr><th>Order ID</th><th>Customer</th><th>Products</th><th>Total</th><th>Status</th><th>Date</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>#NVR2025007</strong></td><td>Priya Sharma</td><td>Blossom Frill Dress</td><td>₹840</td><td><span class="order-status status-shipped">Shipped</span></td><td>Apr 18</td></tr>
+                  <tr><td><strong>#NVR2025006</strong></td><td>Anita Reddy</td><td>Sage Sleep Suit + Romper</td><td>₹1,240</td><td><span class="order-status status-delivered">Delivered</span></td><td>Mar 30</td></tr>
+                  <tr><td><strong>#NVR2025005</strong></td><td>Dr. Meera Nair</td><td>Rosy Welcome Gift Set</td><td>₹1,740</td><td><span class="order-status status-delivered">Delivered</span></td><td>Mar 12</td></tr>
+                  <tr><td><strong>#NVR2025004</strong></td><td>Sunita Gupta</td><td>Lavender Flutter Dress</td><td>₹900</td><td><span class="order-status status-processing">Processing</span></td><td>Apr 19</td></tr>
+                  <tr><td><strong>#NVR2025003</strong></td><td>Deepa Menon</td><td>Sky Petal Snap Romper</td><td>₹870</td><td><span class="order-status status-processing">Processing</span></td><td>Apr 20</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- ADMIN: PRODUCTS -->
+          <div class="admin-section" id="admin-products">
+            <div class="admin-section-title">
+              <span>Products Management 👗</span>
+              <button class="btn-rose btn-sm" onclick="toggleAddProductForm()">+ Add Product</button>
+            </div>
+            <!-- ADD FORM -->
+            <div class="admin-form" id="add-product-form" style="display:none">
+              <h4>➕ Add New Product</h4>
+              <div class="form-row">
+                <div class="form-group"><label>Product Name</label><input type="text" id="ap-name" placeholder="Blossom Frill Dress"/></div>
+                <div class="form-group"><label>Category</label><select id="ap-cat"><option>Dresses</option><option>Rompers</option><option>Sleep Suits</option><option>Gift Sets</option><option>Accessories</option></select></div>
+              </div>
+              <div class="form-row">
+                <div class="form-group"><label>Price (₹)</label><input type="number" id="ap-price" placeholder="840"/></div>
+                <div class="form-group"><label>Original Price (₹)</label><input type="number" id="ap-orig" placeholder="1140 (leave blank if no sale)"/></div>
+              </div>
+              <div class="form-row">
+                <div class="form-group"><label>Size Range</label><select id="ap-size"><option>0–3 Months</option><option>3–6 Months</option><option>6–9 Months</option><option>9–12 Months</option><option>12–18 Months</option><option>18–24 Months</option></select></div>
+                <div class="form-group"><label>Stock Qty</label><input type="number" id="ap-stock" placeholder="50"/></div>
+              </div>
+              <div class="form-group"><label>Emoji Icon</label><input type="text" id="ap-emoji" placeholder="🌸" maxlength="4"/></div>
+              <div class="form-group"><label>Badge</label><select id="ap-badge"><option value="">None</option><option value="new">New</option><option value="sale">Sale</option></select></div>
+              <div style="display:flex;gap:1rem">
+                <button class="btn-rose" onclick="addProduct()">Add Product</button>
+                <button class="btn-ghost" onclick="toggleAddProductForm()">Cancel</button>
+              </div>
+            </div>
+            <!-- TABLE -->
+            <div style="background:var(--cream);border-radius:16px;overflow:hidden">
+              <table class="admin-table" id="admin-products-table">
+                <thead><tr><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Badge</th><th>Actions</th></tr></thead>
+                <tbody id="admin-products-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- ADMIN: ORDERS -->
+          <div class="admin-section" id="admin-orders">
+            <div class="admin-section-title">Orders Management 📦</div>
+            <div style="display:flex;gap:.8rem;margin-bottom:1.2rem;flex-wrap:wrap">
+              <button class="tab active" onclick="filterTab(this)">All</button>
+              <button class="tab" onclick="filterTab(this)">Processing</button>
+              <button class="tab" onclick="filterTab(this)">Shipped</button>
+              <button class="tab" onclick="filterTab(this)">Delivered</button>
+            </div>
+            <div style="background:var(--cream);border-radius:16px;overflow:hidden">
+              <table class="admin-table">
+                <thead><tr><th>Order ID</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th><th>Date</th><th>Action</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>#NVR2025007</strong></td><td>Priya Sharma</td><td>Blossom Frill Dress × 1</td><td>₹840</td><td><span class="order-status status-shipped">Shipped</span></td><td>Apr 18, 2025</td><td><select onchange="updateOrderStatus(this)" style="border:1px solid rgba(212,99,122,.2);border-radius:6px;padding:.3rem .5rem;font-size:.78rem;background:var(--cream)"><option>Shipped</option><option>Processing</option><option>Delivered</option><option>Cancelled</option></select></td></tr>
+                  <tr><td><strong>#NVR2025006</strong></td><td>Anita Reddy</td><td>Sage Sleep Suit, Sky Romper</td><td>₹1,240</td><td><span class="order-status status-delivered">Delivered</span></td><td>Mar 30, 2025</td><td><select onchange="updateOrderStatus(this)" style="border:1px solid rgba(212,99,122,.2);border-radius:6px;padding:.3rem .5rem;font-size:.78rem;background:var(--cream)"><option>Delivered</option><option>Processing</option><option>Shipped</option><option>Cancelled</option></select></td></tr>
+                  <tr><td><strong>#NVR2025005</strong></td><td>Dr. Meera Nair</td><td>Rosy Welcome Gift Set × 1</td><td>₹1,740</td><td><span class="order-status status-delivered">Delivered</span></td><td>Mar 12, 2025</td><td><select onchange="updateOrderStatus(this)" style="border:1px solid rgba(212,99,122,.2);border-radius:6px;padding:.3rem .5rem;font-size:.78rem;background:var(--cream)"><option>Delivered</option><option>Processing</option><option>Shipped</option><option>Cancelled</option></select></td></tr>
+                  <tr><td><strong>#NVR2025004</strong></td><td>Sunita Gupta</td><td>Lavender Flutter Dress × 2</td><td>₹1,800</td><td><span class="order-status status-processing">Processing</span></td><td>Apr 19, 2025</td><td><select onchange="updateOrderStatus(this)" style="border:1px solid rgba(212,99,122,.2);border-radius:6px;padding:.3rem .5rem;font-size:.78rem;background:var(--cream)"><option>Processing</option><option>Shipped</option><option>Delivered</option><option>Cancelled</option></select></td></tr>
+                  <tr><td><strong>#NVR2025003</strong></td><td>Deepa Menon</td><td>Sky Petal Romper × 1</td><td>₹870</td><td><span class="order-status status-processing">Processing</span></td><td>Apr 20, 2025</td><td><select onchange="updateOrderStatus(this)" style="border:1px solid rgba(212,99,122,.2);border-radius:6px;padding:.3rem .5rem;font-size:.78rem;background:var(--cream)"><option>Processing</option><option>Shipped</option><option>Delivered</option><option>Cancelled</option></select></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- ADMIN: CUSTOMERS -->
+          <div class="admin-section" id="admin-customers">
+            <div class="admin-section-title">Customers List 👥</div>
+            <div style="background:var(--cream);border-radius:16px;overflow:hidden">
+              <table class="admin-table">
+                <thead><tr><th>Customer</th><th>Email</th><th>Phone</th><th>Orders</th><th>Total Spent</th><th>Joined</th><th>Actions</th></tr></thead>
+                <tbody>
+                  <tr><td><div class="inline-flex"><div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--blush-lt),var(--blush));display:grid;place-items:center;font-size:1rem">👩</div>Priya Sharma</div></td><td>priya@email.com</td><td>+91 98765 43210</td><td>7</td><td>₹4,820</td><td>Jan 2025</td><td><div class="action-btns"><button class="action-btn btn-edit" onclick="showToast('View customer details')">👁</button></div></td></tr>
+                  <tr><td><div class="inline-flex"><div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#FFF0D6,#F9CFA0);display:grid;place-items:center;font-size:1rem">👩‍🦱</div>Anita Reddy</div></td><td>anita@email.com</td><td>+91 91234 56789</td><td>4</td><td>₹3,120</td><td>Feb 2025</td><td><div class="action-btns"><button class="action-btn btn-edit" onclick="showToast('View customer details')">👁</button></div></td></tr>
+                  <tr><td><div class="inline-flex"><div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#E8F5F0,#A8D8C8);display:grid;place-items:center;font-size:1rem">👩‍⚕️</div>Dr. Meera Nair</div></td><td>meera@email.com</td><td>+91 90876 54321</td><td>3</td><td>₹2,980</td><td>Mar 2025</td><td><div class="action-btns"><button class="action-btn btn-edit" onclick="showToast('View customer details')">👁</button></div></td></tr>
+                  <tr><td><div class="inline-flex"><div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#EDE8F5,#C4B0E0);display:grid;place-items:center;font-size:1rem">👩</div>Sunita Gupta</div></td><td>sunita@email.com</td><td>+91 99887 76655</td><td>2</td><td>₹1,800</td><td>Apr 2025</td><td><div class="action-btns"><button class="action-btn btn-edit" onclick="showToast('View customer details')">👁</button></div></td></tr>
+                  <tr><td><div class="inline-flex"><div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#FDE8EC,#E8A0B0);display:grid;place-items:center;font-size:1rem">👩</div>Deepa Menon</div></td><td>deepa@email.com</td><td>+91 88776 65544</td><td>1</td><td>₹870</td><td>Apr 2025</td><td><div class="action-btns"><button class="action-btn btn-edit" onclick="showToast('View customer details')">👁</button></div></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- ADMIN: CATEGORIES -->
+          <div class="admin-section" id="admin-categories">
+            <div class="admin-section-title"><span>Categories 🗂️</span><button class="btn-rose btn-sm" onclick="showToast('Add category form')">+ Add Category</button></div>
+            <div style="background:var(--cream);border-radius:16px;overflow:hidden">
+              <table class="admin-table">
+                <thead><tr><th>Icon</th><th>Category Name</th><th>Products</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody>
+                  <tr><td>👗</td><td><strong>Dresses</strong></td><td>24</td><td><span class="order-status status-delivered">Active</span></td><td><div class="action-btns"><button class="action-btn btn-edit" onclick="showToast('Edit category')">✏️</button><button class="action-btn btn-del" onclick="showToast('Delete category')">🗑</button></div></td></tr>
+                  <tr><td>🧸</td><td><strong>Rompers</strong></td><td>18</td><td><span class="order-status status-delivered">Active</span></td><td><div class="action-btns"><button class="action-btn btn-edit" onclick="showToast('Edit category')">✏️</button><button class="action-btn btn-del" onclick="showToast('Delete category')">🗑</button></div></td></tr>
+                  <tr><td>🌙</td><td><strong>Sleep Suits</strong></td><td>12</td><td><span class="order-status status-delivered">Active</span></td><td><div class="action-btns"><button class="action-btn btn-edit" onclick="showToast('Edit category')">✏️</button><button class="action-btn btn-del" onclick="showToast('Delete category')">🗑</button></div></td></tr>
+                  <tr><td>🎁</td><td><strong>Gift Sets</strong></td><td>8</td><td><span class="order-status status-delivered">Active</span></td><td><div class="action-btns"><button class="action-btn btn-edit" onclick="showToast('Edit category')">✏️</button><button class="action-btn btn-del" onclick="showToast('Delete category')">🗑</button></div></td></tr>
+                  <tr><td>🎀</td><td><strong>Accessories</strong></td><td>15</td><td><span class="order-status status-delivered">Active</span></td><td><div class="action-btns"><button class="action-btn btn-edit" onclick="showToast('Edit category')">✏️</button><button class="action-btn btn-del" onclick="showToast('Delete category')">🗑</button></div></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- ADMIN: SETTINGS -->
+          <div class="admin-section" id="admin-settings">
+            <div class="admin-section-title">Store Settings ⚙️</div>
+            <div class="admin-form">
+              <h4>Store Information</h4>
+              <div class="form-row"><div class="form-group"><label>Store Name</label><input type="text" value="Nivora"/></div><div class="form-group"><label>Tagline</label><input type="text" value="Wrapped in Mom's Love"/></div></div>
+              <div class="form-group"><label>Store Email</label><input type="email" value="hello@nivora.in"/></div>
+              <div class="form-group"><label>Phone</label><input type="tel" value="+91 98765 43210"/></div>
+              <div class="form-group"><label>Address</label><textarea rows="2">12 Blossom Lane, Studio 4, Mumbai, MH 400001</textarea></div>
+              <button class="btn-rose" onclick="showToast('Settings saved! ✓')">Save Settings</button>
+            </div>
+            <div class="admin-form">
+              <h4>Shipping & Offers</h4>
+              <div class="form-row"><div class="form-group"><label>Free Shipping Threshold (₹)</label><input type="number" value="999"/></div><div class="form-group"><label>Default Coupon Code</label><input type="text" value="NIVORA15"/></div></div>
+              <div class="form-group"><label>Coupon Discount (%)</label><input type="number" value="15"/></div>
+              <button class="btn-rose" onclick="showToast('Shipping settings saved! ✓')">Save</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="script.js"></script>
+
+</body>
+</html>
