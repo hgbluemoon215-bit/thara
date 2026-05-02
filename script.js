@@ -645,3 +645,17 @@ window.addEventListener('load', () => {
   updateCartBadge();
   initReveal();
 });
+
+// ================= HERO SLIDER =================
+window.addEventListener("DOMContentLoaded", () => {
+  let currentSlide = 0;
+  const slides = document.querySelectorAll(".hero-image");
+
+  function showNextSlide(){
+    slides[currentSlide].classList.remove("active");
+    currentSlide = (currentSlide + 1) % slides.length;
+    slides[currentSlide].classList.add("active");
+  }
+
+  setInterval(showNextSlide, 3000);
+});
