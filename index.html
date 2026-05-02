@@ -153,14 +153,44 @@
       <div class="section-eyebrow">Browse by Type</div>
       <div class="section-title">Shop by Category</div>
     </div>
-    <div class="cats-grid">
-      <a class="cat-card" onclick="goToCategory('dresses')"><div class="cat-icon">👗</div><div class="cat-name">Dresses</div><div class="cat-count">24 items</div></a>
-      <a class="cat-card" onclick="goToCategory('rompers')"><div class="cat-icon">🧸</div><div class="cat-name">Rompers</div><div class="cat-count">18 items</div></a>
-      <a class="cat-card" onclick="goToCategory('sleepsuits')"><div class="cat-icon">🌙</div><div class="cat-name">Sleep Suits</div><div class="cat-count">12 items</div></a>
-      <a class="cat-card" onclick="goToCategory('giftsets')"><div class="cat-icon">🎁</div><div class="cat-name">Gift Sets</div><div class="cat-count">8 items</div></a>
-      <a class="cat-card" onclick="goToCategory('accessories')"><div class="cat-icon">🎀</div><div class="cat-name">Accessories</div><div class="cat-count">15 items</div></a>
-    </div>
-  </section>
+   <div class="cats-grid">
+
+  <!-- Dresses -->
+  <a class="cat-card" onclick="goToCategory('dresses')">
+    <div class="cat-icon">👗</div>
+    <div class="cat-name">Dresses</div>
+    <div class="cat-count">View Collection</div>
+  </a>
+
+  <!-- Co-ord Sets -->
+  <a class="cat-card" onclick="goToCategory('coord')">
+    <div class="cat-icon">👕</div>
+    <div class="cat-name">Co-ord Sets</div>
+    <div class="cat-count">View Collection</div>
+  </a>
+
+  <!-- Gift Sets -->
+  <a class="cat-card" onclick="goToCategory('gift')">
+    <div class="cat-icon">🎁</div>
+    <div class="cat-name">Gift Sets</div>
+    <div class="cat-count">View Collection</div>
+  </a>
+
+  <!-- Accessories -->
+  <a class="cat-card" onclick="goToCategory('accessories')">
+    <div class="cat-icon">🧸</div>
+    <div class="cat-name">Accessories</div>
+    <div class="cat-count">View Collection</div>
+  </a>
+
+  <!-- Bath Essentials -->
+  <a class="cat-card" onclick="goToCategory('bath')">
+    <div class="cat-icon">🛁</div>
+    <div class="cat-name">Bath Essentials</div>
+    <div class="cat-count">View Collection</div>
+  </a>
+</div>
+ </section>
 
   <!-- PRODUCTS -->
   <section class="products-section" id="products-home">
@@ -283,40 +313,64 @@
     </div>
   </div>
   <div class="cats-page">
-    <div class="cats-page-inner">
-      <div class="filter-tabs" style="margin-bottom:2rem">
-        <button class="tab active" onclick="filterTab(this)">All</button>
-        <button class="tab" onclick="filterTab(this)">Dresses</button>
-        <button class="tab" onclick="filterTab(this)">Rompers</button>
-        <button class="tab" onclick="filterTab(this)">Sleep Suits</button>
-        <button class="tab" onclick="filterTab(this)">Gift Sets</button>
-        <button class="tab" onclick="filterTab(this)">Accessories</button>
-        <button class="tab" onclick="filterTab(this)">New Arrivals</button>
-        <button class="tab" onclick="filterTab(this)">On Sale</button>
+    <div class="cats-page-inner">  <div class="filter-tabs" style="margin-bottom:2rem">
+<button class="tab active" onclick="filterTab(this)">All</button>
+<button class="tab" onclick="filterTab(this)">Dresses</button>
+<button class="tab" onclick="filterTab(this)">Co-ord Sets</button>
+<button class="tab" onclick="filterTab(this)">Gift Sets</button>
+<button class="tab" onclick="filterTab(this)">Accessories</button>
+<button class="tab" onclick="filterTab(this)">Bath Essentials</button>
       </div>
-
-      <div class="cat-section">
-        <div class="cat-section-header"><div class="cat-section-icon">👗</div><div><h2>Dresses</h2><p class="meta">24 products · Sizes 0–24 months</p></div></div>
-        <div class="products-grid" id="cat-dresses-grid"></div>
-      </div>
-
-      <div class="cat-section" style="margin-top:3rem">
-        <div class="cat-section-header"><div class="cat-section-icon">🧸</div><div><h2>Rompers</h2><p class="meta">18 products · Sizes 0–18 months</p></div></div>
-        <div class="products-grid" id="cat-rompers-grid"></div>
-      </div>
-
-      <div class="cat-section" style="margin-top:3rem">
-        <div class="cat-section-header"><div class="cat-section-icon">🌙</div><div><h2>Sleep Suits</h2><p class="meta">12 products · Sizes 0–12 months</p></div></div>
-        <div class="products-grid" id="cat-sleep-grid"></div>
-      </div>
-
-      <div class="cat-section" style="margin-top:3rem">
-        <div class="cat-section-header"><div class="cat-section-icon">🎁</div><div><h2>Gift Sets</h2><p class="meta">8 sets · Beautifully packaged</p></div></div>
-        <div class="products-grid" id="cat-gifts-grid"></div>
-      </div>
+<div class="cat-section">
+  <div class="cat-section-header">
+    <div class="cat-section-icon">👗</div>
+    <div>
+      <h2>Dresses</h2>
+      <p class="meta">Muslin frocks · Soft & breathable</p>
     </div>
   </div>
-
+  <div class="products-grid" id="cat-dresses-grid"></div>
+</div>
+<div class="cat-section" style="margin-top:3rem">
+  <div class="cat-section-header">
+    <div class="cat-section-icon">👕</div>
+    <div>
+      <h2>Co-ord Sets</h2>
+      <p class="meta">Comfortable matching outfits</p>
+    </div>
+  </div>
+  <div class="products-grid" id="cat-coord-grid"></div>
+</div>
+<div class="cat-section" style="margin-top:3rem">
+  <div class="cat-section-header">
+    <div class="cat-section-icon">🎁</div>
+    <div>
+      <h2>Gift Sets</h2>
+      <p class="meta">Perfect for newborn gifting</p>
+    </div>
+  </div>
+  <div class="products-grid" id="cat-gift-grid"></div>
+</div>
+<div class="cat-section" style="margin-top:3rem">
+  <div class="cat-section-header">
+    <div class="cat-section-icon">🧸</div>
+    <div>
+      <h2>Accessories</h2>
+      <p class="meta">Nappies & wipes</p>
+    </div>
+  </div>
+  <div class="products-grid" id="cat-accessories-grid"></div>
+</div><div class="cat-section" style="margin-top:3rem">
+  <div class="cat-section-header">
+    <div class="cat-section-icon">🛁</div>
+    <div>
+      <h2>Bath Essentials</h2>
+      <p class="meta">Soft towels for babies</p>
+    </div>
+  </div>
+  <div class="products-grid" id="cat-bath-grid"></div>
+</div>
+    </div></div>  
   <!-- FOOTER -->
   <footer class="site-footer">
     <div class="footer-inner">

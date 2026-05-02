@@ -30,16 +30,27 @@ const auth = getAuth(app);
 // DATA
 // ============================================================
 const PRODUCTS = [
-  {id:1,name:'Blossom Frill Dress',cat:'Dresses',size:'0–3 Months',price:840,orig:1140,emoji:'🌸',bg:'p1',badge:'sale',stars:5},
-  {id:2,name:'Sunshine Muslin Romper',cat:'Rompers',size:'3–6 Months',price:960,emoji:'🌼',bg:'p2',badge:'new',stars:4},
-  {id:3,name:'Sage Dream Sleep Suit',cat:'Sleep Suits',size:'6–9 Months',price:1080,emoji:'🍃',bg:'p3',badge:'',stars:5},
-  {id:4,name:'Lavender Flutter Dress',cat:'Dresses',size:'9–12 Months',price:900,orig:1260,emoji:'🦋',bg:'p4',badge:'sale',stars:5},
-  {id:5,name:'Rosy Welcome Gift Set',cat:'Gift Sets',size:'0–6 Months',price:1740,emoji:'🌷',bg:'p5',badge:'new',stars:4},
-  {id:6,name:'Sky Petal Snap Romper',cat:'Rompers',size:'0–3 Months',price:870,emoji:'🐣',bg:'p6',badge:'',stars:5},
-  {id:7,name:'Honey Bear Sleep Set',cat:'Sleep Suits',size:'3–6 Months',price:990,orig:1320,emoji:'🐻',bg:'p7',badge:'sale',stars:4},
-  {id:8,name:'Mint Meadow Frock',cat:'Dresses',size:'6–9 Months',price:930,emoji:'🌿',bg:'p8',badge:'new',stars:5},
-];
+  {id:1, name:'Muslin Frock Button', cat:'dresses', image:'images/frock1.jpg'},
+  {id:2, name:'Muslin Frock Knot', cat:'dresses', image:'images/frock2.jpg'},
+  {id:3, name:'Muslin Frock Zip', cat:'dresses', image:'images/frock3.jpg'},
 
+  {id:4, name:'Co-ord Set Dress', cat:'coord', image:'images/coord1.jpg'},
+
+  {id:5, name:'Gift Combo Set', cat:'gift', image:'images/gift1.jpg'},
+
+  {id:6, name:'Muslin Nappy', cat:'accessories', image:'images/nappy.jpg'},
+  {id:7, name:'Muslin Wipes', cat:'accessories', image:'images/wipes.jpg'},
+
+  {id:8, name:'Muslin Bath Towel', cat:'bath', image:'images/towel1.jpg'},
+  {id:9, name:'Hooded Towel', cat:'bath', image:'images/towel2.jpg'}
+];
+  
+// ================= CATEGORY FUNCTION =================
+function goToCategory(category){
+  const filtered = PRODUCTS.filter(p => p.cat === category);
+  renderProducts(filtered);   // already in your code
+  showPage('shop');           // your shop/products page
+}
 let cart = [{id:1,qty:1},{id:3,qty:1}];
 let wishlist = [2,5,6,8];
 let isLoggedIn = false;
