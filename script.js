@@ -30,19 +30,19 @@ const auth = getAuth(app);
 // DATA
 // ============================================================
 const PRODUCTS = [
-  {id:1, name:'Muslin Frock Button', cat:'dresses', image:'images/frock1.jpg' price:699, orig:899, size:'0–6M', stars:5, emoji:'👗', bg:'p1', badge:'sale'},
-  {id:2, name:'Muslin Frock Knot', cat:'dresses', image:'images/frock2.jpg' price:699, orig:899, size:'0–6M', stars:5, emoji:'👗', bg:'p1', badge:'sale'},
-  {id:3, name:'Muslin Frock Zip', cat:'dresses', image:'images/frock3.jpg' price:699, orig:899, size:'0–6M', stars:5, emoji:'👗', bg:'p1', badge:'sale'},
+  {id:1, name:'Muslin Frock Button', cat:'dresses', image:'images/frock1.jpg', price:699, orig:899, size:'0–6M', stars:5, emoji:'👗', bg:'p1', badge:'sale'},
+  {id:2, name:'Muslin Frock Knot', cat:'dresses', image:'images/frock2.jpg', price:699, orig:899, size:'0–6M', stars:5, emoji:'👗', bg:'p1', badge:'sale'},
+  {id:3, name:'Muslin Frock Zip', cat:'dresses', image:'images/frock3.jpg', price:699, orig:899, size:'0–6M', stars:5, emoji:'👗', bg:'p1', badge:'sale'},
 
-  {id:4, name:'Co-ord Set Dress', cat:'coord', image:'images/coord1.jpg'},
+  {id:4, name:'Co-ord Set Dress', cat:'coord', image:'images/coord1.jpg', price:799, size:'6–12M', stars:4, emoji:'👕', bg:'p2'},
 
-  {id:5, name:'Gift Combo Set', cat:'gift', image:'images/gift1.jpg'},
+  {id:5, name:'Gift Combo Set', cat:'gift', image:'images/gift1.jpg', price:999, size:'0–6M', stars:5, emoji:'🎁', bg:'p3'},
 
-  {id:6, name:'Muslin Nappy', cat:'accessories', image:'images/nappy.jpg'},
-  {id:7, name:'Muslin Wipes', cat:'accessories', image:'images/wipes.jpg'},
+  {id:6, name:'Muslin Nappy', cat:'accessories', image:'images/nappy.jpg', price:199, size:'0–3M', stars:4, emoji:'🧸', bg:'p4'},
+  {id:7, name:'Muslin Wipes', cat:'accessories', image:'images/wipes.jpg', price:149, size:'0–3M', stars:4, emoji:'🧸', bg:'p5'},
 
-  {id:8, name:'Muslin Bath Towel', cat:'bath', image:'images/towel1.jpg'},
-  {id:9, name:'Hooded Towel', cat:'bath', image:'images/towel2.jpg'}
+  {id:8, name:'Muslin Bath Towel', cat:'bath', image:'images/towel1.jpg', price:299, size:'All', stars:4, emoji:'🛁', bg:'p6'},
+  {id:9, name:'Hooded Towel', cat:'bath', image:'images/towel2.jpg', price:349, size:'All', stars:4, emoji:'🛁', bg:'p7'}
 ];
   
 // ================= CATEGORY FUNCTION =================
@@ -116,7 +116,7 @@ function scrollToSection(id) {
 }
 window.scrollToSection = scrollToSection;
 
-function goToCategory(cat) { showPage('categories'); }
+ }
 window.goToCategory = goToCategory;
 
 // ============================================================
@@ -259,17 +259,22 @@ function renderHomeProducts() {
 
 function renderCategoryProducts() {
   const groups = {
-    'cat-dresses-grid': adminProducts.filter(p => p.cat === 'Dresses'),
-    'cat-rompers-grid': adminProducts.filter(p => p.cat === 'Rompers'),
-    'cat-sleep-grid':   adminProducts.filter(p => p.cat === 'Sleep Suits'),
-    'cat-gifts-grid':   adminProducts.filter(p => p.cat === 'Gift Sets'),
+    'cat-dresses-grid': adminProducts.filter(p => p.cat === 'dresses'),
+    'cat-coord-grid': adminProducts.filter(p => p.cat === 'coord'),
+    'cat-gift-grid': adminProducts.filter(p => p.cat === 'gift'),
+    'cat-accessories-grid': adminProducts.filter(p => p.cat === 'accessories'),
+    'cat-bath-grid': adminProducts.filter(p => p.cat === 'bath'),
   };
+
   Object.entries(groups).forEach(([id, prods]) => {
     const el = document.getElementById(id);
-    if (el) el.innerHTML = prods.map(p => productCardHTML(p)).join('')
-      || '<p style="color:var(--muted);padding:1rem">No products in this category yet.</p>';
+    if (el) {
+      el.innerHTML = prods.map(p => productCardHTML(p)).join('') || 
+      '<p style="color:var(--muted);padding:1rem">No products</p>';
+    }
   });
 }
+  
 
 function renderAdminProducts() {
   const tbody = document.getElementById('admin-products-tbody');
