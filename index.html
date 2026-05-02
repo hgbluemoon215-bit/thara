@@ -69,18 +69,18 @@
       <div class="form-group"><label>Password</label><input type="password" id="login-pass" placeholder="••••••••"/></div>
       <button class="btn-rose" style="width:100%;margin-top:.5rem" onclick="doLogin()">Sign In</button>
       <div class="form-alt">Don't have an account? <a onclick="switchToRegister()">Register here</a></div>
-    </div>
-    <div id="register-form-wrap" style="display:none">
-      <div class="form-row">
-        <div class="form-group"><label>First Name</label><input type="text" placeholder="Priya"/></div>
-        <div class="form-group"><label>Last Name</label><input type="text" placeholder="Sharma"/></div>
-      </div>
-      <div class="form-group"><label>Email Address</label><input type="email" placeholder="hello@email.com"/></div>
-      <div class="form-group"><label>Password</label><input type="password" placeholder="Create a password"/></div>
-      <div class="form-group"><label>Confirm Password</label><input type="password" placeholder="Repeat password"/></div>
-      <button class="btn-rose" style="width:100%;margin-top:.5rem" onclick="doRegister()">Create Account</button>
-      <div class="form-alt">Already have an account? <a onclick="switchToLogin()">Sign in</a></div>
-    </div>
+    </div><div id="register-form-wrap" style="display:none">
+  <div class="form-row">
+    <div class="form-group"><label>First Name</label><input type="text" id="reg-fname" placeholder="Priya"/></div>
+    <div class="form-group"><label>Last Name</label><input type="text" id="reg-lname" placeholder="Sharma"/></div>
+  </div>
+  <div class="form-group"><label>Email Address</label><input type="email" id="reg-email" placeholder="hello@email.com"/></div>
+  <div class="form-group"><label>Password</label><input type="password" id="reg-pass" placeholder="Create a password"/></div>
+  <div class="form-group"><label>Confirm Password</label><input type="password" id="reg-confirm" placeholder="Repeat password"/></div>
+  <button class="btn-rose" style="width:100%;margin-top:.5rem" onclick="doRegister()">Create Account</button>
+  <div class="form-alt">Already have an account? <a onclick="switchToLogin()">Sign in</a></div>
+</div>
+    
     <div id="admin-form-wrap" style="display:none">
       <div class="form-group"><label>Admin Username</label><input type="text" id="admin-user" placeholder="admin"/></div>
       <div class="form-group"><label>Password</label><input type="password" id="admin-pass" placeholder="••••••••"/></div>
