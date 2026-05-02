@@ -30,9 +30,9 @@ const auth = getAuth(app);
 // DATA
 // ============================================================
 const PRODUCTS = [
-  {id:1, name:'Muslin Frock Button', cat:'dresses', image:'images/frock1.jpg'},
-  {id:2, name:'Muslin Frock Knot', cat:'dresses', image:'images/frock2.jpg'},
-  {id:3, name:'Muslin Frock Zip', cat:'dresses', image:'images/frock3.jpg'},
+  {id:1, name:'Muslin Frock Button', cat:'dresses', image:'images/frock1.jpg' price:699, orig:899, size:'0–6M', stars:5, emoji:'👗', bg:'p1', badge:'sale'},
+  {id:2, name:'Muslin Frock Knot', cat:'dresses', image:'images/frock2.jpg' price:699, orig:899, size:'0–6M', stars:5, emoji:'👗', bg:'p1', badge:'sale'},
+  {id:3, name:'Muslin Frock Zip', cat:'dresses', image:'images/frock3.jpg' price:699, orig:899, size:'0–6M', stars:5, emoji:'👗', bg:'p1', badge:'sale'},
 
   {id:4, name:'Co-ord Set Dress', cat:'coord', image:'images/coord1.jpg'},
 
