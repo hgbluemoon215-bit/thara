@@ -1,23 +1,31 @@
 // ============================================================
-// FIREBASE SETUP 
+// FIREBASE IMPORTS
 // ============================================================
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } 
-from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
-
-// Your config
+// ============================================================
+// FIREBASE CONFIG
+// ============================================================
 const firebaseConfig = {
   apiKey: "AIzaSyCJlgMT-KEYXFvm0UHxtpPmXeN15tDONYc",
   authDomain: "nivora-stores.firebaseapp.com",
   projectId: "nivora-stores",
   storageBucket: "nivora-stores.firebasestorage.app",
   messagingSenderId: "806938190311",
-  appId: "1:806938190311:web:fde7bc6fcd9c9f49671d42",
-  measurementId: "G-05D47YNDR5"
+  appId: "1:806938190311:web:8e7f5e938220e337671d42",
+  measurementId: "G-D09XJXMF02"
 };
 
-// Init
+// ============================================================
+// INIT
+// ============================================================
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);// ============================================================
 // DATA
@@ -353,74 +361,103 @@ function quickView(id) {
   openModal('product-modal');
 }
 
-// AUTH 
 // ============================================================
-
-const ADMIN_EMAIL = "your-real-email@gmail.com";
-
+// AUTH
+// ============================================================
 function handleUserIcon() {
-  if (isLoggedIn) showPage('dashboard');
+  if(isLoggedIn) showPage('dashboard');
   else openModal('login-modal');
 }
-
 function doLogin() {
   const email = document.getElementById('login-email').value;
   const pass = document.getElementById('login-pass').value;
-
-  signInWithEmailAndPassword(auth, email, pass)
-    .then((userCred) => {
-      closeModal('login-modal');
-      showToast('Login successful 🌸');
-      showPage('dashboard');
-    })
-    .catch(err => showToast(err.message));
-}
-
-function doRegister() {
-  const email = document.getElementById('reg-email').value;
-  const pass = document.getElementById('reg-pass').value;
-  const confirm = document.getElementById('reg-confirm').value;
 
   if (!email || !pass) {
     showToast("Please fill all fields");
     return;
   }
 
-  if (pass !== confirm) {
-    showToast("Passwords don't match");
-    return;
-  }
+  signInWithEmailAndPassword(auth, email, pass)
+    .then((userCred) => {
+      isLoggedIn = true;
+      closeModal('login-modal');
+      showToast('Login successful 🌸');
+      showPage('dashboard');
 
-  createUserWithEmailAndPassword(auth, email, pass)
-    .then(() => {
-      showToast('Account created 🌸');
-      switchToLogin();
+      // Update dashboard UI
+      document.getElementById('user-name').textContent = userCred.user.displayName || 'User';
+      document.getElementById('user-email').textContent = userCred.user.email;
     })
     .catch(err => showToast(err.message));
 }
+ 
+
+function doRegister() {
+  isLoggedIn=true;
+  closeModal('login-modal');
+  showToast('Account created! Welcome to Nivora 🌸');
+  showPage('dashboard');
+}
+const ADMIN_EMAIL = "admin@nivora.in";   // change to your real admin email
+const ADMIN_PASS  = "admin123";          // change to your real admin password
+
+function doAdminLogin() {
+  const user = document.getElementById('admin-user').value.trim();
+  const pass = document.getElementById('admin-pass').value;
+
+  if (user === ADMIN_EMAIL && pass === ADMIN_PASS) {
+    isAdmin = true;
+    isLoggedIn = true;
+    closeModal('login-modal');
+    showToast('Admin login successful 🌸');
+    showPage('admin');
+  } else {
+    showToast('Invalid admin credentials');
+  }
+}
+ 
 
 function logoutUser() {
-  signOut(auth).then(() => {
-    showToast('Logged out');
-    showPage('home');
-  });
+  isLoggedIn=false;
+  showPage('home');
+  showToast('Signed out. See you soon! 🌸');
 }
+
+function logoutAdmin() {
+  isAdmin=false;
+  isLoggedIn=false;
+  showPage('home');
+  showToast('Admin signed out');
+}
+
+function switchToRegister() {
+  document.getElementById('login-form-wrap').style.display='none';
+  document.getElementById('register-form-wrap').style.display='block';
+  document.getElementById('admin-form-wrap').style.display='none';
+}
+function switchToLogin() {
+  document.getElementById('login-form-wrap').style.display='block';
+  document.getElementById('register-form-wrap').style.display='none';
+  document.getElementById('admin-form-wrap').style.display='none';
+}
+function showAdminLogin() {
+  document.getElementById('login-form-wrap').style.display='none';
+  document.getElementById('register-form-wrap').style.display='none';
+  document.getElementById('admin-form-wrap').style.display='block';
+}
+document.addEventListener('keydown', function (e) {
+  if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+    openModal('login-modal');
+    showAdminLogin();
+  }
+});
 
 // ============================================================
 // MODALS
 // ============================================================
 function openModal(id){ document.getElementById(id).classList.add('open'); }
 function closeModal(id){ document.getElementById(id).classList.remove('open'); }
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('open'));
-    toggleSearch(true);
-  }
-  if (e.ctrlKey && e.shiftKey && e.key === 'A') {
-    const adminLink = document.getElementById('admin-link');
-    if (adminLink) adminLink.style.display = 'block';
-  }
-});
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ document.querySelectorAll('.modal-overlay').forEach(m=>m.classList.remove('open')); toggleSearch(true); }});
 
 // ============================================================
 // DASHBOARD NAV
@@ -532,29 +569,4 @@ window.addEventListener('load',()=>{
   renderHomeProducts();
   updateCartBadge();
   initReveal();
-
-
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    isLoggedIn = true;
-
-    document.getElementById('user-email').textContent = user.email;
-
-    const name = user.email.split('@')[0];
-    document.getElementById('user-name').textContent = name;
-
-    if (user.email === ADMIN_EMAIL) {
-      isAdmin = true;
-      document.getElementById('admin-link').style.display = 'block';
-    } else {
-      isAdmin = false;
-    }
-
-  } else {
-    isLoggedIn = false;
-    isAdmin = false;
-
-    document.getElementById('user-name').textContent = "Guest";
-    document.getElementById('user-email').textContent = "";
-  }
 });

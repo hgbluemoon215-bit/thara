@@ -19,98 +19,43 @@
 <!-- HEADER -->
 <header>
   <div class="header-inner">
+    <a class="logo-wrap" onclick="showPage('home')">
+      <div class="logo-mark"><img src="images/nivora-logo.png" alt="nivora logo"></div>
 
-    <!-- LOGO -->
-    <a href="#" class="logo-wrap" onclick="event.preventDefault(); showPage('home');">
-      <div class="logo-mark">
-        <img src="images/nivora-logo.png" alt="Nivora logo">
-      </div>
       <div>
         <div class="logo-title">Nivora</div>
         <div class="logo-sub">Wrapped in Mom's Love</div>
       </div>
     </a>
-
-    <!-- NAVIGATION -->
-    <nav id="main-nav" aria-label="Main Navigation">
-      <a href="#" onclick="event.preventDefault(); showPage('home');" data-page="home" class="active">Home</a>
-
-      <a href="#" onclick="event.preventDefault(); showPage('categories');" data-page="categories">
-        Categories
-      </a>
-
-      <a href="#" onclick="event.preventDefault(); showPage('home'); document.getElementById('products-home')?.scrollIntoView({behavior:'smooth'});">
-        Shop
-      </a>
-
-      <a href="#" onclick="event.preventDefault(); scrollToSection('why-home');">
-        About Us
-      </a>
-
-      <a href="#" onclick="event.preventDefault(); scrollToSection('contact-home');">
-        Contact
-      </a>
+    <nav id="main-nav">
+      <a href="javascript:void(0)" onclick="showPage('home')" data-page="home" class="active">Home</a>
+      <a href="javascript:void(0)" onclick="showPage('categories')" data-page="categories">Categories</a>
+      <a href="javascript:void(0)"onclick="document.getElementById('products-home').scrollIntoView({behavior:'smooth'});showPage('home')" data-page="">Shop</a>
+      <a href="javascript:void(0)" onclick="scrollToSection('why-home')" data-page="">About Us</a>
+      <a href="javascript:void(0)" onclick="scrollToSection('contact-home')" data-page="">Contact</a>
     </nav>
-
-    <!-- ICONS -->
     <div class="header-icons">
-
-      <!-- SEARCH -->
-      <button type="button" class="icon-btn" onclick="toggleSearch()" title="Search" aria-label="Search">
-        <svg viewBox="0 0 24 24">
-          <circle cx="11" cy="11" r="8"/>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-        </svg>
+      <button class="icon-btn" onclick="toggleSearch()" title="Search">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       </button>
-
-      <!-- USER -->
-      <button type="button" class="icon-btn" id="user-icon-btn" onclick="handleUserIcon()" title="Account" aria-label="Account">
-        <svg viewBox="0 0 24 24">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-          <circle cx="12" cy="7" r="4"/>
-        </svg>
+      <button class="icon-btn" id="user-icon-btn" title="Account" onclick="handleUserIcon()">
+        <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       </button>
-
-      <!-- CART -->
-      <button type="button" class="icon-btn" onclick="showPage('cart')" title="Cart" aria-label="Cart">
-        <svg viewBox="0 0 24 24">
-          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-          <line x1="3" y1="6" x2="21" y2="6"/>
-          <path d="M16 10a4 4 0 0 1-8 0"/>
-        </svg>
+      <button class="icon-btn" title="Cart" onclick="showPage('cart')">
+        <svg viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
         <span class="cart-badge" id="cart-count">0</span>
       </button>
     </div>
- </div>
+  </div>
 </header>
 
 <!-- SEARCH OVERLAY -->
-<div class="search-overlay" id="search-overlay">
+<div class="search-overlay" id="search-overlay" onclick="if(event.target===this)toggleSearch()">
   <div class="search-box">
-
-    <!-- ICON -->
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-         stroke="#9B7A82" stroke-width="2"
-         stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="11" cy="11" r="8"/>
-      <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-    </svg>
-
-    <!-- INPUT -->
-    <input 
-      type="text" 
-      placeholder="Search jablas,towel,sets…" 
-      id="search-input"
-      aria-label="Search products"
-    />
-
-    <!-- CLOSE -->
-    <button 
-      type="button"
-      class="search-close" 
-      onclick="toggleSearch()" 
-      aria-label="Close search" > ✕</button>
-</div>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9B7A82" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" placeholder="Search baby dresses, rompers, sets . . ." id="search-input"/>
+    <button type="button" class="search-close" onclick="toggleSearch()">✕</button>
+  </div>
 </div>
 
 <!-- LOGIN MODAL -->
@@ -123,13 +68,12 @@
       <div class="form-group"><label>Email Address</label><input type="email" id="login-email" placeholder="hello@email.com"/></div>
       <div class="form-group"><label>Password</label><input type="password" id="login-pass" placeholder="••••••••"/></div>
       <button class="btn-rose" style="width:100%;margin-top:.5rem" onclick="doLogin()">Sign In</button>
-      <div class="form-alt">Don't have an account? <a onclick="switchToRegister()">Register here</a>
-     </div><div class="form-alt" id="admin-link" style="display:none; margin-top:.5rem"> <a onclick="showAdminLogin()">Admin Login →</a>
-</div></div>
+      <div class="form-alt">Don't have an account? <a onclick="switchToRegister()">Register here</a></div>
+    </div>
     <div id="register-form-wrap" style="display:none">
       <div class="form-row">
-        <div class="form-group"><label>First Name</label><input type="text" placeholder=""/></div>
-        <div class="form-group"><label>Last Name</label><input type="text" placeholder=""/></div>
+        <div class="form-group"><label>First Name</label><input type="text" placeholder="Priya"/></div>
+        <div class="form-group"><label>Last Name</label><input type="text" placeholder="Sharma"/></div>
       </div>
       <div class="form-group"><label>Email Address</label><input type="email" placeholder="hello@email.com"/></div>
       <div class="form-group"><label>Password</label><input type="password" placeholder="Create a password"/></div>
@@ -138,7 +82,6 @@
       <div class="form-alt">Already have an account? <a onclick="switchToLogin()">Sign in</a></div>
     </div>
     <div id="admin-form-wrap" style="display:none">
-      <div style="background:rgba(212,99,122,.06);border:1px solid rgba(212,99,122,.2);border-radius:10px;padding:.8rem 1rem;margin-bottom:1.2rem;font-size:.83rem;color:var(--muted)">🔐 Admin Access — Use <strong>admin</strong> / <strong>admin123</strong></div>
       <div class="form-group"><label>Admin Username</label><input type="text" id="admin-user" placeholder="admin"/></div>
       <div class="form-group"><label>Password</label><input type="password" id="admin-pass" placeholder="••••••••"/></div>
       <button class="btn-rose" style="width:100%;margin-top:.5rem" onclick="doAdminLogin()">Admin Sign In</button>
@@ -165,7 +108,7 @@
     <div class="hero">
       <div class="hero-text">
         <div class="petal petal1"></div>
-        <div class="hero-eyebrow">New Muslin Collection 2026</div>
+        <div class="hero-eyebrow">New Muslin Collection 2025</div>
         <h1>Soft as a<br/><em>Mother's Touch.</em></h1>
         <p class="hero-desc">Nivora crafts breathable, 100% muslin cotton dresses for your little one — gentle on delicate skin, made with a mother's love in every stitch.</p>
         <div class="hero-btns">
@@ -209,8 +152,8 @@
       <div class="section-title">Shop by Category</div>
     </div>
     <div class="cats-grid">
-      <a class="cat-card" onclick="goToCategory('Muslin Jabla Button')"><div class="cat-icon">👗</div><div class="cat-name">Muslin Jabla button</div><div class="cat-count">12 items</div></a>
-      <a class="cat-card" onclick="goToCategory('Muslin Jabla Knot')"><div class="cat-icon">🧸</div><div class="cat-name">Muslin Jabla Knot</div><div class="cat-count">12 items</div></a>
+      <a class="cat-card" onclick="goToCategory('dresses')"><div class="cat-icon">👗</div><div class="cat-name">Dresses</div><div class="cat-count">24 items</div></a>
+      <a class="cat-card" onclick="goToCategory('rompers')"><div class="cat-icon">🧸</div><div class="cat-name">Rompers</div><div class="cat-count">18 items</div></a>
       <a class="cat-card" onclick="goToCategory('sleepsuits')"><div class="cat-icon">🌙</div><div class="cat-name">Sleep Suits</div><div class="cat-count">12 items</div></a>
       <a class="cat-card" onclick="goToCategory('giftsets')"><div class="cat-icon">🎁</div><div class="cat-name">Gift Sets</div><div class="cat-count">8 items</div></a>
       <a class="cat-card" onclick="goToCategory('accessories')"><div class="cat-icon">🎀</div><div class="cat-name">Accessories</div><div class="cat-count">15 items</div></a>
@@ -295,7 +238,13 @@
       <div class="form-group"><label>Message</label><textarea rows="4" placeholder="How can we help you, mama? 🌸"></textarea></div>
       <button class="btn-rose" onclick="showToast('Message sent! We\'ll reply within 24 hours 🌸')">Send Message</button>
     </div>
-    </section>
+    <div class="contact-details-strip reveal">
+      <div class="cds-card"><div class="cds-icon">📍</div><div><div class="cds-label">Address</div><div class="cds-val">12 Blossom Lane, Studio 4<br/>Mumbai, MH 400001</div></div></div>
+      <div class="cds-card"><div class="cds-icon">📞</div><div><div class="cds-label">Phone</div><div class="cds-val">+91 98765 43210</div></div></div>
+      <div class="cds-card"><div class="cds-icon">📧</div><div><div class="cds-label">Email</div><div class="cds-val">hello@nivora.in</div></div></div>
+      <div class="cds-card"><div class="cds-icon">🕐</div><div><div class="cds-label">Hours</div><div class="cds-val">Mon–Sat: 10am–6pm IST<br/>Sun: Closed</div></div></div>
+    </div>
+  </section>
 
   <!-- FOOTER -->
   <footer class="site-footer">
@@ -525,8 +474,9 @@
         <div class="dash-sidebar">
           <div class="dash-user-info">
             <div class="dash-avatar">👩</div>
-            <div class="dash-username">id="user-name">User</div>
-            <div class="dash-email">id="user-email">user@email.com</div>
+                <div class="dash-username" id="user-name">User</div>
+                <div class="dash-email" id="user-email">user@email.com</div>
+           
           </div>
           <div class="dash-nav">
             <div class="dash-nav-item active" onclick="showDashSection('overview')"><span class="nav-icon">🏠</span>Overview</div>
@@ -763,30 +713,7 @@
     </div>
   </div>
 </div>
-<script  src="script.js"></script>
-<!-- Firebase (module) -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
-  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
+<script src="script.js"></script>
 
-  const firebaseConfig = {
-    apiKey: "YOUR-KEY",
-    authDomain: "nivora-stores.firebaseapp.com",
-    projectId: "nivora-stores",
-    storageBucket: "nivora-stores.firebasestorage.app",
-    messagingSenderId: "806938190311",
-    appId: "1:806938190311:web:fde7bc6fcd9c9f49671d42"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-
-
-  window.auth = auth;
-  window.signInWithEmailAndPassword = signInWithEmailAndPassword;
-  window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
-  window.signOut = signOut;
-  window.onAuthStateChanged = onAuthStateChanged;
-</script>
 </body>
 </html>
