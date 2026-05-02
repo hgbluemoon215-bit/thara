@@ -165,7 +165,7 @@ function renderCart() {
   const list = document.getElementById('cart-items-list');
   if(!list) return;
   if(cart.length===0){
-    list.innerHTML=`<div class="cart-empty"><div class="cart-empty-icon">🛒</div><h3>Your cart is empty</h3><p>Add some beautiful pieces for your little one!</p><button class="btn-rose" onclick="showPage('categories')">Shop Now 🌸</button></div>`;
+    list.innerHTML=`<div class="cart-empty"><div class="cart-empty-icon">🛒</div><h3>Your cart is empty</h3><p>Add some beautiful pieces for your little one!</p><button class="btn-rose" onclick="showPage('categories')">Shop Now 🌸</button></div>;
     updateCartTotals();
     return;
   }
