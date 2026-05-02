@@ -1,4 +1,25 @@
 // ============================================================
+// FIREBASE SETUP 
+// ============================================================
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } 
+from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
+
+// Your config
+const firebaseConfig = {
+  apiKey: "AIzaSyCJlgMT-KEYXFvm0UHxtpPmXeN15tDONYc",
+  authDomain: "nivora-stores.firebaseapp.com",
+  projectId: "nivora-stores",
+  storageBucket: "nivora-stores.firebasestorage.app",
+  messagingSenderId: "806938190311",
+  appId: "1:806938190311:web:fde7bc6fcd9c9f49671d42",
+  measurementId: "G-05D47YNDR5"
+};
+
+// Init
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);// ============================================================
 // DATA
 // ============================================================
 const PRODUCTS = [
@@ -332,62 +353,57 @@ function quickView(id) {
   openModal('product-modal');
 }
 
+// AUTH 
 // ============================================================
-// AUTH
-// ============================================================
+
+const ADMIN_EMAIL = "your-real-email@gmail.com";
+
 function handleUserIcon() {
-  if(isLoggedIn) showPage('dashboard');
+  if (isLoggedIn) showPage('dashboard');
   else openModal('login-modal');
 }
 
 function doLogin() {
-  const email=document.getElementById('login-email').value;
-  const pass=document.getElementById('login-pass').value;
-  if(email&&pass){ isLoggedIn=true; closeModal('login-modal'); showToast('Welcome back! 🌸'); showPage('dashboard'); }
-  else showToast('Please fill in all fields');
+  const email = document.getElementById('login-email').value;
+  const pass = document.getElementById('login-pass').value;
+
+  signInWithEmailAndPassword(auth, email, pass)
+    .then((userCred) => {
+      closeModal('login-modal');
+      showToast('Login successful 🌸');
+      showPage('dashboard');
+    })
+    .catch(err => showToast(err.message));
 }
 
 function doRegister() {
-  isLoggedIn=true;
-  closeModal('login-modal');
-  showToast('Account created! Welcome to Nivora 🌸');
-  showPage('dashboard');
-}
+  const email = document.getElementById('reg-email').value;
+  const pass = document.getElementById('reg-pass').value;
+  const confirm = document.getElementById('reg-confirm').value;
 
-function doAdminLogin() {
-  const u=document.getElementById('admin-user').value;
-  const p=document.getElementById('admin-pass').value;
-  if(u==='admin'&&p==='admin123'){ isAdmin=true; isLoggedIn=true; closeModal('login-modal'); showToast('Admin logged in 🌸'); showPage('admin'); renderAdminProducts(); }
-  else showToast('Invalid admin credentials');
+  if (!email || !pass) {
+    showToast("Please fill all fields");
+    return;
+  }
+
+  if (pass !== confirm) {
+    showToast("Passwords don't match");
+    return;
+  }
+
+  createUserWithEmailAndPassword(auth, email, pass)
+    .then(() => {
+      showToast('Account created 🌸');
+      switchToLogin();
+    })
+    .catch(err => showToast(err.message));
 }
 
 function logoutUser() {
-  isLoggedIn=false;
-  showPage('home');
-  showToast('Signed out. See you soon! 🌸');
-}
-
-function logoutAdmin() {
-  isAdmin=false;
-  isLoggedIn=false;
-  showPage('home');
-  showToast('Admin signed out');
-}
-
-function switchToRegister() {
-  document.getElementById('login-form-wrap').style.display='none';
-  document.getElementById('admin-form-wrap').style.display='none';
-  document.getElementById('register-form-wrap').style.display='block';
-}
-function switchToLogin() {
-  document.getElementById('register-form-wrap').style.display='none';
-  document.getElementById('admin-form-wrap').style.display='none';
-  document.getElementById('login-form-wrap').style.display='block';
-}
-function showAdminLogin() {
-  document.getElementById('login-form-wrap').style.display='none';
-  document.getElementById('register-form-wrap').style.display='none';
-  document.getElementById('admin-form-wrap').style.display='block';
+  signOut(auth).then(() => {
+    showToast('Logged out');
+    showPage('home');
+  });
 }
 
 // ============================================================
@@ -395,7 +411,16 @@ function showAdminLogin() {
 // ============================================================
 function openModal(id){ document.getElementById(id).classList.add('open'); }
 function closeModal(id){ document.getElementById(id).classList.remove('open'); }
-document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ document.querySelectorAll('.modal-overlay').forEach(m=>m.classList.remove('open')); toggleSearch(true); }});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('open'));
+    toggleSearch(true);
+  }
+  if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+    const adminLink = document.getElementById('admin-link');
+    if (adminLink) adminLink.style.display = 'block';
+  }
+});
 
 // ============================================================
 // DASHBOARD NAV
@@ -507,4 +532,29 @@ window.addEventListener('load',()=>{
   renderHomeProducts();
   updateCartBadge();
   initReveal();
+
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    isLoggedIn = true;
+
+    document.getElementById('user-email').textContent = user.email;
+
+    const name = user.email.split('@')[0];
+    document.getElementById('user-name').textContent = name;
+
+    if (user.email === ADMIN_EMAIL) {
+      isAdmin = true;
+      document.getElementById('admin-link').style.display = 'block';
+    } else {
+      isAdmin = false;
+    }
+
+  } else {
+    isLoggedIn = false;
+    isAdmin = false;
+
+    document.getElementById('user-name').textContent = "Guest";
+    document.getElementById('user-email').textContent = "";
+  }
 });
