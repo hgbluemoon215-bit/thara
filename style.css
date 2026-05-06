@@ -139,7 +139,15 @@ nav a:hover,nav a.active{color:var(--rose)}
 .cats-grid{max-width:1280px;margin:2rem auto 0;display:grid;grid-template-columns:repeat(5,1fr);gap:1.2rem}
 .cat-card{background:var(--warm);border-radius:20px;padding:1.8rem 1rem;text-align:center;cursor:pointer;transition:transform .2s,box-shadow .2s;text-decoration:none;display:block}
 .cat-card:hover{transform:translateY(-5px);box-shadow:0 16px 40px rgba(212,99,122,.12)}
-.cat-icon{font-size:2.4rem;margin-bottom:.7rem}
+.cat-icon {
+  margin-bottom: .7rem;
+}
+
+.cat-icon img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
 .cat-name{font-family:var(--ff-head);font-size:1rem;color:var(--ink);margin-bottom:.25rem}
 .cat-count{font-size:.72rem;color:var(--muted);font-weight:500}
 

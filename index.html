@@ -159,7 +159,7 @@
 
   <!-- Dresses -->
   <a class="cat-card" onclick="goToCategory('dresses')">
-    <div class="cat-icon">👗</div>
+      <img src="images/dress.jpg" class="cat-img" alt="Dresses">
     <div class="cat-name">Dresses</div>
     <div class="cat-count">View Collection</div>
   </a>
@@ -766,6 +766,17 @@
     </div>
   </div>
 </div>
+<script>
+function goToCategory(category) {
+  alert("You clicked " + category);
+
+  // OR if you have sections:
+  // showPage(category);
+
+  // OR redirect:
+  // window.location.href = category + ".html";
+}
+</script>
 <script type="module" src="script.js"></script>
 </body>
 </html>
