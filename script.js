@@ -29,34 +29,26 @@ const auth = getAuth(app);
 // DATA
 // ============================================================
 const PRODUCTS = [
-  {id:1, name:'Muslin Frock Button', cat:'dresses', image:'./images/frock1.png', price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
-  {id:2, name:'Muslin Frock Knot', cat:'dresses', image:'./images/frock2.jpeg', price:699, orig:899, size:'0–6M', stars:5,  bg:'p1', badge:'sale'},
-  {id:3, name:'Muslin Frock Zip', cat:'dresses', image:'./images/frock3.png', price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
+  {id:1, name:'Muslin Frock Button', cat:'dresses', image:'images/frock1.jpg', price:699, orig:899, size:'0–6M', stars:5, emoji:'👗', bg:'p1', badge:'sale'},
+  {id:2, name:'Muslin Frock Knot', cat:'dresses', image:'images/frock2.jpg', price:699, orig:899, size:'0–6M', stars:5, emoji:'👗', bg:'p1', badge:'sale'},
+  {id:3, name:'Muslin Frock Zip', cat:'dresses', image:'images/frock3.jpg', price:699, orig:899, size:'0–6M', stars:5, emoji:'👗', bg:'p1', badge:'sale'},
 
-  {id:4, name:'Co-ord Set Dress', cat:'coord', image:'./images/coord1.jpg', price:799, size:'0-6M', stars:4,  bg:'p2'},
+  {id:4, name:'Co-ord Set Dress', cat:'coord', image:'images/coord1.jpg', price:799, size:'6–12M', stars:4, emoji:'👕', bg:'p2'},
 
-  {id:5, name:'Gift Combo Set', cat:'gift', image:'./images/gift1.jpg', price:999, size:'0–6M', stars:5, bg:'p3'},
+  {id:5, name:'Gift Combo Set', cat:'gift', image:'images/gift1.jpg', price:999, size:'0–6M', stars:5, emoji:'🎁', bg:'p3'},
 
-  {id:6, name:'Muslin Nappy', cat:'accessories', image:'./images/nappy.png', price:199, size:'0–3M', stars:4, bg:'p4'},
-  {id:7, name:'Muslin Wipes', cat:'accessories', image:'./images/wipes.png', price:149, size:'0–3M', stars:4, bg:'p5'},
+  {id:6, name:'Muslin Nappy', cat:'accessories', image:'images/nappy.jpg', price:199, size:'0–3M', stars:4, emoji:'🧸', bg:'p4'},
+  {id:7, name:'Muslin Wipes', cat:'accessories', image:'images/wipes.jpg', price:149, size:'0–3M', stars:4, emoji:'🧸', bg:'p5'},
 
-  {id:8, name:'Muslin Bath Towel', cat:'bath', image:'./images/towel1.png', price:299, size:'All', stars:4, bg:'p6'},
-  {id:9, name:'Hooded Towel', cat:'bath', image:'./images/towel2.jpg', price:349, size:'All', stars:4,  bg:'p7'},
-{id:10, name:'Muslin Jabla Knot', cat:'dresses', image:'./images/jabla1.jpg', price:499, orig:699, size:'0–3M', stars:5,  badge:'sale'},
-
-{id:11, name:'Muslin Jabla Button', cat:'dresses', image:'./images/jabla2.jpg', price:499, orig:699, size:'0–3M', stars:5,bg:'p1', badge:'sale'}
+  {id:8, name:'Muslin Bath Towel', cat:'bath', image:'images/towel1.jpg', price:299, size:'All', stars:4, emoji:'🛁', bg:'p6'},
+  {id:9, name:'Hooded Towel', cat:'bath', image:'images/towel2.jpg', price:349, size:'All', stars:4, emoji:'🛁', bg:'p7'}
 ];
   
 // ================= CATEGORY FUNCTION =================
-function goToCategory(category) {
-  showPage('categories');
-
-  setTimeout(() => {
-    const section = document.getElementById('cat-' + category + '-grid');
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, 100);
+function goToCategory(category){
+  const filtered = PRODUCTS.filter(p => p.cat === category);
+  renderProducts(filtered);   // already in your code
+  showPage('shop');           // your shop/products page
 }
 let cart = [{id:1,qty:1},{id:3,qty:1}];
 let wishlist = [2,5,6,8];
@@ -122,6 +114,8 @@ function scrollToSection(id) {
   }, 100);
 }
 window.scrollToSection = scrollToSection;
+
+ }
 window.goToCategory = goToCategory;
 
 // ============================================================
@@ -236,14 +230,14 @@ window.logoutAdmin = logoutAdmin;
 // ============================================================
 function productCardHTML(p, showWishlist = true) {
   const inWish  = wishlist.includes(p.id);
-  const badge   = p.badge === 'sale' ? <span class="product-badge">Sale</span>
-                : p.badge === 'new'  ? <span class="product-badge new">New</span> : '';
-  const price   = p.orig ? <del>₹${p.orig}</del> ₹${p.price} : ₹${p.price};
+  const badge   = p.badge === 'sale' ? `<span class="product-badge">Sale</span>`
+                : p.badge === 'new'  ? `<span class="product-badge new">New</span>` : '';
+  const price   = p.orig ? `<del>₹${p.orig}</del> ₹${p.price}` : `₹${p.price}`;
   const stars   = '★'.repeat(p.stars) + '☆'.repeat(5 - p.stars);
   const wishBtn = showWishlist
-    ? <button class="wishlist-btn" onclick="toggleWishlist(event,${p.id})" style="color:${inWish ? '#D4637A' : ''}">${inWish ? '♥' : '♡'}</button>
+    ? `<button class="wishlist-btn" onclick="toggleWishlist(event,${p.id})" style="color:${inWish ? '#D4637A' : ''}">${inWish ? '♥' : '♡'}</button>`
     : '';
-  return <div class="product-card" onclick="quickView(${p.id})">
+  return `<div class="product-card" onclick="quickView(${p.id})">
     <div class="product-img"><div class="product-img-bg ${p.bg}">${p.emoji}</div>${badge}${wishBtn}</div>
     <div class="product-info">
       <div class="product-cat">${p.cat} · ${p.size}</div>
@@ -254,7 +248,7 @@ function productCardHTML(p, showWishlist = true) {
         <button class="add-cart" onclick="event.stopPropagation();addToCart(${p.id})">+</button>
       </div>
     </div>
-  </div>;
+  </div>`;
 }
 
 function renderHomeProducts() {
@@ -284,18 +278,18 @@ function renderCategoryProducts() {
 function renderAdminProducts() {
   const tbody = document.getElementById('admin-products-tbody');
   if (!tbody) return;
-  tbody.innerHTML = adminProducts.map(p => 
+  tbody.innerHTML = adminProducts.map(p => `
     <tr>
       <td><div class="inline-flex"><div class="product-thumb ${p.bg}">${p.emoji}</div>${p.name}</div></td>
       <td>${p.cat}</td>
-      <td>${p.orig ? <del style="color:var(--muted);font-size:.8rem">₹${p.orig}</del>  : ''}<strong>₹${p.price}</strong></td>
+      <td>${p.orig ? `<del style="color:var(--muted);font-size:.8rem">₹${p.orig}</del> ` : ''}<strong>₹${p.price}</strong></td>
       <td>${Math.floor(Math.random() * 80) + 10}</td>
-      <td>${p.badge ? <span class="product-badge ${p.badge === 'new' ? 'new' : ''}">${p.badge}</span> : '-'}</td>
+      <td>${p.badge ? `<span class="product-badge ${p.badge === 'new' ? 'new' : ''}">${p.badge}</span>` : '-'}</td>
       <td><div class="action-btns">
         <button class="action-btn btn-edit" onclick="showToast('Edit: ${p.name}')">✏️</button>
         <button class="action-btn btn-del"  onclick="deleteProduct(${p.id})">🗑</button>
       </div></td>
-    </tr>).join('');
+    </tr>`).join('');
 }
 window.renderAdminProducts = renderAdminProducts;
 
@@ -308,7 +302,7 @@ function addToCart(id) {
   else cart.push({id, qty:1});
   updateCartBadge();
   const p = adminProducts.find(x => x.id === id);
-  showToast(${p.name} added to cart! 🛒);
+  showToast(`${p.name} added to cart! 🛒`);
 }
 window.addToCart = addToCart;
 
@@ -325,21 +319,19 @@ function renderCart() {
   const list = document.getElementById('cart-items-list');
   if (!list) return;
   if (cart.length === 0) {
-    list.innerHTML = <div class="cart-empty">
+    list.innerHTML = `<div class="cart-empty">
       <div class="cart-empty-icon">🛒</div>
       <h3>Your cart is empty</h3>
       <p>Add some beautiful pieces for your little one!</p>
       <button class="btn-rose" onclick="showPage('categories')">Shop Now 🌸</button>
-    </div>;
+    </div>`;
     updateCartTotals(); return;
   }
   list.innerHTML = cart.map(c => {
     const p = adminProducts.find(x => x.id === c.id);
     if (!p) return '';
-    return <div class="cart-item">
-<div class="product-img-bg ${p.bg}">
-  <img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:16px;">
-</div>
+    return `<div class="cart-item">
+      <div class="cart-item-img ${p.bg}">${p.emoji}</div>
       <div class="cart-item-info">
         <div class="cart-item-name">${p.name}</div>
         <div class="cart-item-meta">${p.cat} · ${p.size}</div>
@@ -353,7 +345,7 @@ function renderCart() {
         <div class="cart-item-price">₹${p.price * c.qty}</div>
         <button class="cart-item-del" onclick="removeFromCart(${p.id})">🗑</button>
       </div>
-    </div>;
+    </div>`;
   }).join('');
   updateCartTotals();
 }
@@ -406,11 +398,11 @@ function renderCheckoutSummary() {
   list.innerHTML = cart.map(c => {
     const p = adminProducts.find(x => x.id === c.id);
     if (!p) return '';
-    return <div style="display:flex;align-items:center;gap:.8rem;margin-bottom:.8rem;padding-bottom:.8rem;border-bottom:1px solid rgba(212,99,122,.06)">
+    return `<div style="display:flex;align-items:center;gap:.8rem;margin-bottom:.8rem;padding-bottom:.8rem;border-bottom:1px solid rgba(212,99,122,.06)">
       <div style="width:44px;height:44px;border-radius:10px;display:grid;place-items:center;font-size:1.3rem;flex-shrink:0" class="${p.bg}">${p.emoji}</div>
       <div style="flex:1;font-size:.88rem">${p.name}<br/><span style="color:var(--muted);font-size:.75rem">Qty: ${c.qty}</span></div>
       <div style="font-weight:600;font-size:.9rem">₹${p.price * c.qty}</div>
-    </div>;
+    </div>`;
   }).join('');
   const subtotal = cart.reduce((s, c) => {
     const p = adminProducts.find(x => x.id === c.id);
@@ -474,7 +466,7 @@ function toggleWishlist(e, id) {
   if (wishlist.includes(id)) wishlist = wishlist.filter(x => x !== id);
   else wishlist.push(id);
   const p = adminProducts.find(x => x.id === id);
-  showToast(wishlist.includes(id) ? Added to wishlist ♥ : p.name + ' removed from wishlist');
+  showToast(wishlist.includes(id) ? `Added to wishlist ♥` : p.name + ' removed from wishlist');
   renderHomeProducts();
   renderCategoryProducts();
 }
@@ -482,7 +474,7 @@ function renderWishlistDash() {
   const grid  = document.getElementById('wishlist-grid');
   if (!grid) return;
   const items = adminProducts.filter(p => wishlist.includes(p.id));
-  grid.innerHTML = items.length ? items.map(p => 
+  grid.innerHTML = items.length ? items.map(p => `
     <div class="product-card">
       <div class="product-img"><div class="product-img-bg ${p.bg}">${p.emoji}</div>
       <button class="wishlist-btn" onclick="toggleWishlistDash(${p.id})" style="color:#D4637A">♥</button></div>
@@ -494,7 +486,7 @@ function renderWishlistDash() {
           <button class="add-cart" onclick="addToCart(${p.id})">+</button>
         </div>
       </div>
-    </div>).join('')
+    </div>`).join('')
     : '<p style="color:var(--muted);padding:1rem">Your wishlist is empty. Start adding your favourites! 🌸</p>';
 }
 function toggleWishlistDash(id) {
@@ -511,10 +503,10 @@ function quickView(id) {
   const p = adminProducts.find(x => x.id === id);
   if (!p) return;
   const price = p.orig
-    ? <del style="color:var(--muted)">₹${p.orig}</del> <strong style="color:var(--rose);font-size:1.3rem">₹${p.price}</strong>
-    : <strong style="font-size:1.3rem">₹${p.price}</strong>;
+    ? `<del style="color:var(--muted)">₹${p.orig}</del> <strong style="color:var(--rose);font-size:1.3rem">₹${p.price}</strong>`
+    : `<strong style="font-size:1.3rem">₹${p.price}</strong>`;
   const stars = '★'.repeat(p.stars) + '☆'.repeat(5 - p.stars);
-  document.getElementById('product-modal-content').innerHTML = 
+  document.getElementById('product-modal-content').innerHTML = `
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start">
       <div class="product-img-bg ${p.bg}" style="aspect-ratio:1;border-radius:16px;font-size:5rem">${p.emoji}</div>
       <div>
@@ -530,7 +522,7 @@ function quickView(id) {
           <button class="btn-ghost" onclick="toggleWishlist(event,${p.id});closeModal('product-modal')">♡</button>
         </div>
       </div>
-    </div>;
+    </div>`;
   openModal('product-modal');
 }
 window.quickView = quickView;
@@ -681,4 +673,4 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 
   setInterval(showNextSlide, 3000);
-});  
+});
