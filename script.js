@@ -30,22 +30,22 @@ const auth = getAuth(app);
 // DATA
 // ============================================================
 const PRODUCTS = [
-  {id:1, name:'Muslin Frock Button', cat:'dresses', image:'images/frock1.png', price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
-  {id:2, name:'Muslin Frock Knot', cat:'dresses', image:'images/frock2.jpeg', price:699, orig:899, size:'0–6M', stars:5,  bg:'p1', badge:'sale'},
-  {id:3, name:'Muslin Frock Zip', cat:'dresses', image:'images/frock3.png', price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
+  {id:1, name:'Muslin Frock Button', cat:'dresses', image:'./images/frock1.png', price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
+  {id:2, name:'Muslin Frock Knot', cat:'dresses', image:'./images/frock2.jpeg', price:699, orig:899, size:'0–6M', stars:5,  bg:'p1', badge:'sale'},
+  {id:3, name:'Muslin Frock Zip', cat:'dresses', image:'./images/frock3.png', price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
 
-  {id:4, name:'Co-ord Set Dress', cat:'coord', image:'images/coord1.jpg', price:799, size:'0-6M', stars:4,  bg:'p2'},
+  {id:4, name:'Co-ord Set Dress', cat:'coord', image:'./images/coord1.jpg', price:799, size:'0-6M', stars:4,  bg:'p2'},
 
-  {id:5, name:'Gift Combo Set', cat:'gift', image:'images/gift1.jpg', price:999, size:'0–6M', stars:5, bg:'p3'},
+  {id:5, name:'Gift Combo Set', cat:'gift', image:'./images/gift1.jpg', price:999, size:'0–6M', stars:5, bg:'p3'},
 
-  {id:6, name:'Muslin Nappy', cat:'accessories', image:'images/nappy.png', price:199, size:'0–3M', stars:4, bg:'p4'},
-  {id:7, name:'Muslin Wipes', cat:'accessories', image:'images/wipes.png', price:149, size:'0–3M', stars:4, bg:'p5'},
+  {id:6, name:'Muslin Nappy', cat:'accessories', image:'./images/nappy.png', price:199, size:'0–3M', stars:4, bg:'p4'},
+  {id:7, name:'Muslin Wipes', cat:'accessories', image:'./images/wipes.png', price:149, size:'0–3M', stars:4, bg:'p5'},
 
-  {id:8, name:'Muslin Bath Towel', cat:'bath', image:'images/towel1.png', price:299, size:'All', stars:4, bg:'p6'},
-  {id:9, name:'Hooded Towel', cat:'bath', image:'images/towel2.jpg', price:349, size:'All', stars:4,  bg:'p7'},
-{id:10, name:'Muslin Jabla Knot', cat:'dresses', image:'images/jabla1.jpg', price:499, orig:699, size:'0–3M', stars:5,  badge:'sale'},
+  {id:8, name:'Muslin Bath Towel', cat:'bath', image:'./images/towel1.png', price:299, size:'All', stars:4, bg:'p6'},
+  {id:9, name:'Hooded Towel', cat:'bath', image:'./images/towel2.jpg', price:349, size:'All', stars:4,  bg:'p7'},
+{id:10, name:'Muslin Jabla Knot', cat:'dresses', image:'./images/jabla1.jpg', price:499, orig:699, size:'0–3M', stars:5,  badge:'sale'},
 
-{id:11, name:'Muslin Jabla Button', cat:'dresses', image:'images/jabla2.jpg', price:499, orig:699, size:'0–3M', stars:5,bg:'p1', badge:'sale'}
+{id:11, name:'Muslin Jabla Button', cat:'dresses', image:'./images/jabla2.jpg', price:499, orig:699, size:'0–3M', stars:5,bg:'p1', badge:'sale'}
 ];
   
 // ================= CATEGORY FUNCTION =================
@@ -338,7 +338,9 @@ function renderCart() {
     const p = adminProducts.find(x => x.id === c.id);
     if (!p) return '';
     return `<div class="cart-item">
-      <div class="cart-item-img ${p.bg}">${p.emoji}</div>
+<div class="product-img-bg ${p.bg}">
+  <img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:16px;">
+</div>
       <div class="cart-item-info">
         <div class="cart-item-name">${p.name}</div>
         <div class="cart-item-meta">${p.cat} · ${p.size}</div>
