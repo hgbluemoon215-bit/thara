@@ -34,22 +34,25 @@ const PRODUCTS = [
   {id:2, name:'Muslin Frock Knot', cat:'dresses', image:'images/frock2.jpg', price:699, orig:899, size:'0–6M', stars:5, emoji:'👗', bg:'p1', badge:'sale'},
   {id:3, name:'Muslin Frock Zip', cat:'dresses', image:'images/frock3.jpg', price:699, orig:899, size:'0–6M', stars:5, emoji:'👗', bg:'p1', badge:'sale'},
 
-  {id:4, name:'Co-ord Set Dress', cat:'coord', image:'images/coord1.jpg', price:799, size:'6–12M', stars:4, emoji:'👕', bg:'p2'},
+  {id:4, name:'Co-ord Set Dress', cat:'coord', image:'images/coord1.jpg', price:799, size:'0-6M', stars:4, emoji:'👕', bg:'p2'},
 
   {id:5, name:'Gift Combo Set', cat:'gift', image:'images/gift1.jpg', price:999, size:'0–6M', stars:5, emoji:'🎁', bg:'p3'},
 
   {id:6, name:'Muslin Nappy', cat:'accessories', image:'images/nappy.jpg', price:199, size:'0–3M', stars:4, emoji:'🧸', bg:'p4'},
   {id:7, name:'Muslin Wipes', cat:'accessories', image:'images/wipes.jpg', price:149, size:'0–3M', stars:4, emoji:'🧸', bg:'p5'},
 
-  {id:8, name:'Muslin Bath Towel', cat:'bath', image:'images/towel1.jpg', price:299, size:'All', stars:4, emoji:'🛁', bg:'p6'},
-  {id:9, name:'Hooded Towel', cat:'bath', image:'images/towel2.jpg', price:349, size:'All', stars:4, emoji:'🛁', bg:'p7'}
+  {id:8, name:'Muslin Bath Towel', cat:'bath', image:'images/towel1.jpg', 
+
+price:299, size:'All', stars:4, emoji:'🛁', bg:'p6'},
+  {id:9, name:'Hooded Towel', cat:'bath', image:'images/towel2.jpg', price:349, size:'All', stars:4, emoji:'🛁', bg:'p7'},
+{id:10, name:'Muslin Jabla Knot', cat:'dresses', image:'images/jabla1.jpg', price:499, orig:699, size:'0–3M', stars:5, emoji:'👶', bg:'p1', badge:'sale'},
+
+{id:11, name:'Muslin Jabla Button', cat:'dresses', image:'images/jabla2.jpg', price:499, orig:699, size:'0–3M', stars:5, emoji:'👶', bg:'p1', badge:'sale'}
 ];
   
 // ================= CATEGORY FUNCTION =================
-function goToCategory(category){
-  const filtered = PRODUCTS.filter(p => p.cat === category);
-  renderProducts(filtered);   // already in your code
-  showPage('shop');           // your shop/products page
+function goToCategory(category){   
+  showPage('categories');           
 }
 let cart = [{id:1,qty:1},{id:3,qty:1}];
 let wishlist = [2,5,6,8];
@@ -115,8 +118,6 @@ function scrollToSection(id) {
   }, 100);
 }
 window.scrollToSection = scrollToSection;
-
- }
 window.goToCategory = goToCategory;
 
 // ============================================================
