@@ -49,8 +49,15 @@ const PRODUCTS = [
 ];
   
 // ================= CATEGORY FUNCTION =================
-function goToCategory(category){   
-  showPage('categories');           
+function goToCategory(category) {
+  showPage('categories');
+
+  setTimeout(() => {
+    const section = document.getElementById('cat-' + category + '-grid');
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, 100);
 }
 let cart = [{id:1,qty:1},{id:3,qty:1}];
 let wishlist = [2,5,6,8];
