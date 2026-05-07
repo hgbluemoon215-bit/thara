@@ -653,7 +653,33 @@ function quickView(id) {
   const stars = '★'.repeat(p.stars) + '☆'.repeat(5 - p.stars);
   document.getElementById('product-modal-content').innerHTML = `
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start">
-      
+      <div class="quickview-gallery">
+
+  <div class="quickview-thumbs">
+
+    ${p.images.map((img,index)=>`
+
+      <img
+        src="${img}"
+        class="thumb ${index===0 ? 'active-thumb' : ''}"
+        onclick="changeQuickImage('${img}',this)"
+      >
+
+    `).join('')}
+
+  </div>
+
+  <div class="quickview-main-image">
+
+    <img
+      id="quickview-main-img"
+      src="${p.images[0]}"
+      alt="${p.name}"
+    >
+
+  </div>
+
+</div>
       <div>
         <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem">${p.cat}</div>
         <h2 style="font-family:var(--ff-head);font-size:1.5rem;margin-bottom:.5rem">${p.name}</h2>
