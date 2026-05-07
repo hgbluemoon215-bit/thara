@@ -23,7 +23,8 @@
   <div class="header-inner">
     <a href="#"  class="logo-wrap" onclick="showPage('home')">
       <div class="logo-mark">
-              <img src="images/nivora-logo.png" alt="nivora logo"></div>
+              <img src="images/nivora-logo.png" alt="nivora logo">
+      </div>
         <div>
         <div class="logo-title">Nivora</div>
         <div class="logo-sub">Wrapped in Mom's Love</div>
@@ -32,7 +33,7 @@
     <nav id="main-nav">
       <a href="#" onclick="showPage('home')" data-page="home" class="active">Home</a>
       <a href="#" onclick="showPage('categories')" data-page="categories">Categories</a>
-      <a href="#"onclick="document.getElementById('products-home').scrollIntoView({behavior:'smooth'});showPage('home')" data-page="">Shop</a>
+      <a href="#" onclick="document.getElementById('products-home').scrollIntoView({behavior:'smooth'});showPage('home')" data-page="">Shop</a>
       <a href="#" onclick="scrollToSection('why-home')" data-page="">About Us</a>
       <a href="#" onclick="scrollToSection('contact-home')" data-page="">Contact</a>
     </nav>
@@ -267,19 +268,81 @@
       </div>
     </div>
   </section>
+<!-- TESTIMONIALS -->
+<section class="testi-section">
+  <div style="max-width:1280px;margin:0 auto">
 
-  <!-- TESTIMONIALS -->
-  <section class="testi-section">
-    <div style="max-width:1280px;margin:0 auto">
-      <div class="reveal"><div class="section-eyebrow">Happy Mamas</div><div class="section-title">What Mothers Are Saying 💬</div></div>
-      <div class="testi-grid">
-        <div class="testi-card reveal"><div class="testi-quote">"</div><p class="testi-text">The muslin fabric is absolutely divine! My 3-month-old sleeps so much better in Nivora. I've already ordered 3 more pieces. The packaging is beautiful too — perfect for gifting!</p><div class="testi-author"><div class="testi-avatar">👩</div><div><div class="testi-name">Priya Sharma</div><div class="testi-role">Mom to Aarav, 3 months</div></div></div></div>
-        <div class="testi-card reveal"><div class="testi-quote">"</div><p class="testi-text">I was skeptical ordering online but Nivora exceeded all my expectations. The Blossom Frill Dress is even more gorgeous in person. My daughter gets compliments everywhere she goes!</p><div class="testi-author"><div class="testi-avatar">👩‍🦱</div><div><div class="testi-name">Anita Reddy</div><div class="testi-role">Mom to divya , 6 months</div></div></div></div>
-        <div class="testi-card reveal"><div class="testi-quote">"</div><p class="testi-text">As a pediatrician and a mom, I trust Nivora completely. The toxin-free certification matters so much for newborns. These clothes are safe, soft, and beautiful. Highly recommended!</p><div class="testi-author"><div class="testi-avatar">👩‍⚕️</div><div><div class="testi-name">Dr. Meera Nair</div><div class="testi-role">Mom to Siya, 9 months</div></div></div></div>
-      </div>
+    <div class="reveal">
+      <div class="section-eyebrow">Happy Mamas</div>
+      <div class="section-title">What Mothers Are Saying 💬</div>
     </div>
-  </section>
 
+    <div class="testi-grid">
+
+      <!-- CARD 1 -->
+      <div class="testi-card reveal">
+        <div class="testi-quote">"</div>
+
+        <p class="testi-text">
+          The muslin fabric is absolutely divine! My 3-month-old sleeps so much better in Nivora.
+          I've already ordered 3 more pieces. The packaging is beautiful too — perfect for gifting!
+        </p>
+
+        <div class="testi-author">
+          <div class="testi-avatar">👩</div>
+
+          <div>
+            <div class="testi-name">Priya Sharma</div>
+            <div class="testi-role">Mom to Aarav, 3 months</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 2 -->
+      <div class="testi-card reveal">
+        <div class="testi-quote">"</div>
+
+        <p class="testi-text">
+          I was skeptical ordering online but Nivora exceeded all my expectations.
+          The Blossom Frill Dress is even more gorgeous in person.
+          My daughter gets compliments everywhere she goes!
+        </p>
+
+        <div class="testi-author">
+          <div class="testi-avatar">👩‍🦱</div>
+
+          <div>
+            <div class="testi-name">Anita Reddy</div>
+            <div class="testi-role">Mom to Divya, 6 months</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 3 -->
+      <div class="testi-card reveal">
+        <div class="testi-quote">"</div>
+
+        <p class="testi-text">
+          As a pediatrician and a mom, I trust Nivora completely.
+          The toxin-free certification matters so much for newborns.
+          These clothes are safe, soft, and beautiful.
+          Highly recommended!
+        </p>
+
+        <div class="testi-author">
+          <div class="testi-avatar">👩‍⚕️</div>
+
+          <div>
+            <div class="testi-name">Dr. Meera Nair</div>
+            <div class="testi-role">Mom to Siya, 9 months</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+  
   <!-- BANNER -->
   <section class="banner-section">
     <div class="banner-inner reveal">
@@ -326,7 +389,7 @@
         <div class="footer-col"><h4>Quick Links</h4><ul><li><a onclick="showPage('home')">Home</a></li><li><a onclick="showPage('categories')">Shop All</a></li><li><a onclick="showPage('categories')">Categories</a></li><li><a onclick="document.getElementById('why-home').scrollIntoView({behavior:'smooth'})">About Us</a></li><li><a onclick="document.getElementById('contact-home').scrollIntoView({behavior:'smooth'})">Contact Us</a></li></ul></div>
         <div class="footer-col"><h4>Help & Support</h4><ul><li><a onclick="showPage('dashboard')">Track Your Order</a></li><li><a>Returns & Refunds</a></li><li><a>Shipping Policy</a></li><li><a>Size Guide</a></li><li><a>Care Instructions</a></li><li><a>FAQs</a></li></ul></div>
         <div class="footer-col"><h4>Contact Us</h4>
-          <p style="font-size:.85rem;color:rgba(255,249,245,.5);line-height:1.8">📍 21, K A S Nagar, Marappalam 1st Street 2nd Cross , Karungalpalayam<br/>Erode-638003 , TamilNadu<br/><br/>📞 +91 93611 48040<br/>📧thenivorastores@gmail.com <br/>🕐 Mon–Sat: 10am–6pm IST</p>
+          <p style="font-size:.85rem;color:rgba(255,249,245,.5);line-height:1.8">📍 21, K A S Nagar, Marappalam 1st Street 2nd Cross , Karungalpalayam<br/>Erode-638003 , TamilNadu<br/><br/>📞 +91 93611 48040<br/>📧 thenivorastores@gmail.com <br/>🕐 Mon–Sat: 10am–6pm IST</p>
         </div>
       </div>
       <div class="footer-bottom">
