@@ -175,8 +175,9 @@ const PRODUCTS = [
 // GLOBAL VARIABLES
 // ============================================================
 
-let cart = [];
-let wishlist = [];
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let wishlist =
+  JSON.parse(localStorage.getItem("wishlist")) || [];
 let isLoggedIn = false;
 let isAdmin = false;
 let discount = 0;
@@ -188,7 +189,9 @@ let adminProducts = [...PRODUCTS];
 // ADMIN LOGIN
 // ============================================================
 
-const ADMIN_EMAIL = "admin@nivora.in";
+if(user.email === "admin@nivora.in"){
+   isAdmin = true;
+}
 const ADMIN_PASS = "admin123";
 
 
@@ -423,7 +426,7 @@ function doLogin() {
 
     .catch((err) => {
 
-      showToast(err.message);
+     showToast("Invalid email or password");
 
     });
 
@@ -470,7 +473,7 @@ function doRegister() {
 
     .catch((err) => {
 
-      showToast(err.message);
+      showToast("Unable to create account");
 
     });
 
@@ -733,6 +736,7 @@ function updateCartBadge() {
   );
 
   badge.textContent = total;
+localStorage.setItem("cart", JSON.stringify(cart));
 
 }
 
@@ -783,6 +787,10 @@ function toggleWishlist(e, id) {
     wishlist.push(id);
 
   }
+localStorage.setItem(
+  "wishlist",
+  JSON.stringify(wishlist)
+);
 
   renderHomeProducts();
   renderCategoryProducts();
@@ -808,7 +816,9 @@ function quickView(id) {
 
   <div style="
     display:grid;
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:
+    repeat(auto-fit,minmax(280px,1fr));
+    
     gap:1.5rem;
     align-items:start;
   ">
