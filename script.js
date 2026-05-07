@@ -30,18 +30,18 @@ const auth = getAuth(app);
 // DATA
 // ============================================================
 const PRODUCTS = [
-  {id:1, name:'Muslin Frock Button', cat:'dresses', image:'images/frock1.jpg', price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
-  {id:2, name:'Muslin Frock Knot', cat:'dresses', image:'images/frock2.jpg', price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
-  {id:3, name:'Muslin Frock Zip', cat:'dresses', image:'images/frock3.jpg', price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
+  {id:1, name:'Muslin Frock Button', cat:'dresses', image:'images/frock1.png', price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
+  {id:2, name:'Muslin Frock Knot', cat:'dresses', image:'images/frock2.jpeg', price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
+  {id:3, name:'Muslin Frock Zip', cat:'dresses', image:'images/frock3.png', price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
 
-  {id:4, name:'Co-ord Set Dress', cat:'coord', image:'images/coord1.jpg', price:799, size:'0-6M', stars:4,  bg:'p2'},
+  {id:4, name:'Co-ord Set Dress', cat:'coord', image:'images/coord1.png', price:799, size:'0-6M', stars:4,  bg:'p2'},
 
-  {id:5, name:'Gift Combo Set', cat:'gift', image:'images/gift1.jpg', price:999, size:'0–6M', stars:5, bg:'p3'},
+  {id:5, name:'Gift Combo Set', cat:'gift', image:'images/gift1.png', price:999, size:'0–6M', stars:5, bg:'p3'},
 
-  {id:6, name:'Muslin Nappy', cat:'accessories', image:'images/nappy.jpg', price:199, size:'0–3M', stars:4,bg:'p4'},
-  {id:7, name:'Muslin Wipes', cat:'accessories', image:'images/wipes.jpg', price:149, size:'0–3M', stars:4,  bg:'p5'},
+  {id:6, name:'Muslin Nappy', cat:'accessories', image:'images/nappy.png', price:199, size:'0–3M', stars:4,bg:'p4'},
+  {id:7, name:'Muslin Wipes', cat:'accessories', image:'images/wipes.png', price:149, size:'0–3M', stars:4,  bg:'p5'},
 
-  {id:8, name:'Muslin Bath Towel', cat:'bath', image:'images/towel1.jpg', price:299, size:'All', stars:4,  bg:'p6'},
+  {id:8, name:'Muslin Bath Towel', cat:'bath', image:'images/towel1.png', price:299, size:'All', stars:4,  bg:'p6'},
   {id:9, name:'Hooded Towel', cat:'bath', image:'images/towel2.png', price:349, size:'All', stars:4,  bg:'p7'},
 {id:10, name:'Muslin Jabla Knot', cat:'dresses', image:'images/jabla1.png', price:499, orig:699, size:'0–3M', stars:5, bg:'p1', badge:'sale'},
 
@@ -476,7 +476,7 @@ function renderCart() {
     const p = adminProducts.find(x => x.id === c.id);
     if (!p) return '';
     return `<div class="cart-item">
-      <div class="cart-item-img ${p.bg}">${p.emoji}</div>
+      <div class="cart-item-img ${p.bg}">${p.image}</div>
       <div class="cart-item-info">
         <div class="cart-item-name">${p.name}</div>
         <div class="cart-item-meta">${p.cat} · ${p.size}</div>
@@ -544,7 +544,7 @@ function renderCheckoutSummary() {
     const p = adminProducts.find(x => x.id === c.id);
     if (!p) return '';
     return `<div style="display:flex;align-items:center;gap:.8rem;margin-bottom:.8rem;padding-bottom:.8rem;border-bottom:1px solid rgba(212,99,122,.06)">
-      <div style="width:44px;height:44px;border-radius:10px;display:grid;place-items:center;font-size:1.3rem;flex-shrink:0" class="${p.bg}">${p.emoji}</div>
+      <div style="width:44px;height:44px;border-radius:10px;display:grid;place-items:center;font-size:1.3rem;flex-shrink:0" class="${p.bg}">${p.image}</div>
       <div style="flex:1;font-size:.88rem">${p.name}<br/><span style="color:var(--muted);font-size:.75rem">Qty: ${c.qty}</span></div>
       <div style="font-weight:600;font-size:.9rem">₹${p.price * c.qty}</div>
     </div>`;
@@ -653,7 +653,7 @@ function quickView(id) {
   const stars = '★'.repeat(p.stars) + '☆'.repeat(5 - p.stars);
   document.getElementById('product-modal-content').innerHTML = `
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start">
-      <div class="product-img-bg ${p.bg}" style="aspect-ratio:1;border-radius:16px;font-size:5rem">${p.emoji}</div>
+      <div class= "quickview-image ${p.bg}" style="aspect-ratio:1;border-radius:16px;font-size:5rem"> <img src="${p.image}" alt="${p.name}"></div>
       <div>
         <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem">${p.cat}</div>
         <h2 style="font-family:var(--ff-head);font-size:1.5rem;margin-bottom:.5rem">${p.name}</h2>
