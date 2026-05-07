@@ -697,6 +697,18 @@ function quickView(id) {
   openModal('product-modal');
 }
 window.quickView = quickView;
+// CHANGE QUICK VIEW IMAGE
+
+function changeQuickImage(src, el) {
+
+  document.getElementById('quickview-main-img').src = src;
+
+  document.querySelectorAll('.thumb').forEach(t => {
+    t.classList.remove('active-thumb');
+  });
+
+  el.classList.add('active-thumb');
+}
 
 // ============================================================
 // DASHBOARD NAV
