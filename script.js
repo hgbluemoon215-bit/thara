@@ -30,8 +30,8 @@ const auth = getAuth(app);
 // DATA
 // ============================================================
 const PRODUCTS = [
-  {id:1, name:'Muslin Frock Button', cat:'dresses', image:[ 'images/frock1.png','images/frock button.png'], price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
-  {id:2, name:'Muslin Frock Knot', cat:'dresses', image:['images/frock2.jpeg','images/frock knot.png'], price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
+  {id:1, name:'Muslin Frock Button', cat:'dresses', image:'images/frock1.png',, price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
+  {id:2, name:'Muslin Frock Knot', cat:'dresses', image:'images/frock2.jpeg', price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
   {id:3, name:'Muslin Frock Zip', cat:'dresses', image:['images/frock3.png','images/frock zip.png'], price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
 
   {id:4, name:'Co-ord Set Dress', cat:'coord', image:['images/coord1.png', 'images/coord set.png'],price:799, size:'0-6M', stars:4,  bg:'p2'},
