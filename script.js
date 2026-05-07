@@ -43,9 +43,9 @@ const PRODUCTS = [
 
   {id:8, name:'Muslin Bath Towel', cat:'bath', image:'images/towel1.png', price:299, size:'All', stars:4,  bg:'p6'},
   {id:9, name:'Hooded Towel', cat:'bath', image:'images/towel2.png', price:349, size:'All', stars:4,  bg:'p7'},
-{id:10, name:'Muslin Jabla Knot', cat:'dresses', image:'images/Jabla1.png', price:499, orig:699, size:'0–3M', stars:5, bg:'p1', badge:'sale'},
+{id:10, name:'Muslin Jabla Knot', cat:'dresses', image:'images/jabla1.png', price:499, orig:699, size:'0–3M', stars:5, bg:'p1', badge:'sale'},
 
-{id:11, name:'Muslin Jabla Button', cat:'dresses', image:'images/Jabla2.png', price:499, orig:699, size:'0–3M', stars:5,  bg:'p1', badge:'sale'}
+{id:11, name:'Muslin Jabla Button', cat:'dresses', image:'images/jabla2.png', price:499, orig:699, size:'0–3M', stars:5,  bg:'p1', badge:'sale'}
 ];
   
 // ================= CATEGORY FUNCTION =================
