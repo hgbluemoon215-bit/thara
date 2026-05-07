@@ -30,22 +30,22 @@ const auth = getAuth(app);
 // DATA
 // ============================================================
 const PRODUCTS = [
-  {id:1, name:'Muslin Frock Button', cat:'dresses', image:[ 'images/frock1.png','images/frock button.png'], price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
-  {id:2, name:'Muslin Frock Knot', cat:'dresses', image:['images/frock2.jpeg','images/frock knot.png'], price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
-  {id:3, name:'Muslin Frock Zip', cat:'dresses', image:['images/frock3.png','images/frock zip.png'], price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
+  {id:1, name:'Muslin Frock Button', cat:'dresses', image:'images/frock1.png', price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
+  {id:2, name:'Muslin Frock Knot', cat:'dresses', image:'images/frock2.jpeg', price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
+  {id:3, name:'Muslin Frock Zip', cat:'dresses', image:'images/frock3.png', price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
 
-  {id:4, name:'Co-ord Set Dress', cat:'coord', image:['images/coord1.png', 'images/coord set.png'],price:799, size:'0-6M', stars:4,  bg:'p2'},
+  {id:4, name:'Co-ord Set Dress', cat:'coord', image:'images/coord1.png', price:799, size:'0-6M', stars:4,  bg:'p2'},
 
-  {id:5, name:'Gift Combo Set', cat:'gift', image:['images/gift1.png', 'images/Gift set.png'],price:999, size:'0–6M', stars:5, bg:'p3'},
+  {id:5, name:'Gift Combo Set', cat:'gift', image:'images/gift1.png', price:999, size:'0–6M', stars:5, bg:'p3'},
 
-  {id:6, name:'Muslin Nappy', cat:'accessories', image:['images/nappy1.png', 'images/nappy2.png'],price:199, size:'0–3M', stars:4,bg:'p4'},
-  {id:7, name:'Muslin Wipes', cat:'accessories', image:['images/wipes1.png','images/wipes2.png'], price:149, size:'0–3M', stars:4,  bg:'p5'},
+  {id:6, name:'Muslin Nappy', cat:'accessories', image:'images/nappy1.png', price:199, size:'0–3M', stars:4,bg:'p4'},
+  {id:7, name:'Muslin Wipes', cat:'accessories', image:'images/wipes1.png', price:149, size:'0–3M', stars:4,  bg:'p5'},
 
-  {id:8, name:'Muslin Bath Towel', cat:'bath', image:['images/towel1.png', 'images/bath towel.png'],price:299, size:'All', stars:4,  bg:'p6'},
-  {id:9, name:'Hooded Towel', cat:'bath', image:['images/towel2.png', 'images/hooded towel.png'],price:349, size:'All', stars:4,  bg:'p7'},
-{id:10, name:'Muslin Jabla Knot', cat:'dresses', image:['images/jabla1.png','images/jabla knot.png'], price:499, orig:699, size:'0–3M', stars:5, bg:'p1', badge:'sale'},
+  {id:8, name:'Muslin Bath Towel', cat:'bath', image:'images/towel1.png', price:299, size:'All', stars:4,  bg:'p6'},
+  {id:9, name:'Hooded Towel', cat:'bath', image:'images/towel2.png', price:349, size:'All', stars:4,  bg:'p7'},
+{id:10, name:'Muslin Jabla Knot', cat:'dresses', image:'images/jabla1.png', price:499, orig:699, size:'0–3M', stars:5, bg:'p1', badge:'sale'},
 
-{id:11, name:'Muslin Jabla Button', cat:'dresses', image:['images/jabla2.png','images/jabla button.png'], price:499, orig:699, size:'0–3M', stars:5,  bg:'p1', badge:'sale'}
+{id:11, name:'Muslin Jabla Button', cat:'dresses', image:'images/jabla2.png', price:499, orig:699, size:'0–3M', stars:5,  bg:'p1', badge:'sale'}
 ];
   
 // ================= CATEGORY FUNCTION =================
@@ -259,9 +259,22 @@ function productCardHTML(p, showWishlist = true) {
 
   return `
     <div class="product-card" onclick="quickView(${p.id})">
-    <div class="product-image"><img src="${p.images[0]}" alt="${p.name}">${badge}${wishBtn}</div>
-    <div class="product-info">
-    <div class="product-cat">${p.cat} · ${p.size} </div>
+
+      <div class="product-image ${p.bg}">
+
+        <img src="${p.image}" alt="${p.name}">
+
+        ${badge}
+
+        ${wishBtn}
+
+      </div>
+
+      <div class="product-info">
+
+        <div class="product-cat">
+          ${p.cat} · ${p.size}
+        </div>
 
         <div class="stars">${stars}</div>
 
@@ -269,7 +282,9 @@ function productCardHTML(p, showWishlist = true) {
 
         <div class="product-footer">
 
-          <div class="product-price">${price}  </div>
+          <div class="product-price">
+            ${price}
+          </div>
 
           <button class="add-cart"
             onclick="event.stopPropagation();addToCart(${p.id})">
@@ -351,8 +366,9 @@ function renderAdminProducts() {
       <td>
 
         <div class="inline-flex">
-         <img
-          src="${p.images[0]}"
+
+          <img
+            src="${p.image}"
             alt="${p.name}"
             style="
               width:44px;
@@ -637,33 +653,7 @@ function quickView(id) {
   const stars = '★'.repeat(p.stars) + '☆'.repeat(5 - p.stars);
   document.getElementById('product-modal-content').innerHTML = `
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start">
-      <div class="quickview-gallery">
-
-  <div class="quickview-thumbs">
-
-    ${p.images.map((img,index)=>`
-
-      <img
-        src="${img}"
-        class="thumb ${index===0 ? 'active-thumb' : ''}"
-        onclick="changeQuickImage('${img}',this)"
-      >
-
-    `).join('')}
-
-  </div>
-
-  <div class="quickview-main-image">
-
-    <img
-      id="quickview-main-img"
-      src="${p.images[0]}"
-      alt="${p.name}"
-    >
-
-  </div>
-
-</div>
+      <div class= "quickview-image ${p.bg}" style="aspect-ratio:1;border-radius:16px;font-size:5rem"> <img src="${p.image}" alt="${p.name}"></div>
       <div>
         <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem">${p.cat}</div>
         <h2 style="font-family:var(--ff-head);font-size:1.5rem;margin-bottom:.5rem">${p.name}</h2>
@@ -681,18 +671,6 @@ function quickView(id) {
   openModal('product-modal');
 }
 window.quickView = quickView;
-// CHANGE QUICK VIEW IMAGE
-
-function changeQuickImage(src, el) {
-
-  document.getElementById('quickview-main-img').src = src;
-
-  document.querySelectorAll('.thumb').forEach(t => {
-    t.classList.remove('active-thumb');
-  });
-
-  el.classList.add('active-thumb');
-}
 
 // ============================================================
 // DASHBOARD NAV
@@ -841,16 +819,3 @@ window.addEventListener("DOMContentLoaded", () => {
 
   setInterval(showNextSlide, 3000);
 });
-
-// CHANGE QUICK VIEW IMAGE
-
-function changeQuickImage(img, el){
-
-  document.getElementById('quickview-main-img').src = img;
-
-  document.querySelectorAll('.thumb').forEach(t => {
-    t.classList.remove('active-thumb');
-  });
-
-  el.classList.add('active-thumb');
-}
