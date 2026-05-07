@@ -608,4 +608,23 @@ nav a:hover,nav a.active{color:var(--rose)}
     flex-shrink:0;
   }
 
-  
+  /* FIX PRODUCT CLICK ISSUE */
+
+.product-card{
+  position:relative;
+  z-index:2;
+}
+
+.modal-overlay{
+  z-index:9999;
+}
+
+.modal-overlay:not(.open){
+  opacity:0;
+  pointer-events:none;
+}
+
+.modal-overlay.open{
+  opacity:1;
+  pointer-events:auto;
+}
