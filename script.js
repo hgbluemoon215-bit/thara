@@ -30,8 +30,8 @@ const auth = getAuth(app);
 // DATA
 // ============================================================
 const PRODUCTS = [
-  {id:1, name:'Muslin Frock Button', cat:'dresses', image:'images/frock1.png',, price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
-  {id:2, name:'Muslin Frock Knot', cat:'dresses', image:'images/frock2.jpeg', price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
+  {id:1, name:'Muslin Frock Button', cat:'dresses', image:[ 'images/frock1.png','images/frock button.png'], price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
+  {id:2, name:'Muslin Frock Knot', cat:'dresses', image:['images/frock2.jpeg','images/frock knot.png'], price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
   {id:3, name:'Muslin Frock Zip', cat:'dresses', image:['images/frock3.png','images/frock zip.png'], price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
 
   {id:4, name:'Co-ord Set Dress', cat:'coord', image:['images/coord1.png', 'images/coord set.png'],price:799, size:'0-6M', stars:4,  bg:'p2'},
@@ -653,33 +653,7 @@ function quickView(id) {
   const stars = '★'.repeat(p.stars) + '☆'.repeat(5 - p.stars);
   document.getElementById('product-modal-content').innerHTML = `
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start">
-      <div class="quickview-gallery">
-
-  <div class="quickview-thumbs">
-
-    ${p.images.map((img,index)=>`
-
-      <img
-        src="${img}"
-        class="thumb ${index===0 ? 'active-thumb' : ''}"
-        onclick="changeQuickImage('${img}',this)"
-      >
-
-    `).join('')}
-
-  </div>
-
-  <div class="quickview-main-image">
-
-    <img
-      id="quickview-main-img"
-      src="${p.images[0]}"
-      alt="${p.name}"
-    >
-
-  </div>
-
-</div>
+      
       <div>
         <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem">${p.cat}</div>
         <h2 style="font-family:var(--ff-head);font-size:1.5rem;margin-bottom:.5rem">${p.name}</h2>
