@@ -226,73 +226,218 @@ function logoutAdmin() {
 window.logoutAdmin = logoutAdmin;
 
 // ============================================================
+// ============================================================
 // RENDER PRODUCTS
 // ============================================================
+
 function productCardHTML(p, showWishlist = true) {
-  const inWish  = wishlist.includes(p.id);
-  const badge   = p.badge === 'sale' ? `<span class="product-badge">Sale</span>`
-                : p.badge === 'new'  ? `<span class="product-badge new">New</span>` : '';
-  const price   = p.orig ? `<del>₹${p.orig}</del> ₹${p.price}` : `₹${p.price}`;
-  const stars   = '★'.repeat(p.stars) + '☆'.repeat(5 - p.stars);
+
+  const inWish = wishlist.includes(p.id);
+
+  const badge =
+    p.badge === 'sale'
+      ? `<span class="product-badge">Sale</span>`
+      : p.badge === 'new'
+      ? `<span class="product-badge new">New</span>`
+      : '';
+
+  const price = p.orig
+    ? `<del>₹${p.orig}</del> ₹${p.price}`
+    : `₹${p.price}`;
+
+  const stars =
+    '★'.repeat(p.stars) +
+    '☆'.repeat(5 - p.stars);
+
   const wishBtn = showWishlist
-    ? `<button class="wishlist-btn" onclick="toggleWishlist(event,${p.id})" style="color:${inWish ? '#D4637A' : ''}">${inWish ? '♥' : '♡'}</button>`
+    ? `<button class="wishlist-btn"
+        onclick="toggleWishlist(event,${p.id})"
+        style="color:${inWish ? '#D4637A' : ''}">
+        ${inWish ? '♥' : '♡'}
+      </button>`
     : '';
-  return `<div class="product-card" onclick="quickView(${p.id})">
-    <div class="product-img"><div class="product-img-bg ${p.bg}">${p.emoji}</div>${badge}${wishBtn}</div>
-    <div class="product-info">
-      <div class="product-cat">${p.cat} · ${p.size}</div>
-      <div class="stars">${stars}</div>
-      <div class="product-name">${p.name}</div>
-      <div class="product-footer">
-        <div class="product-price">${price}</div>
-        <button class="add-cart" onclick="event.stopPropagation();addToCart(${p.id})">+</button>
+
+  return `
+    <div class="product-card" onclick="quickView(${p.id})">
+
+      <div class="product-image ${p.bg}">
+
+        <img src="${p.image}" alt="${p.name}">
+
+        ${badge}
+
+        ${wishBtn}
+
       </div>
+
+      <div class="product-info">
+
+        <div class="product-cat">
+          ${p.cat} · ${p.size}
+        </div>
+
+        <div class="stars">${stars}</div>
+
+        <div class="product-name">${p.name}</div>
+
+        <div class="product-footer">
+
+          <div class="product-price">
+            ${price}
+          </div>
+
+          <button class="add-cart"
+            onclick="event.stopPropagation();addToCart(${p.id})">
+            +
+          </button>
+
+        </div>
+
+      </div>
+
     </div>
-  </div>`;
+  `;
 }
 
+
+// HOME PRODUCTS
 function renderHomeProducts() {
   const grid = document.getElementById('home-products-grid');
-  if (grid) grid.innerHTML = adminProducts.map(p => productCardHTML(p)).join('');
+
+  if (grid) {
+    grid.innerHTML = adminProducts
+      .map(p => productCardHTML(p))
+      .join('');
+  }
 }
 
+
+// CATEGORY PRODUCTS
 function renderCategoryProducts() {
+
   const groups = {
-    'cat-dresses-grid': adminProducts.filter(p => p.cat === 'dresses'),
-    'cat-coord-grid': adminProducts.filter(p => p.cat === 'coord'),
-    'cat-gift-grid': adminProducts.filter(p => p.cat === 'gift'),
-    'cat-accessories-grid': adminProducts.filter(p => p.cat === 'accessories'),
-    'cat-bath-grid': adminProducts.filter(p => p.cat === 'bath'),
+
+    'cat-dresses-grid':
+      adminProducts.filter(p => p.cat === 'dresses'),
+
+    'cat-coord-grid':
+      adminProducts.filter(p => p.cat === 'coord'),
+
+    'cat-gift-grid':
+      adminProducts.filter(p => p.cat === 'gift'),
+
+    'cat-accessories-grid':
+      adminProducts.filter(p => p.cat === 'accessories'),
+
+    'cat-bath-grid':
+      adminProducts.filter(p => p.cat === 'bath')
+
   };
 
   Object.entries(groups).forEach(([id, prods]) => {
+
     const el = document.getElementById(id);
+
     if (el) {
-      el.innerHTML = prods.map(p => productCardHTML(p)).join('') || 
-      '<p style="color:var(--muted);padding:1rem">No products</p>';
+
+      el.innerHTML =
+        prods.map(p => productCardHTML(p)).join('') ||
+
+        `<p style="color:var(--muted);padding:1rem">
+          No products
+        </p>`;
     }
+
   });
 }
-  
 
+
+// ADMIN PRODUCTS
 function renderAdminProducts() {
-  const tbody = document.getElementById('admin-products-tbody');
-  if (!tbody) return;
-  tbody.innerHTML = adminProducts.map(p => `
-    <tr>
-      <td><div class="inline-flex"><div class="product-thumb ${p.bg}">${p.emoji}</div>${p.name}</div></td>
-      <td>${p.cat}</td>
-      <td>${p.orig ? `<del style="color:var(--muted);font-size:.8rem">₹${p.orig}</del> ` : ''}<strong>₹${p.price}</strong></td>
-      <td>${Math.floor(Math.random() * 80) + 10}</td>
-      <td>${p.badge ? `<span class="product-badge ${p.badge === 'new' ? 'new' : ''}">${p.badge}</span>` : '-'}</td>
-      <td><div class="action-btns">
-        <button class="action-btn btn-edit" onclick="showToast('Edit: ${p.name}')">✏️</button>
-        <button class="action-btn btn-del"  onclick="deleteProduct(${p.id})">🗑</button>
-      </div></td>
-    </tr>`).join('');
-}
-window.renderAdminProducts = renderAdminProducts;
 
+  const tbody = document.getElementById('admin-products-tbody');
+
+  if (!tbody) return;
+
+  tbody.innerHTML = adminProducts.map(p => `
+
+    <tr>
+
+      <td>
+
+        <div class="inline-flex">
+
+          <img
+            src="${p.image}"
+            alt="${p.name}"
+            style="
+              width:44px;
+              height:44px;
+              border-radius:10px;
+              object-fit:cover;
+            "
+          >
+
+          ${p.name}
+
+        </div>
+
+      </td>
+
+      <td>${p.cat}</td>
+
+      <td>
+
+        ${p.orig
+          ? `<del style="color:var(--muted);font-size:.8rem">
+              ₹${p.orig}
+            </del>`
+          : ''
+        }
+
+        <strong>₹${p.price}</strong>
+
+      </td>
+
+      <td>${Math.floor(Math.random() * 80) + 10}</td>
+
+      <td>
+
+        ${p.badge
+          ? `<span class="product-badge ${p.badge === 'new' ? 'new' : ''}">
+              ${p.badge}
+            </span>`
+          : '-'
+        }
+
+      </td>
+
+      <td>
+
+        <div class="action-btns">
+
+          <button
+            class="action-btn btn-edit"
+            onclick="showToast('Edit: ${p.name}')">
+            ✏️
+          </button>
+
+          <button
+            class="action-btn btn-del"
+            onclick="deleteProduct(${p.id})">
+            🗑
+          </button>
+
+        </div>
+
+      </td>
+
+    </tr>
+
+  `).join('');
+}
+
+window.renderAdminProducts = renderAdminProducts;
 // ============================================================
 // CART
 // ============================================================
