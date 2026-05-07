@@ -645,33 +645,116 @@ window.toggleWishlistDash = toggleWishlistDash;
 // QUICK VIEW
 // ============================================================
 function quickView(id) {
+
   const p = adminProducts.find(x => x.id === id);
+
   if (!p) return;
+
   const price = p.orig
-    ? `<del style="color:var(--muted)">₹${p.orig}</del> <strong style="color:var(--rose);font-size:1.3rem">₹${p.price}</strong>`
-    : `<strong style="font-size:1.3rem">₹${p.price}</strong>`;
-  const stars = '★'.repeat(p.stars) + '☆'.repeat(5 - p.stars);
+    ? `<del style="color:var(--muted)">₹${p.orig}</del>
+       <strong style="color:var(--rose);font-size:1.3rem">
+         ₹${p.price}
+       </strong>`
+    : `<strong style="font-size:1.3rem">
+         ₹${p.price}
+       </strong>`;
+
+  const stars =
+    '★'.repeat(p.stars) +
+    '☆'.repeat(5 - p.stars);
+
   document.getElementById('product-modal-content').innerHTML = `
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start">
-      <div class= "quickview-image ${p.bg}" style="aspect-ratio:1;border-radius:16px;font-size:5rem"> <img src="${p.image}" alt="${p.name}"></div>
-      <div>
-        <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem">${p.cat}</div>
-        <h2 style="font-family:var(--ff-head);font-size:1.5rem;margin-bottom:.5rem">${p.name}</h2>
-        <div style="font-size:.85rem;color:var(--rose);margin-bottom:.8rem">${stars}</div>
-        <div style="margin-bottom:1rem">${price}</div>
-        <div style="background:var(--warm);border-radius:10px;padding:.8rem 1rem;font-size:.83rem;color:var(--muted);margin-bottom:1rem">
-          📦 Size: ${p.size} &nbsp;·&nbsp; 🌿 100% Organic Muslin
+
+    <div class="quickview-layout">
+
+      <!-- LEFT IMAGES -->
+
+      <div class="quickview-gallery">
+
+        <div class="quickview-thumbs">
+
+          ${p.images.map((img,index)=>`
+
+            <img
+              src="${img}"
+              class="thumb ${index===0 ? 'active-thumb' : ''}"
+              onclick="changeQuickImage('${img}',this)"
+            >
+
+          `).join('')}
+
         </div>
-        <div style="display:flex;gap:.8rem">
-          <button class="btn-rose" style="flex:1" onclick="addToCart(${p.id});closeModal('product-modal')">Add to Cart 🛒</button>
-          <button class="btn-ghost" onclick="toggleWishlist(event,${p.id});closeModal('product-modal')">♡</button>
+
+        <div class="quickview-main-image">
+
+          <img
+            id="quickview-main-img"
+            src="${p.images[0]}"
+            alt="${p.name}"
+          >
+
         </div>
+
       </div>
-    </div>`;
+
+
+      <!-- RIGHT INFO -->
+
+      <div>
+
+        <div class="quickview-category">
+          ${p.cat}
+        </div>
+
+        <h2 class="quickview-title">
+          ${p.name}
+        </h2>
+
+        <div class="quickview-stars">
+          ${stars}
+        </div>
+
+        <div style="margin-bottom:1rem">
+          ${price}
+        </div>
+
+        <div class="quickview-size">
+          📦 Size: ${p.size}
+          &nbsp;·&nbsp;
+          🌿 100% Organic Muslin
+        </div>
+
+        <div style="display:flex;gap:.8rem">
+
+          <button
+            class="btn-rose"
+            style="flex:1"
+            onclick="addToCart(${p.id});closeModal('product-modal')">
+
+            Add to Cart 🛒
+
+          </button>
+
+          <button
+            class="btn-ghost"
+            onclick="toggleWishlist(event,${p.id});closeModal('product-modal')">
+
+            ♡
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  `;
+
   openModal('product-modal');
 }
-window.quickView = quickView;
 
+window.quickView = quickView;
 // ============================================================
 // DASHBOARD NAV
 // ============================================================
@@ -685,6 +768,16 @@ function showDashSection(name) {
 }
 window.showDashSection = showDashSection;
 
+function changeQuickImage(src, el) {
+
+  document.getElementById('quickview-main-img').src = src;
+
+  document.querySelectorAll('.thumb').forEach(t => {
+    t.classList.remove('active-thumb');
+  });
+
+  el.classList.add('active-thumb');
+}
 // ============================================================
 // ADMIN NAV & ACTIONS
 // ============================================================
