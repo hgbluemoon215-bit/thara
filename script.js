@@ -259,22 +259,9 @@ function productCardHTML(p, showWishlist = true) {
 
   return `
     <div class="product-card" onclick="quickView(${p.id})">
-
-      <div class="product-image ${p.bg}">
-
-        <img src="${p.image}" alt="${p.name}">
-
-        ${badge}
-
-        ${wishBtn}
-
-      </div>
-
-      <div class="product-info">
-
-        <div class="product-cat">
-          ${p.cat} · ${p.size}
-        </div>
+    <div class="product-image"><img src="${p.images[0]}" alt="${p.name}">${badge}${wishBtn}</div>
+    <div class="product-info">
+    <div class="product-cat">${p.cat} · ${p.size} </div>
 
         <div class="stars">${stars}</div>
 
@@ -282,9 +269,7 @@ function productCardHTML(p, showWishlist = true) {
 
         <div class="product-footer">
 
-          <div class="product-price">
-            ${price}
-          </div>
+          <div class="product-price">${price}  </div>
 
           <button class="add-cart"
             onclick="event.stopPropagation();addToCart(${p.id})">
@@ -366,9 +351,8 @@ function renderAdminProducts() {
       <td>
 
         <div class="inline-flex">
-
-          <img
-            src="${p.image}"
+         <img
+          src="${p.images[0]}"
             alt="${p.name}"
             style="
               width:44px;
