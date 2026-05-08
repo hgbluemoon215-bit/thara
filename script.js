@@ -70,7 +70,27 @@ let wishlist = [2,5,6,8];
 let isLoggedIn = false;
 let isAdmin = false;
 let discount = 0;
-let adminProducts = [...PRODUCTS];
+let adminProducts = [];
+
+// ============================================================
+// LOAD PRODUCTS FROM FIRESTORE
+// ============================================================
+async function loadProducts() {
+  try {
+    const snapshot = await getDocs(collection(db, 'products'));
+    adminProducts = snapshot.docs.map(d => ({
+      id: d.id,
+      ...d.data()
+    }));
+    renderHomeProducts();
+    renderCategoryProducts();
+    updateCartBadge();
+    console.log('✅ Products loaded from Firestore:', adminProducts.length);
+  } catch (err) {
+    console.error('❌ Error loading products:', err);
+  }
+}
+window.loadProducts = loadProducts;
 
 // ============================================================
 // ADMIN CREDENTIALS
@@ -950,27 +970,3 @@ window.addEventListener("DOMContentLoaded", () => {
 
 
 
-// ====================================================
-// ONE-TIME SEED — Delete after running once!
-// ====================================================
-async function seedProductsToFirestore() {
-  const products = [
-    { name:'Muslin Frock Button', cat:'dresses', image:'images/frock1.png',  price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale' },
-    { name:'Muslin Frock Knot',   cat:'dresses', image:'images/frock2.jpeg', price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale' },
-    { name:'Muslin Frock Zip',    cat:'dresses', image:'images/frock3.png',  price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale' },
-    { name:'Co-ord Set Dress',    cat:'coord',   image:'images/coord1.png',  price:799, size:'0-6M', stars:4, bg:'p2' },
-    { name:'Gift Combo Set',      cat:'gift',    image:'images/gift1.png',   price:999, size:'0–6M', stars:5, bg:'p3' },
-    { name:'Muslin Nappy',        cat:'accessories', image:'images/nappy1.png', price:199, size:'0–3M', stars:4, bg:'p4' },
-    { name:'Muslin Wipes',        cat:'accessories', image:'images/wipes1.png', price:149, size:'0–3M', stars:4, bg:'p5' },
-    { name:'Muslin Bath Towel',   cat:'bath',    image:'images/towel1.png',  price:299, size:'All', stars:4, bg:'p6' },
-    { name:'Hooded Towel',        cat:'bath',    image:'images/towel2.png',  price:349, size:'All', stars:4, bg:'p7' },
-    { name:'Muslin Jabla Knot',   cat:'dresses', image:'images/jabla1.png',  price:499, orig:699, size:'0–3M', stars:5, bg:'p1', badge:'sale' },
-    { name:'Muslin Jabla Button', cat:'dresses', image:'images/jabla2.png',  price:499, orig:699, size:'0–3M', stars:5, bg:'p1', badge:'sale' },
-  ];
-  for (const product of products) {
-    await addDoc(collection(db, 'products'), product);
-    console.log('✅ Added:', product.name);
-  }
-  showToast('All products uploaded! 🌸');
-}
-window.seedProductsToFirestore = seedProductsToFirestore;
