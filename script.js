@@ -1,18 +1,17 @@
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import {getAuth,signInWithEmailAndPassword,createUserWithEmailAndPassword,signOut,onAuthStateChanged} 
+from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, collection, getDocs, addDoc, deleteDoc, doc }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+import { getStorage, ref, uploadBytes, getDownloadURL }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
 // ============================================================
 // FIREBASE CONFIG
 // ============================================================
-const firebaseConfig = {
-  apiKey: "AIzaSyCJlgMT-KEYXFvm0UHxtpPmXeN15tDONYc",
+const firebaseConfig = { apiKey: "AIzaSyCJlgMT-KEYXFvm0UHxtpPmXeN15tDONYc",
   authDomain: "nivora-stores.firebaseapp.com",
   projectId: "nivora-stores",
   storageBucket: "nivora-stores.firebasestorage.app",
@@ -25,28 +24,42 @@ const firebaseConfig = {
 // ============================================================
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db      = getFirestore(app);
+const storage = getStorage(app);
 
 // ============================================================
 // DATA
 // ============================================================
 const PRODUCTS = [
-  {id:1, name:'Muslin Frock Button', cat:'dresses', image:'images/frock1.png', price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
-  {id:2, name:'Muslin Frock Knot', cat:'dresses', image:'images/frock2.jpeg', price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
-  {id:3, name:'Muslin Frock Zip', cat:'dresses', image:'images/frock3.png', price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
+  {id:1, name:'Muslin Frock Button', cat:'dresses', image:['images/frock1.png','images/frock button .png' ], price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
+  {id:2, name:'Muslin Frock Knot', cat:'dresses', image:['images/frock2.jpeg', 'images/frock knot.png' ],price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
+  {id:3, name:'Muslin Frock Zip', cat:'dresses', image:['images/frock3.png', 'images/frock zip.png' ],price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
 
-  {id:4, name:'Co-ord Set Dress', cat:'coord', image:'images/coord1.png', price:799, size:'0-6M', stars:4,  bg:'p2'},
+  {id:4, name:'Co-ord Set Dress', cat:'coord', image:['images/coord1.png','images/co ord set.png' ], price:799, size:'0-6M', stars:4,  bg:'p2'},
 
-  {id:5, name:'Gift Combo Set', cat:'gift', image:'images/gift1.png', price:999, size:'0–6M', stars:5, bg:'p3'},
+  {id:5, name:'Gift Combo Set', cat:'gift', image:['images/gift1.png', 'images/Gift set.png' ],price:999, size:'0–6M', stars:5, bg:'p3'},
 
-  {id:6, name:'Muslin Nappy', cat:'accessories', image:'images/nappy1.png', price:199, size:'0–3M', stars:4,bg:'p4'},
-  {id:7, name:'Muslin Wipes', cat:'accessories', image:'images/wipes1.png', price:149, size:'0–3M', stars:4,  bg:'p5'},
+  {id:6, name:'Muslin Nappy', cat:'accessories', image:['images/nappy1.png','images/nappy2.png' ], price:199, size:'0–3M', stars:4,bg:'p4'},
+  {id:7, name:'Muslin Wipes', cat:'accessories', image:['images/wipes1.png','images/wipes2.png'], price:149, size:'0–3M', stars:4,  bg:'p5'},
 
-  {id:8, name:'Muslin Bath Towel', cat:'bath', image:'images/towel1.png', price:299, size:'All', stars:4,  bg:'p6'},
-  {id:9, name:'Hooded Towel', cat:'bath', image:'images/towel2.png', price:349, size:'All', stars:4,  bg:'p7'},
-{id:10, name:'Muslin Jabla Knot', cat:'dresses', image:'images/jabla1.png', price:499, orig:699, size:'0–3M', stars:5, bg:'p1', badge:'sale'},
+  {id:8, name:'Muslin Bath Towel', cat:'bath', image:['images/towel1.png','images/bath towel.png'], price:299, size:'All', stars:4,  bg:'p6'},
+  {id:9, name:'Hooded Towel', cat:'bath', image:['images/towel2.png','images/hooded towel.png'], price:349, size:'All', stars:4,  bg:'p7'},
+{id:10, name:'Muslin Jabla Knot', cat:'dresses', image:['images/jabla1.png','images/jabla knot.png'], price:499, orig:699, size:'0–3M', stars:5, bg:'p1', badge:'sale'},
 
-{id:11, name:'Muslin Jabla Button', cat:'dresses', image:'images/jabla2.png', price:499, orig:699, size:'0–3M', stars:5,  bg:'p1', badge:'sale'}
+{id:11, name:'Muslin Jabla Button', cat:'dresses', image:['images/jabla2.png','images/jabla button.png'], price:499, orig:699, size:'0–3M', stars:5,  bg:'p1', badge:'sale'}
 ];
+
+async function loadProducts() {
+  const snapshot = await getDocs(collection(db, 'products'));
+  adminProducts = snapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data()
+  }));
+  renderHomeProducts();
+  renderCategoryProducts();
+  updateCartBadge();
+}
+window.loadProducts = loadProducts;
   
 // ================= CATEGORY FUNCTION =================
 function goToCategory(category){   
@@ -580,14 +593,33 @@ function backToAddress() {
   document.getElementById('step2').classList.remove('done');
   document.getElementById('step2').classList.add('active');
 }
-function placeOrder() {
+async function placeOrder() {
+  const orderData = {
+    items: cart.map(c => {
+      const p = adminProducts.find(x => x.id === c.id);
+      return { id: c.id, name: p.name, price: p.price, qty: c.qty };
+    }),
+    total: cart.reduce((s, c) => {
+      const p = adminProducts.find(x => x.id === c.id);
+      return s + p.price * c.qty;
+    }, 0),
+    status: 'Pending',
+    userId: auth.currentUser ? auth.currentUser.uid : 'guest',
+    createdAt: new Date()
+  };
+
+  // ✅ Save order to Firestore
+  const docRef = await addDoc(collection(db, 'orders'), orderData);
+
   document.getElementById('checkout-step-3').style.display = 'none';
   document.getElementById('checkout-step-4').style.display = 'block';
   document.getElementById('step3').classList.remove('active');
   document.getElementById('step3').classList.add('done');
   document.getElementById('step4').classList.add('active','done');
-  document.getElementById('order-id').textContent = '#NVR' + Date.now().toString().slice(-6);
-  cart = []; updateCartBadge();
+  document.getElementById('order-id').textContent = '#NVR' + docRef.id.slice(-6).toUpperCase();
+
+  cart = [];
+  updateCartBadge();
 }
 function selectPayMethod(el) {
   document.querySelectorAll('.pay-method').forEach(m => m.classList.remove('selected'));
@@ -812,10 +844,13 @@ function addProduct() {
   document.getElementById('ap-orig').value  = '';
   document.getElementById('ap-emoji').value = '';
 }
-function deleteProduct(id) {
+async function deleteProduct(id) {
   if (!confirm('Delete this product?')) return;
+  await deleteDoc(doc(db, 'products', id));   // ✅ deletes from Firestore
   adminProducts = adminProducts.filter(p => p.id !== id);
+  cart = cart.filter(c => c.id !== id);       // ✅ removes from cart too
   renderAdminProducts();
+  updateCartBadge();
   showToast('Product deleted');
 }
 function updateOrderStatus(select) {
@@ -894,7 +929,7 @@ document.addEventListener('keydown', function(e) {
 // INIT
 // ============================================================
 window.addEventListener('load', () => {
-  renderHomeProducts();
+  loadProducts();     // ✅ loads from Firestore
   updateCartBadge();
   initReveal();
 });
@@ -912,3 +947,30 @@ window.addEventListener("DOMContentLoaded", () => {
 
   setInterval(showNextSlide, 3000);
 });
+
+
+
+// ====================================================
+// ONE-TIME SEED — Delete after running once!
+// ====================================================
+async function seedProductsToFirestore() {
+  const products = [
+    { name:'Muslin Frock Button', cat:'dresses', image:'images/frock1.png',  price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale' },
+    { name:'Muslin Frock Knot',   cat:'dresses', image:'images/frock2.jpeg', price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale' },
+    { name:'Muslin Frock Zip',    cat:'dresses', image:'images/frock3.png',  price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale' },
+    { name:'Co-ord Set Dress',    cat:'coord',   image:'images/coord1.png',  price:799, size:'0-6M', stars:4, bg:'p2' },
+    { name:'Gift Combo Set',      cat:'gift',    image:'images/gift1.png',   price:999, size:'0–6M', stars:5, bg:'p3' },
+    { name:'Muslin Nappy',        cat:'accessories', image:'images/nappy1.png', price:199, size:'0–3M', stars:4, bg:'p4' },
+    { name:'Muslin Wipes',        cat:'accessories', image:'images/wipes1.png', price:149, size:'0–3M', stars:4, bg:'p5' },
+    { name:'Muslin Bath Towel',   cat:'bath',    image:'images/towel1.png',  price:299, size:'All', stars:4, bg:'p6' },
+    { name:'Hooded Towel',        cat:'bath',    image:'images/towel2.png',  price:349, size:'All', stars:4, bg:'p7' },
+    { name:'Muslin Jabla Knot',   cat:'dresses', image:'images/jabla1.png',  price:499, orig:699, size:'0–3M', stars:5, bg:'p1', badge:'sale' },
+    { name:'Muslin Jabla Button', cat:'dresses', image:'images/jabla2.png',  price:499, orig:699, size:'0–3M', stars:5, bg:'p1', badge:'sale' },
+  ];
+  for (const product of products) {
+    await addDoc(collection(db, 'products'), product);
+    console.log('✅ Added:', product.name);
+  }
+  showToast('All products uploaded! 🌸');
+}
+window.seedProductsToFirestore = seedProductsToFirestore;

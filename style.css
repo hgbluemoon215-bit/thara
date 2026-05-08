@@ -383,6 +383,7 @@ nav a:hover,nav a.active{color:var(--rose)}
 /* REVEAL ANIM */
 .reveal{opacity:0;transform:translateY(30px);transition:opacity .65s ease,transform .65s ease}
 .reveal.visible{opacity:1;transform:none}
+
 /* QUICK VIEW */
 
 .quickview-layout{
@@ -627,4 +628,20 @@ nav a:hover,nav a.active{color:var(--rose)}
 .modal-overlay.open{
   opacity:1;
   pointer-events:auto;
+}
+
+/* Image Fallbacks */
+.product-image img, .cart-item-img img, .quickview-main-image img {
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.product-card:hover .product-image img {
+  transform: scale(1.08);
+}
+
+/* Fix button z-index */
+.product-card button {
+  position: relative;
+  z-index: 10;
 }
