@@ -830,34 +830,68 @@ function toggleAddProductForm() {
   const f = document.getElementById('add-product-form');
   f.style.display = f.style.display === 'none' ? 'block' : 'none';
 }
-function addProduct() {
+async function addProduct() {
   const name  = document.getElementById('ap-name').value.trim();
   const cat   = document.getElementById('ap-cat').value;
   const price = parseInt(document.getElementById('ap-price').value) || 0;
   const orig  = parseInt(document.getElementById('ap-orig').value)  || 0;
   const size  = document.getElementById('ap-size').value;
-  const emoji = document.getElementById('ap-emoji').value || '👶';
   const badge = document.getElementById('ap-badge').value;
-  if (!name || !price) { showToast('Please fill required fields'); return; }
-  const bgs  = ['p1','p2','p3','p4','p5','p6','p7','p8'];
-  const newP = { id:Date.now(), name, cat, size, price, orig:orig||undefined, emoji, bg:bgs[adminProducts.length%8], badge, stars:5 };
-  adminProducts.push(newP);
-  renderAdminProducts();
-  toggleAddProductForm();
-  showToast('Product added successfully! 🌸');
-  document.getElementById('ap-name').value  = '';
-  document.getElementById('ap-price').value = '';
-  document.getElementById('ap-orig').value  = '';
-  document.getElementById('ap-emoji').value = '';
+
+  if (!name || !price) { 
+    showToast('Please fill required fields'); 
+    return; 
+  }
+
+  const bgs = ['p1','p2','p3','p4','p5','p6','p7','p8'];
+
+  const newProduct = {
+    name,
+    cat,
+    size,
+    price,
+    orig: orig || null,
+    badge: badge || null,
+    stars: 5,
+    bg: bgs[adminProducts.length % 8],
+    image: 'images/placeholder.png'  // default image
+  };
+
+  try {
+    // ✅ Save to Firestore
+    const docRef = await addDoc(collection(db, 'products'), newProduct);
+    
+    // ✅ Add to local array with Firestore ID
+    adminProducts.push({ id: docRef.id, ...newProduct });
+    
+    renderAdminProducts();
+    toggleAddProductForm();
+    showToast('Product added successfully! 🌸');
+
+    // ✅ Clear form fields
+    document.getElementById('ap-name').value  = '';
+    document.getElementById('ap-price').value = '';
+    document.getElementById('ap-orig').value  = '';
+
+  } catch (err) {
+    console.error('❌ Add product error:', err.message);
+    showToast('Error adding product');
+  }
 }
+  
 async function deleteProduct(id) {
   if (!confirm('Delete this product?')) return;
-  await deleteDoc(doc(db, 'products', id));   // ✅ deletes from Firestore
-  adminProducts = adminProducts.filter(p => p.id !== id);
-  cart = cart.filter(c => c.id !== id);       // ✅ removes from cart too
-  renderAdminProducts();
-  updateCartBadge();
-  showToast('Product deleted');
+  try {
+    await deleteDoc(doc(db, 'products', id));  // ✅ deletes from Firestore
+    adminProducts = adminProducts.filter(p => p.id !== id);
+    cart = cart.filter(c => c.id !== id);      // ✅ removes from cart too
+    renderAdminProducts();
+    updateCartBadge();
+    showToast('Product deleted 🗑');
+  } catch (err) {
+    console.error('❌ Delete error:', err.message);
+    showToast('Error deleting product');
+  }
 }
 function updateOrderStatus(select) {
   showToast('Order status updated to: ' + select.value + ' ✓');
