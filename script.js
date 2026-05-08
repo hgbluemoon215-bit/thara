@@ -72,25 +72,6 @@ let isAdmin = false;
 let discount = 0;
 let adminProducts = [];
 
-// ============================================================
-// LOAD PRODUCTS FROM FIRESTORE
-// ============================================================
-async function loadProducts() {
-  try {
-    const snapshot = await getDocs(collection(db, 'products'));
-    adminProducts = snapshot.docs.map(d => ({
-      id: d.id,
-      ...d.data()
-    }));
-    renderHomeProducts();
-    renderCategoryProducts();
-    updateCartBadge();
-    console.log('✅ Products loaded from Firestore:', adminProducts.length);
-  } catch (err) {
-    console.error('❌ Error loading products:', err);
-  }
-}
-window.loadProducts = loadProducts;
 
 // ============================================================
 // ADMIN CREDENTIALS
