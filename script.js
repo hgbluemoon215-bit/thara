@@ -48,19 +48,24 @@ const PRODUCTS = [
 
 {id:11, name:'Muslin Jabla Button', cat:'dresses', image:['images/Jabla2.png','images/jabla button.png'], price:499, orig:699, size:'0–3M', stars:5,  bg:'p1', badge:'sale'}
 ];
-
 async function loadProducts() {
-  const snapshot = await getDocs(collection(db, 'products'));
-  adminProducts = snapshot.docs.map(doc => ({
-    id: doc.id,
-    ...doc.data()
-  }));
-  renderHomeProducts();
-  renderCategoryProducts();
-  updateCartBadge();
+  try {
+    console.log('🔄 Loading products from Firestore...');
+    const snapshot = await getDocs(collection(db, 'products'));
+    console.log('📦 Snapshot size:', snapshot.size);
+    adminProducts = snapshot.docs.map(d => ({
+      id: d.id,
+      ...d.data()
+    }));
+    console.log('✅ Products loaded:', adminProducts.length);
+    renderHomeProducts();
+    renderCategoryProducts();
+    updateCartBadge();
+  } catch (err) {
+    console.error('❌ Firestore error:', err.message);
+  }
 }
 window.loadProducts = loadProducts;
-  
 // ================= CATEGORY FUNCTION =================
 function goToCategory(category){   
   showPage('categories');           
