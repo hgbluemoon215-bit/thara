@@ -4,7 +4,6 @@ import {getAuth,signInWithEmailAndPassword,createUserWithEmailAndPassword,signOu
 from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFirestore, collection, getDocs, getDoc, addDoc, deleteDoc, doc }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
 import { getStorage, ref, uploadBytes, getDownloadURL }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
@@ -206,7 +205,6 @@ function doRegister() {
 }
 window.doRegister = doRegister;
 
-
 async function doAdminLogin() {
   const email = document.getElementById('admin-user').value.trim();
   const pass  = document.getElementById('admin-pass').value;
@@ -215,24 +213,23 @@ async function doAdminLogin() {
 
   try {
     const userCred = await signInWithEmailAndPassword(auth, email, pass);
+    const uid = userCred.user.uid;
 
-    // Check if this user is an admin in Firestore
-    const adminDoc = await getDocs(collection(db, 'admins'));
-    const isAdminUser = adminDoc.docs.some(d => d.id === userCred.user.uid);
+    const adminSnap = await getDoc(doc(db, 'admins', uid));
 
-    if (isAdminUser) {
+    if (adminSnap.exists()) {
       isAdmin    = true;
       isLoggedIn = true;
       closeModal('login-modal');
-      showToast('Admin login successful 🌸');
+      showToast('Welcome back, Admin! 🌸');
       showPage('admin');
     } else {
-      // Not an admin — sign them out immediately
       await signOut(auth);
       showToast('Access denied. Not an admin account.');
     }
   } catch (err) {
-    showToast('Invalid credentials');
+    showToast(err.code + ': ' + err.message);
+    console.error('Admin login error:', err.code, err.message);
   }
 }
 window.doAdminLogin = doAdminLogin;
