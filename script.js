@@ -78,11 +78,6 @@ let discount = 0;
 let adminProducts = [];
 
 
-// ============================================================
-// ADMIN CREDENTIALS
-// ============================================================
-const ADMIN_EMAIL = "admin@nivora.in";   // ← change to your admin email
-const ADMIN_PASS  = "admin123";          // ← change to your admin password
 
 // ============================================================
 // AUTH STATE LISTENER
@@ -211,18 +206,33 @@ function doRegister() {
 }
 window.doRegister = doRegister;
 
-function doAdminLogin() {
-  const user = document.getElementById('admin-user').value.trim();
-  const pass = document.getElementById('admin-pass').value;
 
-  if (user === ADMIN_EMAIL && pass === ADMIN_PASS) {
-    isAdmin    = true;
-    isLoggedIn = true;
-    closeModal('login-modal');
-    showToast('Admin login successful 🌸');
-    showPage('admin');
-  } else {
-    showToast('Invalid admin credentials');
+async function doAdminLogin() {
+  const email = document.getElementById('admin-user').value.trim();
+  const pass  = document.getElementById('admin-pass').value;
+
+  if (!email || !pass) { showToast('Please fill all fields'); return; }
+
+  try {
+    const userCred = await signInWithEmailAndPassword(auth, email, pass);
+
+    // Check if this user is an admin in Firestore
+    const adminDoc = await getDocs(collection(db, 'admins'));
+    const isAdminUser = adminDoc.docs.some(d => d.id === userCred.user.uid);
+
+    if (isAdminUser) {
+      isAdmin    = true;
+      isLoggedIn = true;
+      closeModal('login-modal');
+      showToast('Admin login successful 🌸');
+      showPage('admin');
+    } else {
+      // Not an admin — sign them out immediately
+      await signOut(auth);
+      showToast('Access denied. Not an admin account.');
+    }
+  } catch (err) {
+    showToast('Invalid credentials');
   }
 }
 window.doAdminLogin = doAdminLogin;
