@@ -280,8 +280,7 @@ function productCardHTML(p, showWishlist = true) {
     <div class="product-card" onclick="quickView(${p.id})">
 
       <div class="product-image ${p.bg}">
-
-        <img src="${p.image}" alt="${p.name}">
+         <img src="${Array.isArray(p.image) ? p.image[0] : p.image}" alt="${p.name}"
 
         ${badge}
 
@@ -495,7 +494,8 @@ function renderCart() {
     const p = adminProducts.find(x => x.id === c.id);
     if (!p) return '';
     return `<div class="cart-item">
-      <div class="cart-item-img ${p.bg}">${p.image}</div>
+    <div class="cart-item-img ${p.bg}"><img src="${Array.isArray(p.image) ? p.image[0] : p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;"></div>
+     
       <div class="cart-item-info">
         <div class="cart-item-name">${p.name}</div>
         <div class="cart-item-meta">${p.cat} · ${p.size}</div>
@@ -710,8 +710,8 @@ function quickView(id) {
       <div class="quickview-gallery">
 
         <div class="quickview-thumbs">
-
-          ${p.images.map((img,index)=>`
+         ${(Array.isArray(p.images) ? p.images : (Array.isArray(p.image) ? p.image : [p.image])).map((img,index)=>`
+          
 
             <img
               src="${img}"
