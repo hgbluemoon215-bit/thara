@@ -990,3 +990,24 @@ window.addEventListener("DOMContentLoaded", () => {
 
 
 
+async function seedProductsToFirestore() {
+  for (const p of PRODUCTS) {
+    await addDoc(collection(db, 'products'), {
+      name: p.name,
+      cat: p.cat,
+      price: p.price,
+      orig: p.orig || null,
+      size: p.size,
+      stars: p.stars,
+      bg: p.bg,
+      badge: p.badge || null,
+      image: p.image[0],   // main image
+      images: p.image       // all images for quick view
+    });
+  }
+  console.log('✅ All products seeded to Firestore!');
+}
+window.seedProductsToFirestore = seedProductsToFirestore;
+
+
+
