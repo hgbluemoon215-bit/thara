@@ -646,3 +646,88 @@ nav a:hover,nav a.active{color:var(--rose)}
   position: relative;
   z-index: 10;
 }
+
+
+
+/* ================= MOBILE NAVBAR ================= */
+
+@media(max-width:768px){
+
+.header-inner{
+height:80px;
+padding:0 16px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+}
+
+/* MENU ICON */
+.menu-toggle{
+font-size:34px;
+margin-right:10px;
+flex-shrink:0;
+}
+
+/* LOGO CENTER */
+.logo-wrap{
+position:static;
+transform:none;
+display:flex;
+align-items:center;
+gap:10px;
+margin-right:auto;
+}
+
+/* LOGO IMAGE */
+.logo-mark{
+width:60px;
+height:60px;
+flex-shrink:0;
+}
+
+/* BRAND TEXT */
+.logo-title{
+font-size:22px;
+line-height:1;
+}
+
+.logo-sub{
+font-size:9px;
+letter-spacing:2px;
+}
+
+/* RIGHT ICONS */
+.header-icons{
+display:flex;
+align-items:center;
+gap:2px;
+margin-left:8px;
+}
+
+.icon-btn{
+width:34px;
+height:34px;
+}
+
+.icon-btn svg{
+width:18px;
+height:18px;
+}
+
+/* HIDE SEARCH ICON IN MOBILE */
+.header-icons .icon-btn:first-child{
+display:none;
+}
+
+/* MOBILE SIDEBAR */
+nav{
+width:240px;
+padding-top:90px;
+}
+
+nav a{
+font-size:16px;
+padding:10px 0;
+}
+
+}
