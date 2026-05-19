@@ -1020,4 +1020,4 @@ window.seedProductsToFirestore = seedProductsToFirestore;
 function toggleMenu() {
   document.getElementById("main-nav").classList.toggle("active");
 }
-
+window.toggleMenu = toggleMenu;
