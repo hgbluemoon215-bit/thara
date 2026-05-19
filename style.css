@@ -935,3 +935,80 @@ padding:10px 0;
 }
 
 }
+
+
+/* ===== MOBILE IMAGE FIX ===== */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.hero-img-frame {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.hero-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: none;
+}
+
+.hero-image.active {
+  display: block;
+}
+
+/* Mobile hero layout */
+@media (max-width: 768px) {
+  .hero {
+    flex-direction: column !important;
+    padding: 1.5rem 1rem !important;
+  }
+
+  .hero-visual {
+    width: 100% !important;
+    margin-top: 1.5rem;
+  }
+
+  .hero-img-frame {
+    height: 260px;
+  }
+
+  .hero-image.active {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+  }
+
+  .hero-tag-float {
+    display: none; /* hide floating tag on mobile to avoid overlap */
+  }
+
+  /* Category cards grid on mobile */
+  .cats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+    padding: 0 1rem !important;
+  }
+
+  /* Products grid on mobile */
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+    padding: 0 1rem !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .cats-grid {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+/* Prevent horizontal scroll on mobile */
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}

@@ -33,7 +33,7 @@
     </a>
     <nav id="main-nav">
       <a href="#" onclick="showPage('home')" data-page="home" class="active">Home</a>
-      <a href="#" onclick="showPage('categories')" data-page="categories">Categories</a>
+      <a href="#" onclick="showPage('categories'); return false;" data-page="categories">Categories ▾</a>
       <a href="#"onclick="document.getElementById('products-home').scrollIntoView({behavior:'smooth'});showPage('home')" data-page="">Shop</a>
       <a href="#" onclick="scrollToSection('why-home')" data-page="">About Us</a>
       <a href="#" onclick="scrollToSection('contact-home')" data-page="">Contact</a>

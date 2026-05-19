@@ -131,6 +131,42 @@ function scrollToSection(id) {
 window.scrollToSection = scrollToSection;
 window.goToCategory = goToCategory;
 
+
+function goToCategory(cat) {
+  showPage('categories');
+
+  // Wait for page to render, then click the right filter tab
+  setTimeout(() => {
+    const catMap = {
+      'dresses':     'Dresses',
+      'coord':       'Co-ord Sets',
+      'gift':        'Gift Sets',
+      'accessories': 'Accessories',
+      'bath':        'Bath Essentials'
+    };
+    const label = catMap[cat];
+    if (!label) return;
+
+    const tabs = document.querySelectorAll('#page-categories .filter-tabs .tab');
+    tabs.forEach(tab => {
+      if (tab.textContent.trim() === label) {
+        tab.click();
+      }
+    });
+
+    // Scroll to the right section
+    const sectionMap = {
+      'dresses':     'cat-dresses-grid',
+      'coord':       'cat-coord-grid',
+      'gift':        'cat-gift-grid',
+      'accessories': 'cat-accessories-grid',
+      'bath':        'cat-bath-grid'
+    };
+    const el = document.getElementById(sectionMap[cat]);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 100);
+}
+
 // ============================================================
 // MODAL HELPERS
 // ============================================================
