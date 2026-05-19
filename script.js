@@ -1016,5 +1016,8 @@ async function seedProductsToFirestore() {
 }
 window.seedProductsToFirestore = seedProductsToFirestore;
 
-
+// MOBILE MENU
+function toggleMenu() {
+  document.getElementById("main-nav").classList.toggle("active");
+}
 
