@@ -295,9 +295,11 @@ async function doAdminLogin() {
       await signOut(auth);
       showToast('Access denied. Not an admin account.');
     }
-  } catch (err) {
-    showToast('Invalid credentials');
-  }
+  } 
+catch (err) {
+  console.log(err);
+  showToast(err.message);
+}
 }
 window.doAdminLogin = doAdminLogin;
 
