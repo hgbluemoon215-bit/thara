@@ -76,20 +76,19 @@ const PRODUCTS = [
 ];
 async function loadProducts() {
   try {
-    console.log('🔄 Loading products from Firestore...');
     const snapshot = await getDocs(collection(db, 'products'));
-    console.log('📦 Snapshot size:', snapshot.size);
-    adminProducts = snapshot.docs.map(d => ({
-      id: d.id,
-      ...d.data()
-    }));
-    console.log('✅ Products loaded:', adminProducts.length);
-    renderHomeProducts();
-    renderCategoryProducts();
-    updateCartBadge();
+    if (snapshot.size > 0) {
+      adminProducts = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+    } else {
+      adminProducts = PRODUCTS;
+    }
   } catch (err) {
-    console.error('❌ Firestore error:', err.message);
+    console.error('Firestore error, using local data:', err.message);
+    adminProducts = PRODUCTS;
   }
+  renderHomeProducts();
+  renderCategoryProducts();
+  updateCartBadge();
 }
 window.loadProducts = loadProducts;
 // goToCategory is defined at the top of the file
@@ -284,7 +283,7 @@ window.logoutAdmin = logoutAdmin;
 
 function productCardHTML(p, showWishlist = true) {
 
-  const inWish = wishlist.includes(p.id);
+  const inWish = wishlist.includes(String(p.id));
 
   const badge =
     p.badge === 'sale'
@@ -303,14 +302,14 @@ function productCardHTML(p, showWishlist = true) {
 
   const wishBtn = showWishlist
     ? `<button class="wishlist-btn"
-        onclick="toggleWishlist(event,${p.id})"
+        onclick="toggleWishlist(event,'${p.id}')"
         style="color:${inWish ? '#D4637A' : ''}">
         ${inWish ? '♥' : '♡'}
       </button>`
     : '';
 
   return `
-    <div class="product-card" onclick="quickView(${p.id})">
+    <div class="product-card" onclick="quickView('${p.id}')">
 
       <div class="product-image ${p.bg}">
          <img src="${Array.isArray(p.image) ? p.image[0] : p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;display:block;">
@@ -338,7 +337,7 @@ function productCardHTML(p, showWishlist = true) {
           </div>
 
           <button class="add-cart"
-            onclick="event.stopPropagation();addToCart(${p.id})">
+            onclick="event.stopPropagation();addToCart('${p.id}')">
             +
           </button>
 
@@ -493,9 +492,10 @@ window.renderAdminProducts = renderAdminProducts;
 // CART
 // ============================================================
 function addToCart(id) {
-  const p = adminProducts.find(x => x.id === id);
+  id = String(id);
+  const p = adminProducts.find(x => String(x.id) === id);
   if (!p) { showToast('Product not found'); return; }
-  const existing = cart.find(c => c.id === id);
+  const existing = cart.find(c => String(c.id) === id);
   if (existing) existing.qty++;
   else cart.push({id, qty:1});
   updateCartBadge();
@@ -549,13 +549,13 @@ function renderCart() {
 }
 
 function changeQty(id, delta) {
-  const item = cart.find(c => c.id === id);
+  const item = cart.find(c => String(c.id) === String(id));
   if (!item) return;
   item.qty = Math.max(1, item.qty + delta);
   renderCart(); updateCartBadge();
 }
 function removeFromCart(id) {
-  cart = cart.filter(c => c.id !== id);
+  cart = cart.filter(c => String(c.id) !== String(id));
   renderCart(); updateCartBadge();
 }
 function clearCart() {
@@ -680,9 +680,10 @@ window.formatCard       = formatCard;
 // ============================================================
 function toggleWishlist(e, id) {
   e.stopPropagation();
+  id = String(id);
   if (wishlist.includes(id)) wishlist = wishlist.filter(x => x !== id);
   else wishlist.push(id);
-  const p = adminProducts.find(x => x.id === id);
+  const p = adminProducts.find(x => String(x.id) === String(id));
   showToast(wishlist.includes(id) ? `Added to wishlist ♥` : p.name + ' removed from wishlist');
   renderHomeProducts();
   renderCategoryProducts();
@@ -722,7 +723,7 @@ window.toggleWishlistDash = toggleWishlistDash;
 // ============================================================
 function quickView(id) {
 
-  const p = adminProducts.find(x => x.id === id);
+  const p = adminProducts.find(x => String(x.id) === String(id));
 
   if (!p) return;
 
@@ -808,7 +809,7 @@ function quickView(id) {
           <button
             class="btn-rose"
             style="flex:1"
-            onclick="addToCart(${p.id});closeModal('product-modal')">
+            onclick="addToCart('${p.id}');closeModal('product-modal')">
 
             Add to Cart 🛒
 
@@ -816,7 +817,7 @@ function quickView(id) {
 
           <button
             class="btn-ghost"
-            onclick="toggleWishlist(event,${p.id});closeModal('product-modal')">
+            onclick="toggleWishlist(event,'${p.id}');closeModal('product-modal')">
 
             ♡
 
@@ -925,7 +926,7 @@ async function deleteProduct(id) {
   try {
     await deleteDoc(doc(db, 'products', id));  // ✅ deletes from Firestore
     adminProducts = adminProducts.filter(p => p.id !== id);
-    cart = cart.filter(c => c.id !== id);      // ✅ removes from cart too
+    cart = cart.filter(c => String(c.id) !== String(id));      // ✅ removes from cart too
     renderAdminProducts();
     updateCartBadge();
     showToast('Product deleted 🗑');
