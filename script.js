@@ -183,6 +183,7 @@ function showPage(page) {
   if (page === 'admin') {
     if (!isAdmin) { openModal('login-modal'); showAdminLogin(); return; }
     renderAdminProducts();
+     loadMessages();
   }
 }
 
@@ -1024,6 +1025,55 @@ function showToast(msg) {
 }
 window.showToast = showToast;
 
+async function sendContactMessage() {
+
+  const name =
+    document.getElementById('contact-name').value.trim();
+
+  const email =
+    document.getElementById('contact-email').value.trim();
+
+  const message =
+    document.getElementById('contact-message').value.trim();
+
+  if(!name || !email || !message){
+
+    showToast('Please fill all fields');
+
+    return;
+  }
+
+  try{
+
+    await addDoc(collection(db,'messages'),{
+
+      name,
+      email,
+      message,
+      createdAt:new Date()
+
+    });
+
+    showToast('Message sent 🌸');
+
+    document.getElementById('contact-name').value = '';
+
+    document.getElementById('contact-email').value = '';
+
+    document.getElementById('contact-message').value = '';
+
+  }catch(err){
+
+    console.log(err);
+
+    showToast('Error sending message');
+
+  }
+
+}
+
+window.sendContactMessage = sendContactMessage;
+
 // ============================================================
 // SCROLL REVEAL
 // ============================================================
@@ -1114,3 +1164,45 @@ function closeSidebar() {
 
 window.openSidebar = openSidebar;
 window.closeSidebar = closeSidebar;
+
+
+async function loadMessages(){
+
+  const container =
+    document.getElementById('admin-messages-list');
+
+  if(!container) return;
+
+  const snapshot =
+    await getDocs(collection(db,'messages'));
+
+  container.innerHTML =
+    snapshot.docs.map(doc => {
+
+      const m = doc.data();
+
+      return `
+
+      <div style="
+        background:#fff;
+        padding:20px;
+        border-radius:16px;
+        margin-bottom:15px;
+        box-shadow:0 4px 20px rgba(0,0,0,0.06)
+      ">
+
+        <h3>${m.name}</h3>
+
+        <p>${m.email}</p>
+
+        <p>${m.message}</p>
+
+      </div>
+
+      `;
+
+    }).join('');
+
+}
+
+window.loadMessages = loadMessages;
