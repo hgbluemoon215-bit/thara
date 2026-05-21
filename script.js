@@ -1096,9 +1096,7 @@ async function seedProductsToFirestore() {
 window.seedProductsToFirestore = seedProductsToFirestore;
 loadProducts();
 
-
 function openSidebar() {
-
   document.getElementById('sidebar')
     .classList.add('active');
 
@@ -1107,7 +1105,6 @@ function openSidebar() {
 }
 
 function closeSidebar() {
-
   document.getElementById('sidebar')
     .classList.remove('active');
 
