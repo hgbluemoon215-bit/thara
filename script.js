@@ -1,4 +1,51 @@
+window.goToCategory = function(cat) {
 
+  showPage('categories');
+
+  setTimeout(() => {
+
+    const catMap = {
+      dresses: 'Dresses',
+      coord: 'Co-ord Sets',
+      gift: 'Gift Sets',
+      accessories: 'Accessories',
+      bath: 'Bath Essentials'
+    };
+
+    const label = catMap[cat];
+
+    if (!label) return;
+
+    const tabs = document.querySelectorAll(
+      '#page-categories .filter-tabs .tab'
+    );
+
+    tabs.forEach(tab => {
+      if (tab.textContent.trim() === label) {
+        tab.click();
+      }
+    });
+
+    const sectionMap = {
+      dresses: 'cat-dresses-grid',
+      coord: 'cat-coord-grid',
+      gift: 'cat-gift-grid',
+      accessories: 'cat-accessories-grid',
+      bath: 'cat-bath-grid'
+    };
+
+    const el = document.getElementById(sectionMap[cat]);
+
+    if (el) {
+      el.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+
+  }, 300);
+
+};
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {getAuth,signInWithEmailAndPassword,createUserWithEmailAndPassword,signOut,onAuthStateChanged} 
 from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
@@ -26,6 +73,13 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db      = getFirestore(app);
 const storage = getStorage(app);
+
+let cart = [];
+let wishlist = [];
+let isLoggedIn = false;
+let isAdmin = false;
+let discount = 0;
+let adminProducts = [];
 
 // ============================================================
 // DATA
@@ -142,8 +196,6 @@ function scrollToSection(id) {
   }, 100);
 }
 window.scrollToSection = scrollToSection;
-window.goToCategory = goToCategory;
-
 // ============================================================
 // MODAL HELPERS
 // ============================================================
