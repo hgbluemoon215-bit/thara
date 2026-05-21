@@ -23,7 +23,7 @@ function goToCategory(cat) {
     };
     const el = document.getElementById(sectionMap[cat]);
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 100);
+  }, 300);
 }
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {getAuth,signInWithEmailAndPassword,createUserWithEmailAndPassword,signOut,onAuthStateChanged} 
@@ -92,12 +92,9 @@ async function loadProducts() {
   }
 }
 window.loadProducts = loadProducts;
-// ================= CATEGORY FUNCTION =================
-function goToCategory(category){   
-  showPage('categories');           
-}
-let cart = [{id:1,qty:1},{id:3,qty:1}];
-let wishlist = [2,5,6,8];
+// goToCategory is defined at the top of the file
+let cart = [];
+let wishlist = [];
 let isLoggedIn = false;
 let isAdmin = false;
 let discount = 0;
@@ -316,7 +313,7 @@ function productCardHTML(p, showWishlist = true) {
     <div class="product-card" onclick="quickView(${p.id})">
 
       <div class="product-image ${p.bg}">
-         <img src="${Array.isArray(p.image) ? p.image[0] : p.image}" alt="${p.name}"
+         <img src="${Array.isArray(p.image) ? p.image[0] : p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;display:block;">
 
         ${badge}
 
@@ -478,7 +475,7 @@ function renderAdminProducts() {
 
           <button
             class="action-btn btn-del"
-            onclick="deleteProduct(${p.id})">
+            onclick="deleteProduct('${p.id}')">
             🗑
           </button>
 
@@ -496,11 +493,12 @@ window.renderAdminProducts = renderAdminProducts;
 // CART
 // ============================================================
 function addToCart(id) {
+  const p = adminProducts.find(x => x.id === id);
+  if (!p) { showToast('Product not found'); return; }
   const existing = cart.find(c => c.id === id);
   if (existing) existing.qty++;
   else cart.push({id, qty:1});
   updateCartBadge();
-  const p = adminProducts.find(x => x.id === id);
   showToast(`${p.name} added to cart! 🛒`);
 }
 window.addToCart = addToCart;
@@ -599,7 +597,7 @@ function renderCheckoutSummary() {
     const p = adminProducts.find(x => x.id === c.id);
     if (!p) return '';
     return `<div style="display:flex;align-items:center;gap:.8rem;margin-bottom:.8rem;padding-bottom:.8rem;border-bottom:1px solid rgba(212,99,122,.06)">
-      <div style="width:44px;height:44px;border-radius:10px;display:grid;place-items:center;font-size:1.3rem;flex-shrink:0" class="${p.bg}">${p.image}</div>
+      <div style="width:44px;height:44px;border-radius:10px;overflow:hidden;flex-shrink:0" class="${p.bg}"><img src="${Array.isArray(p.image) ? p.image[0] : p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;"></div>
       <div style="flex:1;font-size:.88rem">${p.name}<br/><span style="color:var(--muted);font-size:.75rem">Qty: ${c.qty}</span></div>
       <div style="font-weight:600;font-size:.9rem">₹${p.price * c.qty}</div>
     </div>`;
@@ -695,14 +693,16 @@ function renderWishlistDash() {
   const items = adminProducts.filter(p => wishlist.includes(p.id));
   grid.innerHTML = items.length ? items.map(p => `
     <div class="product-card">
-      <div class="product-img"><div class="product-img-bg ${p.bg}">${p.emoji}</div>
-      <button class="wishlist-btn" onclick="toggleWishlistDash(${p.id})" style="color:#D4637A">♥</button></div>
+      <div class="product-image ${p.bg}">
+        <img src="${Array.isArray(p.image) ? p.image[0] : p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <button class="wishlist-btn" onclick="toggleWishlistDash('${p.id}')" style="color:#D4637A">♥</button>
+      </div>
       <div class="product-info">
         <div class="product-cat">${p.cat}</div>
         <div class="product-name">${p.name}</div>
         <div class="product-footer">
           <div class="product-price">₹${p.price}</div>
-          <button class="add-cart" onclick="addToCart(${p.id})">+</button>
+          <button class="add-cart" onclick="addToCart('${p.id}')">+</button>
         </div>
       </div>
     </div>`).join('')
@@ -711,6 +711,8 @@ function renderWishlistDash() {
 function toggleWishlistDash(id) {
   wishlist = wishlist.filter(x => x !== id);
   renderWishlistDash();
+  renderHomeProducts();
+  renderCategoryProducts();
 }
 window.toggleWishlist     = toggleWishlist;
 window.toggleWishlistDash = toggleWishlistDash;
@@ -737,6 +739,9 @@ function quickView(id) {
     '★'.repeat(p.stars) +
     '☆'.repeat(5 - p.stars);
 
+  const allImages = Array.isArray(p.images) ? p.images : (Array.isArray(p.image) ? p.image : [p.image]);
+  const mainImg = allImages[0];
+
   document.getElementById('product-modal-content').innerHTML = `
 
     <div class="quickview-layout">
@@ -746,7 +751,7 @@ function quickView(id) {
       <div class="quickview-gallery">
 
         <div class="quickview-thumbs">
-         ${(Array.isArray(p.images) ? p.images : (Array.isArray(p.image) ? p.image : [p.image])).map((img,index)=>`
+         ${allImages.map((img,index)=>`
           
 
             <img
@@ -763,7 +768,7 @@ function quickView(id) {
 
           <img
             id="quickview-main-img"
-            src="${p.images[0]}"
+            src="${mainImg}"
             alt="${p.name}"
           >
 
@@ -1044,5 +1049,3 @@ async function seedProductsToFirestore() {
   console.log('✅ All products seeded to Firestore!');
 }
 window.seedProductsToFirestore = seedProductsToFirestore;
-
-
