@@ -127,7 +127,7 @@ async function loadProducts() {
     }
 
     console.log('✅ Products loaded:', adminProducts.length);
-
+    console.log(adminProducts);
     renderHomeProducts();
     renderCategoryProducts();
     updateCartBadge();
