@@ -4,6 +4,7 @@ import {getAuth,signInWithEmailAndPassword,createUserWithEmailAndPassword,signOu
 from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFirestore, collection, getDocs, getDoc, addDoc, deleteDoc, doc }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
 import { getStorage, ref, uploadBytes, getDownloadURL }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
@@ -131,42 +132,6 @@ function scrollToSection(id) {
 window.scrollToSection = scrollToSection;
 window.goToCategory = goToCategory;
 
-
-function goToCategory(cat) {
-  showPage('categories');
-
-  // Wait for page to render, then click the right filter tab
-  setTimeout(() => {
-    const catMap = {
-      'dresses':     'Dresses',
-      'coord':       'Co-ord Sets',
-      'gift':        'Gift Sets',
-      'accessories': 'Accessories',
-      'bath':        'Bath Essentials'
-    };
-    const label = catMap[cat];
-    if (!label) return;
-
-    const tabs = document.querySelectorAll('#page-categories .filter-tabs .tab');
-    tabs.forEach(tab => {
-      if (tab.textContent.trim() === label) {
-        tab.click();
-      }
-    });
-
-    // Scroll to the right section
-    const sectionMap = {
-      'dresses':     'cat-dresses-grid',
-      'coord':       'cat-coord-grid',
-      'gift':        'cat-gift-grid',
-      'accessories': 'cat-accessories-grid',
-      'bath':        'cat-bath-grid'
-    };
-    const el = document.getElementById(sectionMap[cat]);
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 100);
-}
-
 // ============================================================
 // MODAL HELPERS
 // ============================================================
@@ -241,6 +206,7 @@ function doRegister() {
 }
 window.doRegister = doRegister;
 
+
 async function doAdminLogin() {
   const email = document.getElementById('admin-user').value.trim();
   const pass  = document.getElementById('admin-pass').value;
@@ -249,23 +215,24 @@ async function doAdminLogin() {
 
   try {
     const userCred = await signInWithEmailAndPassword(auth, email, pass);
-    const uid = userCred.user.uid;
 
-    const adminSnap = await getDoc(doc(db, 'admins', uid));
+    // Check if this user is an admin in Firestore
+    const adminDoc = await getDocs(collection(db, 'admins'));
+    const isAdminUser = adminDoc.docs.some(d => d.id === userCred.user.uid);
 
-    if (adminSnap.exists()) {
+    if (isAdminUser) {
       isAdmin    = true;
       isLoggedIn = true;
       closeModal('login-modal');
-      showToast('Welcome back, Admin! 🌸');
+      showToast('Admin login successful 🌸');
       showPage('admin');
     } else {
+      // Not an admin — sign them out immediately
       await signOut(auth);
       showToast('Access denied. Not an admin account.');
     }
   } catch (err) {
-    showToast(err.code + ': ' + err.message);
-    console.error('Admin login error:', err.code, err.message);
+    showToast('Invalid credentials');
   }
 }
 window.doAdminLogin = doAdminLogin;
@@ -1052,8 +1019,4 @@ async function seedProductsToFirestore() {
 }
 window.seedProductsToFirestore = seedProductsToFirestore;
 
-// MOBILE MENU
-function toggleMenu() {
-  document.getElementById("main-nav").classList.toggle("active");
-}
-window.toggleMenu = toggleMenu;
+
