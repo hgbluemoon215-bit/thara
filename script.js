@@ -48,32 +48,48 @@ const PRODUCTS = [
 
 {id:11, name:'Muslin Jabla Button', cat:'dresses', image:['images/Jabla2.png','images/jabla button.png'], price:499, orig:699, size:'0–3M', stars:5,  bg:'p1', badge:'sale'}
 ];
+
 async function loadProducts() {
   try {
+    console.log('🔄 Loading products from Firestore...');
+
     const snapshot = await getDocs(collection(db, 'products'));
-    if (snapshot.size > 0) {
-      adminProducts = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-    } else {
+
+    console.log('📦 Snapshot size:', snapshot.size);
+
+    if (snapshot.empty) {
+
+      console.log('⚠ Firestore empty — using local PRODUCTS');
+
       adminProducts = PRODUCTS;
+
+    } else {
+
+      adminProducts = snapshot.docs.map(d => ({
+        id: d.id,
+        ...d.data()
+      }));
+
     }
+
+    console.log('✅ Products loaded:', adminProducts.length);
+
+    renderHomeProducts();
+    renderCategoryProducts();
+    updateCartBadge();
+
   } catch (err) {
-    console.error('Firestore error, using local data:', err.message);
+
+    console.error('❌ Firestore error:', err.message);
+
+    // FALLBACK
     adminProducts = PRODUCTS;
+
+    renderHomeProducts();
+    renderCategoryProducts();
+    updateCartBadge();
   }
-  renderHomeProducts();
-  renderCategoryProducts();
-  updateCartBadge();
 }
-window.loadProducts = loadProducts;
-// goToCategory is defined at the top of the file
-let cart = [];
-let wishlist = [];
-let isLoggedIn = false;
-let isAdmin = false;
-let discount = 0;
-let adminProducts = [];
-
-
 
 // ============================================================
 // AUTH STATE LISTENER
@@ -392,7 +408,7 @@ function renderAdminProducts() {
         <div class="inline-flex">
 
           <img
-            src="${p.image}"
+            src="${Array.isArray(p.image) ? p.image[0] : p.image}"
             alt="${p.name}"
             style="
               width:44px;
@@ -1024,3 +1040,4 @@ async function seedProductsToFirestore() {
   console.log('✅ All products seeded to Firestore!');
 }
 window.seedProductsToFirestore = seedProductsToFirestore;
+loadProducts();
