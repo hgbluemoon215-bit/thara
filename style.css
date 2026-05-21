@@ -390,10 +390,18 @@ nav a:hover,nav a.active{color:var(--rose)}
 .quickview-layout{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:2rem;
+  gap:30px;
   align-items:start;
 }
 
+@media(max-width:768px){
+
+  .quickview-layout{
+    grid-template-columns:1fr;
+    gap:20px;
+  }
+
+}
 .quickview-gallery{
   display:flex;
   gap:1rem;
@@ -429,10 +437,8 @@ nav a:hover,nav a.active{color:var(--rose)}
 .quickview-main-image img{
   width:100%;
   height:auto;
-  max-height:80vh;
-  object-fit:contain;
-  border-radius:24px;
-  display:block;
+  border-radius:18px;
+  object-fit:cover;
 }
 .quickview-category{
   font-size:.7rem;
@@ -999,6 +1005,40 @@ html, body {
   overflow-x: hidden;
 }
 
+/* MOBILE NAVBAR FIX */
+
+.navbar{
+  padding:0 14px !important;
+  height:72px !important;
+}
+
+.nav-center{
+  display:none !important;
+}
+
+.nav-right{
+  gap:12px !important;
+  overflow:visible !important;
+}
+
+.nav-right button{
+  font-size:20px !important;
+}
+
+.brand-logo{
+  width:42px !important;
+  height:42px !important;
+}
+
+.brand-name{
+  font-size:24px !important;
+}
+
+.menu-toggle{
+  font-size:30px !important;
+  margin-right:10px;
+}
+
 
 /* SIDEBAR */
 
@@ -1054,4 +1094,88 @@ html, body {
 .sidebar-overlay.active{
   opacity:1;
   visibility:visible;
+}
+
+
+/* QUICK VIEW THUMBNAILS */
+
+.quickview-thumbs{
+  display:flex;
+  gap:10px;
+  overflow-x:auto;
+}
+
+.quickview-thumbs img{
+  width:70px;
+  height:70px;
+  border-radius:12px;
+  object-fit:cover;
+  cursor:pointer;
+  border:2px solid transparent;
+}
+
+.active-thumb{
+  border-color:#D4637A !important;
+}
+
+
+
+/* ================= QUICK VIEW FIX ================= */
+
+.modal-content{
+  width:min(1000px,95%) !important;
+  max-height:90vh !important;
+  overflow-y:auto !important;
+  border-radius:24px !important;
+  background:#fff !important;
+  padding:24px !important;
+}
+
+.quickview-layout{
+  display:grid !important;
+  grid-template-columns:1fr 1fr !important;
+  gap:30px !important;
+  align-items:start !important;
+}
+
+.quickview-main-image img{
+  width:100% !important;
+  height:auto !important;
+  border-radius:18px !important;
+  object-fit:cover !important;
+}
+
+.quickview-thumbs{
+  display:flex !important;
+  gap:10px !important;
+  overflow-x:auto !important;
+}
+
+.quickview-thumbs img{
+  width:70px !important;
+  height:70px !important;
+  border-radius:12px !important;
+  object-fit:cover !important;
+  cursor:pointer !important;
+  border:2px solid transparent !important;
+}
+
+.active-thumb{
+  border-color:#D4637A !important;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+  .quickview-layout{
+    grid-template-columns:1fr !important;
+    gap:20px !important;
+  }
+
+  .modal-content{
+    width:95% !important;
+    padding:18px !important;
+  }
+
 }
