@@ -1095,3 +1095,25 @@ async function seedProductsToFirestore() {
 }
 window.seedProductsToFirestore = seedProductsToFirestore;
 loadProducts();
+
+
+function openSidebar() {
+
+  document.getElementById('sidebar')
+    .classList.add('active');
+
+  document.getElementById('sidebar-overlay')
+    .classList.add('active');
+}
+
+function closeSidebar() {
+
+  document.getElementById('sidebar')
+    .classList.remove('active');
+
+  document.getElementById('sidebar-overlay')
+    .classList.remove('active');
+}
+
+window.openSidebar = openSidebar;
+window.closeSidebar = closeSidebar;

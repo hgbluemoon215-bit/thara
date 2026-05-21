@@ -14,6 +14,36 @@
 
 </head>
 <body>
+<!-- SIDEBAR -->
+
+<div id="sidebar" class="sidebar">
+
+  <div class="sidebar-header">
+    <span class="close-btn" onclick="closeSidebar()">×</span>
+  </div>
+
+  <a href="#" onclick="showPage('home');closeSidebar()">
+    Home
+  </a>
+
+  <a href="#" onclick="showPage('categories');closeSidebar()">
+    Categories
+  </a>
+
+  <a href="#" onclick="scrollToSection('about');closeSidebar()">
+    About Us
+  </a>
+
+  <a href="#" onclick="scrollToSection('contact');closeSidebar()">
+    Contact Us
+  </a>
+
+</div>
+
+<div id="sidebar-overlay"
+     class="sidebar-overlay"
+     onclick="closeSidebar()">
+</div>
 
 <!-- TOP BAR -->
 <div class="topbar"><span>The Online Shopping Store</span> &nbsp;·&nbsp; For your <span>LOVELY BABIES </span> Buy our premium cloth wears 🌸</div>
@@ -22,7 +52,7 @@
 <header>
   <div class="header-inner">
 <!-- MOBILE MENU BUTTON -->
-<button class="menu-toggle" onclick="toggleMenu()">☰</button>
+<button class="menu-toggle" onclick="opensidebar()">☰</button>
     <a href="#"  class="logo-wrap" onclick="showPage('home')">
       <div class="logo-mark">
               <img src="images/nivora-logo.png" alt="nivora logo"></div>
