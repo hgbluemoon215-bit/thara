@@ -736,7 +736,7 @@ function toggleWishlist(e, id) {
 function renderWishlistDash() {
   const grid  = document.getElementById('wishlist-grid');
   if (!grid) return;
-const items = adminProducts.filter(p => wishlist.includes(String(p.id));
+const items = adminProducts.filter(p => wishlist.includes(String(p.id)));
   grid.innerHTML = items.length ? items.map(p => `
     <div class="product-card">
       <div class="product-image ${p.bg}">
@@ -1209,15 +1209,20 @@ window.loadMessages = loadMessages;
 
 // ================= SEARCH FUNCTION =================
 
-const searchInput = document.getElementById("search-input");
+window.addEventListener("DOMContentLoaded", () => {
 
-if (searchInput) {
+  const searchInput =
+    document.getElementById("search-input");
+
+  if (!searchInput) return;
 
   searchInput.addEventListener("input", function () {
 
-    const value = this.value.toLowerCase();
+    const value =
+      this.value.toLowerCase().trim();
 
-    const products = document.querySelectorAll(".product-card");
+    const products =
+      document.querySelectorAll(".product-card");
 
     let firstMatch = null;
 
@@ -1242,6 +1247,7 @@ if (searchInput) {
       } else {
 
         card.style.display = "none";
+
       }
 
     });
@@ -1257,4 +1263,4 @@ if (searchInput) {
 
   });
 
-}
+});
