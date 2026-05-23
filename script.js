@@ -1209,20 +1209,15 @@ window.loadMessages = loadMessages;
 
 // ================= SEARCH FUNCTION =================
 
-window.addEventListener("DOMContentLoaded", () => {
+const searchInput = document.getElementById("search-input");
 
-  const searchInput =
-    document.getElementById("search-input");
-
-  if (!searchInput) return;
+if (searchInput) {
 
   searchInput.addEventListener("input", function () {
 
-    const value =
-      this.value.toLowerCase().trim();
+    const value = this.value.toLowerCase();
 
-    const products =
-      document.querySelectorAll(".product-card");
+    const products = document.querySelectorAll(".product-card");
 
     let firstMatch = null;
 
@@ -1247,7 +1242,6 @@ window.addEventListener("DOMContentLoaded", () => {
       } else {
 
         card.style.display = "none";
-
       }
 
     });
@@ -1263,4 +1257,4 @@ window.addEventListener("DOMContentLoaded", () => {
 
   });
 
-});
+}
