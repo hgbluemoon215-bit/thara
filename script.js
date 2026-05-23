@@ -736,7 +736,7 @@ function toggleWishlist(e, id) {
 function renderWishlistDash() {
   const grid  = document.getElementById('wishlist-grid');
   if (!grid) return;
-  const items = adminProducts.filter(p => wishlist.includes(p.id));
+const items = adminProducts.filter(p => wishlist.includes(String(p.id));
   grid.innerHTML = items.length ? items.map(p => `
     <div class="product-card">
       <div class="product-image ${p.bg}">
@@ -1206,3 +1206,57 @@ async function loadMessages(){
 }
 
 window.loadMessages = loadMessages;
+
+// ================= SEARCH FUNCTION =================
+
+const searchInput = document.getElementById("search-input");
+
+if (searchInput) {
+
+  searchInput.addEventListener("input", function () {
+
+    const value = this.value.toLowerCase();
+
+    const products = document.querySelectorAll(".product-card");
+
+    let firstMatch = null;
+
+    products.forEach((card) => {
+
+      const productNameEl =
+        card.querySelector(".product-name");
+
+      if (!productNameEl) return;
+
+      const productName =
+        productNameEl.innerText.toLowerCase();
+
+      if (productName.includes(value)) {
+
+        card.style.display = "block";
+
+        if (!firstMatch) {
+          firstMatch = card;
+        }
+
+      } else {
+
+        card.style.display = "none";
+
+      }
+
+    });
+
+    // Auto scroll to first result
+    if (firstMatch) {
+
+      firstMatch.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+
+    }
+
+  });
+
+}
