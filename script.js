@@ -184,6 +184,7 @@ function showPage(page) {
     if (!isAdmin) { openModal('login-modal'); showAdminLogin(); return; }
     renderAdminProducts();
      loadMessages();
+     loadDashboardStats();
   }
 }
 
@@ -1265,3 +1266,76 @@ window.addEventListener("DOMContentLoaded", () => {
   });
 
 });
+
+async function loadDashboardStats() {
+
+  // PRODUCTS
+  const productsSnap =
+    await getDocs(collection(db, "products"));
+
+  document.getElementById("total-products")
+    .textContent = productsSnap.size;
+
+  // ORDERS
+  const ordersSnap =
+    await getDocs(collection(db, "orders"));
+
+  document.getElementById("total-orders")
+    .textContent = ordersSnap.size;
+
+  // REVENUE
+  let revenue = 0;
+
+  let ordersHTML = '';
+
+  ordersSnap.forEach(doc => {
+
+    const data = doc.data();
+
+    revenue += data.total || 0;
+
+    ordersHTML += `
+      <tr>
+        <td><strong>#${doc.id.slice(-6)}</strong></td>
+        <td>${data.userId || 'Guest'}</td>
+        <td>${data.items?.length || 0} items</td>
+        <td>₹${data.total || 0}</td>
+        <td>
+          <span class="order-status status-processing">
+            ${data.status || 'Pending'}
+          </span>
+        </td>
+        <td>
+          ${new Date().toLocaleDateString()}
+        </td>
+      </tr>
+    `;
+  });
+
+  document.getElementById("total-revenue")
+    .textContent = "₹" + revenue;
+
+  const recentOrders =
+    document.getElementById("recent-orders-body");
+
+  const adminOrders =
+    document.getElementById("admin-orders-body");
+
+  if(recentOrders)
+    recentOrders.innerHTML =
+      ordersHTML || `
+      <tr>
+        <td colspan="6" style="text-align:center">
+          No orders yet 🌸
+        </td>
+      </tr>`;
+
+  if(adminOrders)
+    adminOrders.innerHTML =
+      ordersHTML || `
+      <tr>
+        <td colspan="6" style="text-align:center">
+          No orders yet 🌸
+        </td>
+      </tr>`;
+}

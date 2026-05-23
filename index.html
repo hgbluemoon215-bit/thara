@@ -684,22 +684,38 @@
           <div class="admin-section active" id="admin-dashboard">
             <div class="admin-section-title">Dashboard Overview 📊</div>
             <div class="stats-grid">
-              <div class="stat-card" data-icon="💰"><div class="stat-label">Total Revenue</div><div class="stat-val">₹2.4L</div><div class="stat-change">↑ 18% this month</div></div>
-              <div class="stat-card" data-icon="📦"><div class="stat-label">Total Orders</div><div class="stat-val">847</div><div class="stat-change">↑ 12% this month</div></div>
-              <div class="stat-card" data-icon="👥"><div class="stat-label">Customers</div><div class="stat-val">2,341</div><div class="stat-change">↑ 23% this month</div></div>
-              <div class="stat-card" data-icon="👗"><div class="stat-label">Products</div><div class="stat-val">64</div><div class="stat-change">8 new this month</div></div>
+  <div class="stat-card" data-icon="💰">
+    <div class="stat-label">Total Revenue</div>
+    <div class="stat-val" id="total-revenue">₹0</div>
+    <div class="stat-change">New store 🌸</div>
+  </div>
+
+  <div class="stat-card" data-icon="📦">
+    <div class="stat-label">Total Orders</div>
+    <div class="stat-val" id="total-orders">0</div>
+    <div class="stat-change">Orders received</div>
+  </div>
+
+  <div class="stat-card" data-icon="👥">
+    <div class="stat-label">Customers</div>
+    <div class="stat-val" id="total-customers">0</div>
+    <div class="stat-change">Registered users</div>
+  </div>
+
+  <div class="stat-card" data-icon="👗">
+    <div class="stat-label">Products</div>
+    <div class="stat-val" id="total-products">0</div>
+    <div class="stat-change">Available products</div>
+  </div>
+
+</div>
+
             </div>
             <div style="background:var(--cream);border-radius:16px;padding:1.5rem;margin-bottom:1.5rem">
               <div style="font-family:var(--ff-head);font-size:1.1rem;margin-bottom:1.2rem">Recent Orders</div>
               <table class="admin-table">
                 <thead><tr><th>Order ID</th><th>Customer</th><th>Products</th><th>Total</th><th>Status</th><th>Date</th></tr></thead>
-                <tbody>
-                  <tr><td><strong>#NVR2025007</strong></td><td>Priya Sharma</td><td>Blossom Frill Dress</td><td>₹840</td><td><span class="order-status status-shipped">Shipped</span></td><td>Apr 18</td></tr>
-                  <tr><td><strong>#NVR2025006</strong></td><td>Anita Reddy</td><td>Sage Sleep Suit + Romper</td><td>₹1,240</td><td><span class="order-status status-delivered">Delivered</span></td><td>Mar 30</td></tr>
-                  <tr><td><strong>#NVR2025005</strong></td><td>Dr. Meera Nair</td><td>Rosy Welcome Gift Set</td><td>₹1,740</td><td><span class="order-status status-delivered">Delivered</span></td><td>Mar 12</td></tr>
-                  <tr><td><strong>#NVR2025004</strong></td><td>Sunita Gupta</td><td>Lavender Flutter Dress</td><td>₹900</td><td><span class="order-status status-processing">Processing</span></td><td>Apr 19</td></tr>
-                  <tr><td><strong>#NVR2025003</strong></td><td>Deepa Menon</td><td>Sky Petal Snap Romper</td><td>₹870</td><td><span class="order-status status-processing">Processing</span></td><td>Apr 20</td></tr>
-                </tbody>
+               <tbody id="recent-orders-body"></tbody>
               </table>
             </div>
           </div>
@@ -756,13 +772,7 @@
             <div style="background:var(--cream);border-radius:16px;overflow:hidden">
               <table class="admin-table">
                 <thead><tr><th>Order ID</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th><th>Date</th><th>Action</th></tr></thead>
-                <tbody>
-                  <tr><td><strong>#NVR2025007</strong></td><td>Priya Sharma</td><td>Blossom Frill Dress × 1</td><td>₹840</td><td><span class="order-status status-shipped">Shipped</span></td><td>Apr 18, 2025</td><td><select onchange="updateOrderStatus(this)" style="border:1px solid rgba(212,99,122,.2);border-radius:6px;padding:.3rem .5rem;font-size:.78rem;background:var(--cream)"><option>Shipped</option><option>Processing</option><option>Delivered</option><option>Cancelled</option></select></td></tr>
-                  <tr><td><strong>#NVR2025006</strong></td><td>Anita Reddy</td><td>Sage Sleep Suit, Sky Romper</td><td>₹1,240</td><td><span class="order-status status-delivered">Delivered</span></td><td>Mar 30, 2025</td><td><select onchange="updateOrderStatus(this)" style="border:1px solid rgba(212,99,122,.2);border-radius:6px;padding:.3rem .5rem;font-size:.78rem;background:var(--cream)"><option>Delivered</option><option>Processing</option><option>Shipped</option><option>Cancelled</option></select></td></tr>
-                  <tr><td><strong>#NVR2025005</strong></td><td>Dr. Meera Nair</td><td>Rosy Welcome Gift Set × 1</td><td>₹1,740</td><td><span class="order-status status-delivered">Delivered</span></td><td>Mar 12, 2025</td><td><select onchange="updateOrderStatus(this)" style="border:1px solid rgba(212,99,122,.2);border-radius:6px;padding:.3rem .5rem;font-size:.78rem;background:var(--cream)"><option>Delivered</option><option>Processing</option><option>Shipped</option><option>Cancelled</option></select></td></tr>
-                  <tr><td><strong>#NVR2025004</strong></td><td>Sunita Gupta</td><td>Lavender Flutter Dress × 2</td><td>₹1,800</td><td><span class="order-status status-processing">Processing</span></td><td>Apr 19, 2025</td><td><select onchange="updateOrderStatus(this)" style="border:1px solid rgba(212,99,122,.2);border-radius:6px;padding:.3rem .5rem;font-size:.78rem;background:var(--cream)"><option>Processing</option><option>Shipped</option><option>Delivered</option><option>Cancelled</option></select></td></tr>
-                  <tr><td><strong>#NVR2025003</strong></td><td>Deepa Menon</td><td>Sky Petal Romper × 1</td><td>₹870</td><td><span class="order-status status-processing">Processing</span></td><td>Apr 20, 2025</td><td><select onchange="updateOrderStatus(this)" style="border:1px solid rgba(212,99,122,.2);border-radius:6px;padding:.3rem .5rem;font-size:.78rem;background:var(--cream)"><option>Processing</option><option>Shipped</option><option>Delivered</option><option>Cancelled</option></select></td></tr>
-                </tbody>
+<tbody id="admin-orders-body">    </tbody>
               </table>
             </div>
           </div>
