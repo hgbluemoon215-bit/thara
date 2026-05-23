@@ -54,6 +54,8 @@ import { getFirestore, collection, getDocs, getDoc, addDoc, deleteDoc, doc }
 
 import { getStorage, ref, uploadBytes, getDownloadURL }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+import {getFirestore,doc, getDoc,collection, getDocs}
+    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 // ============================================================
 // FIREBASE CONFIG
@@ -148,16 +150,32 @@ async function loadProducts() {
 // ============================================================
 // AUTH STATE LISTENER
 // ============================================================
-onAuthStateChanged(auth, (user) => {
-  if (user) {
-    isLoggedIn = true;
-    const nameEl  = document.getElementById('user-name');
-    const emailEl = document.getElementById('user-email');
-    if (nameEl)  nameEl.textContent  = user.displayName || 'User';
-    if (emailEl) emailEl.textContent = user.email;
-  } else {
-    isLoggedIn = false;
+onAuthStateChanged(auth, async(user) => {
+
+  if(user){
+
+    // USER EMAIL
+    document.getElementById("user-email").textContent =
+      user.email;
+
+    // GET USER DATA
+    const userRef = doc(db, "users", user.uid);
+
+    const userSnap = await getDoc(userRef);
+
+    if(userSnap.exists()){
+
+      const data = userSnap.data();
+
+      document.getElementById("user-name").textContent =
+        data.name || "User";
+
+      document.getElementById("welcome-text").innerHTML =
+        `Welcome back, ${data.name || "User"}! 🌸`;
+    }
+
   }
+
 });
 
 // ============================================================

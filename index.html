@@ -598,20 +598,17 @@
         <div class="dash-content">
           <!-- OVERVIEW -->
           <div class="dash-section active" id="dash-overview">
-            <div class="dash-section-title">Welcome back, Priya! 🌸</div>
+               <div class="dash-section-title" id="welcome-text">Welcome back! 🌸</div>
             <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-bottom:2rem">
-              <div class="stat-card" data-icon="📦"><div class="stat-label">Total Orders</div><div class="stat-val">7</div></div>
-              <div class="stat-card" data-icon="♡"><div class="stat-label">Wishlist Items</div><div class="stat-val">4</div></div>
-              <div class="stat-card" data-icon="💰"><div class="stat-label">Total Spent</div><div class="stat-val">₹4,820</div></div>
+
+              <div class="stat-card" data-icon="📦"><div class="stat-label">Total Orders</div><div class="stat-val" id="total-orders">0</div></div>
+              <div class="stat-card" data-icon="♡"><div class="stat-label">Wishlist Items</div><div class="stat-val" id="wishlist-count">0</div></div>
+              <div class="stat-card" data-icon="💰"><div class="stat-label">Total Spent</div><div class="stat-val"  id="total-spent">₹0</div></div>
             </div>
             <div class="dash-section-title" style="font-size:1.1rem">Recent Orders</div>
             <table class="orders-table">
               <thead><tr><th>Order ID</th><th>Date</th><th>Items</th><th>Total</th><th>Status</th></tr></thead>
-              <tbody>
-                <tr><td><strong>#NVR2025007</strong></td><td>Apr 18, 2025</td><td>Blossom Frill Dress</td><td>₹840</td><td><span class="order-status status-shipped">Shipped</span></td></tr>
-                <tr><td><strong>#NVR2025006</strong></td><td>Mar 30, 2025</td><td>Sage Dream Sleep Suit + Romper</td><td>₹1,240</td><td><span class="order-status status-delivered">Delivered</span></td></tr>
-                <tr><td><strong>#NVR2025005</strong></td><td>Mar 12, 2025</td><td>Rosy Welcome Gift Set</td><td>₹1,740</td><td><span class="order-status status-delivered">Delivered</span></td></tr>
-              </tbody>
+              <tbody id="recent-orders-body"></tbody>
             </table>
           </div>
           <!-- ORDERS -->
@@ -619,13 +616,7 @@
             <div class="dash-section-title">My Orders 📦</div>
             <table class="orders-table">
               <thead><tr><th>Order ID</th><th>Date</th><th>Items</th><th>Total</th><th>Status</th><th>Action</th></tr></thead>
-              <tbody>
-                <tr><td><strong>#NVR2025007</strong></td><td>Apr 18, 2025</td><td>Blossom Frill Dress</td><td>₹840</td><td><span class="order-status status-shipped">Shipped</span></td><td><button class="btn-ghost btn-sm">Track</button></td></tr>
-                <tr><td><strong>#NVR2025006</strong></td><td>Mar 30, 2025</td><td>Sage Sleep Suit, Romper</td><td>₹1,240</td><td><span class="order-status status-delivered">Delivered</span></td><td><button class="btn-ghost btn-sm">Invoice</button></td></tr>
-                <tr><td><strong>#NVR2025005</strong></td><td>Mar 12, 2025</td><td>Rosy Gift Set</td><td>₹1,740</td><td><span class="order-status status-delivered">Delivered</span></td><td><button class="btn-ghost btn-sm">Invoice</button></td></tr>
-                <tr><td><strong>#NVR2025004</strong></td><td>Feb 20, 2025</td><td>Lavender Flutter Dress</td><td>₹900</td><td><span class="order-status status-delivered">Delivered</span></td><td><button class="btn-ghost btn-sm">Invoice</button></td></tr>
-                <tr><td><strong>#NVR2025003</strong></td><td>Feb 01, 2025</td><td>Sky Petal Snap Romper</td><td>₹870</td><td><span class="order-status status-delivered">Delivered</span></td><td><button class="btn-ghost btn-sm">Invoice</button></td></tr>
-              </tbody>
+              <tbody id="orders-body"></tbody>
             </table>
           </div>
           <!-- WISHLIST -->
@@ -643,10 +634,10 @@
           <!-- PROFILE -->
           <div class="dash-section" id="dash-profile">
             <div class="dash-section-title">Edit Profile ✏️</div>
-            <div class="form-row"><div class="form-group"><label>First Name</label><input type="text" value="Priya"/></div><div class="form-group"><label>Last Name</label><input type="text" value="Sharma"/></div></div>
-            <div class="form-group"><label>Email Address</label><input type="email" value="priya@email.com"/></div>
-            <div class="form-group"><label>Phone Number</label><input type="tel" value="+91 98765 43210"/></div>
-            <div class="form-group"><label>Date of Birth</label><input type="date" value="1992-03-15"/></div>
+            <div class="form-row"><div class="form-group"><label>First Name</label><input type="text" id="profile-firstname"/></div><div class="form-group"><label>Last Name</label><input type="text" id="profile-lastname"/></div></div>
+            <div class="form-group"><label>Email Address</label><input type="email" id="profile-email"/></div>
+            <div class="form-group"><label>Phone Number</label><input type="tel" id="profile-phonenumber"/></div>
+            <div class="form-group"><label>Date of Birth</label><input type="date" id="profile-dateofbirth"/></div>
             <div style="font-family:var(--ff-head);font-size:1rem;margin:1.5rem 0 .8rem;padding-top:1.2rem;border-top:1px solid rgba(212,99,122,.1)">Change Password</div>
             <div class="form-group"><label>Current Password</label><input type="password" placeholder="••••••••"/></div>
             <div class="form-row"><div class="form-group"><label>New Password</label><input type="password" placeholder="••••••••"/></div><div class="form-group"><label>Confirm New</label><input type="password" placeholder="••••••••"/></div></div>
