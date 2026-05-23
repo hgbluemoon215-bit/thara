@@ -298,8 +298,9 @@ async function doAdminLogin() {
     }
   } 
 catch (err) {
-  console.log(err);
-  showToast(err.message);
+console.log(err.code);
+console.log(err.message);
+showToast(err.code);
 }
 }
 window.doAdminLogin = doAdminLogin;
