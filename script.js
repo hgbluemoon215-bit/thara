@@ -1209,15 +1209,20 @@ window.loadMessages = loadMessages;
 
 // ================= SEARCH FUNCTION =================
 
-const searchInput = document.getElementById("search-input");
+window.addEventListener("DOMContentLoaded", () => {
 
-if (searchInput) {
+  const searchInput =
+    document.getElementById("search-input");
+
+  if (!searchInput) return;
 
   searchInput.addEventListener("input", function () {
 
-    const value = this.value.toLowerCase();
+    const value =
+      this.value.toLowerCase().trim();
 
-    const products = document.querySelectorAll(".product-card");
+    const products =
+      document.querySelectorAll(".product-card");
 
     let firstMatch = null;
 
@@ -1247,7 +1252,6 @@ if (searchInput) {
 
     });
 
-    // Auto scroll to first result
     if (firstMatch) {
 
       firstMatch.scrollIntoView({
@@ -1259,4 +1263,4 @@ if (searchInput) {
 
   });
 
-}
+});
