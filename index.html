@@ -218,7 +218,7 @@
   <!-- Bath Essentials -->
   <a class="cat-card" onclick="goToCategory('bath')">
     <div class="cat-icon">🛁</div>
-    <div class="cat-name">Bath Essentials</div>
+    <div class="cat-name">Bath & Care</div>
     <div class="cat-count">View Collection</div>
   </a>
 </div>
@@ -233,10 +233,10 @@
     <div class="filter-tabs reveal">
       <button class="tab active" onclick="filterTab(this)">All</button>
       <button class="tab" onclick="filterTab(this)">New Arrivals</button>
-      <button class="tab" onclick="filterTab(this)">Dresses</button>
-      <button class="tab" onclick="filterTab(this)">Rompers</button>
-      <button class="tab" onclick="filterTab(this)">Sleep Suits</button>
-      <button class="tab" onclick="filterTab(this)">Gift Sets</button>
+      <button class="tab" onclick="filterTab(this)">Jablas</button>
+      <button class="tab" onclick="filterTab(this)">Frocks</button>
+      <button class="tab" onclick="filterTab(this)">Co-Ord sets</button>
+      <button class="tab" onclick="filterTab(this)">Bath & Care</button>
     </div>
     <div class="products-grid" id="home-products-grid"></div>
   </section>
@@ -269,16 +269,25 @@
   </section>
 
   <!-- TESTIMONIALS -->
-  <section class="testi-section">
-    <div style="max-width:1280px;margin:0 auto">
-      <div class="reveal"><div class="section-eyebrow">Happy Mamas</div><div class="section-title">What Mothers Are Saying 💬</div></div>
-      <div class="testi-grid">
-        <div class="testi-card reveal"><div class="testi-quote">"</div><p class="testi-text">The muslin fabric is absolutely divine! My 3-month-old sleeps so much better in Nivora. I've already ordered 3 more pieces. The packaging is beautiful too — perfect for gifting!</p><div class="testi-author"><div class="testi-avatar">👩</div><div><div class="testi-name">Priya Sharma</div><div class="testi-role">Mom to Aarav, 3 months</div></div></div></div>
-        <div class="testi-card reveal"><div class="testi-quote">"</div><p class="testi-text">I was skeptical ordering online but Nivora exceeded all my expectations. The Blossom Frill Dress is even more gorgeous in person. My daughter gets compliments everywhere she goes!</p><div class="testi-author"><div class="testi-avatar">👩‍🦱</div><div><div class="testi-name">Anita Reddy</div><div class="testi-role">Mom to Kavya, 6 months</div></div></div></div>
-        <div class="testi-card reveal"><div class="testi-quote">"</div><p class="testi-text">As a pediatrician and a mom, I trust Nivora completely. The toxin-free certification matters so much for newborns. These clothes are safe, soft, and beautiful. Highly recommended!</p><div class="testi-author"><div class="testi-avatar">👩‍⚕️</div><div><div class="testi-name">Dr. Meera Nair</div><div class="testi-role">Mom to Siya, 9 months</div></div></div></div>
+<section class="testi-section">
+
+  <div style="max-width:1280px;margin:0 auto">
+
+    <div class="reveal">
+      <div class="section-eyebrow">Happy Mamas</div>
+      <div class="section-title">
+        What Mothers Are Saying 💬
       </div>
     </div>
-  </section>
+
+    <!-- DYNAMIC TESTIMONIALS -->
+    <div class="testi-grid" id="testimonials-container">
+
+    </div>
+
+  </div>
+
+</section>0
 
   <!-- BANNER -->
   <section class="banner-section">
@@ -666,6 +675,7 @@
             <div class="admin-nav-item" onclick="showAdminSection('customers')"><span class="nav-icon">👥</span>Customers</div>
             <div class="admin-nav-item" onclick="showAdminSection('categories')"><span class="nav-icon">🗂️</span>Categories</div>
             <div class="admin-nav-item" onclick="showAdminSection('settings')"><span class="nav-icon">⚙️</span>Settings</div>
+            <div class="admin-nav-item" onclick="showAdminSection('reviews')"><span class="nav-icon">💬</span>Reviews</div>
             <div class="admin-nav-item" style="margin-top:2rem;border-top:1px solid rgba(255,255,255,.08);padding-top:1rem" onclick="logoutAdmin()"><span class="nav-icon">🚪</span>Logout</div>
           </div>
         </div>
@@ -801,6 +811,26 @@
               </table>
             </div>
           </div>
+
+<!-- ADMIN: REVIEWS -->
+<div class="admin-section" id="admin-reviews">
+<div class="admin-section-title"> Customer Reviews 💬</div>
+<div class="admin-form"><h4>Add New Review</h4>
+<div class="form-group"><label>Customer Name</label>
+ <input  type="text"   id="review-name"    placeholder="Neha" />  </div>
+<div class="form-group"><label>Review Message</label>
+<textarea   id="review-text"  rows="4"    placeholder="Write customer review..."   ></textarea> </div>
+<div class="form-group"><label>Customer Image URL (Optional)</label>
+ <input type="text"  id="review-image" placeholder="images/customer1.jpg/></div>
+<button class="btn-rose" onclick="addTestimonial()">Add Review  </button></div>
+
+ <!-- REVIEW LIST -->
+  <div  style="margin-top:2rem;background:var(--cream);
+      border-radius:16px;
+      padding:1.5rem;">
+
+<h4 style="margin-bottom:1rem"> Added Reviews</h4>
+<div id="admin-testimonials-list"></div> </div></div>
 
           <!-- ADMIN: SETTINGS -->
           <div class="admin-section" id="admin-settings">

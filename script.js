@@ -54,8 +54,10 @@ import { getFirestore, collection, getDocs, getDoc, addDoc, deleteDoc, doc }
 
 import { getStorage, ref, uploadBytes, getDownloadURL }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
-import {getFirestore,doc, getDoc,collection, getDocs}
-    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+import {getFirestore,collection,getDocs,getDoc, addDoc,deleteDoc, doc }
+from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
 
 // ============================================================
 // FIREBASE CONFIG
@@ -87,22 +89,22 @@ let adminProducts = [];
 // DATA
 // ============================================================
 const PRODUCTS = [
-  {id:1, name:'Muslin Frock Button', cat:'dresses', image:['images/frock1.png','images/frock button .png' ], price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
-  {id:2, name:'Muslin Frock Knot', cat:'dresses', image:['images/frock2.jpeg', 'images/frock knot.png' ],price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
-  {id:3, name:'Muslin Frock Zip', cat:'dresses', image:['images/frock3.png', 'images/frock zip.png' ],price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
+  {id:1, name:'Muslin Frock Button', cat:'dresses', image:['images/frock1.png','images/frock-button .png' ], price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
+  {id:2, name:'Muslin Frock Knot', cat:'dresses', image:['images/frock2.jpeg', 'images/frock-knot.png' ],price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
+  {id:3, name:'Muslin Frock Zip', cat:'dresses', image:['images/frock3.png', 'images/frock-zip.png' ],price:699, orig:899, size:'0–6M', stars:5, bg:'p1', badge:'sale'},
 
-  {id:4, name:'Co-ord Set Dress', cat:'coord', image:['images/coord1.png','images/co ord set.png' ], price:799, size:'0-6M', stars:4,  bg:'p2'},
+  {id:4, name:'Co-ord Set Dress', cat:'coord', image:['images/coord1.png','images/co-ord-set.png' ], price:799, size:'0-6M', stars:4,  bg:'p2'},
 
-  {id:5, name:'Gift Combo Set', cat:'gift', image:['images/gift1.png', 'images/Gift set.png' ],price:999, size:'0–6M', stars:5, bg:'p3'},
+  {id:5, name:'Gift Combo Set', cat:'gift', image:['images/gift1.png', 'images/Gift-set.png' ],price:999, size:'0–6M', stars:5, bg:'p3'},
 
   {id:6, name:'Muslin Nappy', cat:'accessories', image:['images/nappy1.png','images/nappy2.png' ], price:199, size:'0–3M', stars:4,bg:'p4'},
   {id:7, name:'Muslin Wipes', cat:'accessories', image:['images/wipes1.png','images/wipes2.png'], price:149, size:'0–3M', stars:4,  bg:'p5'},
 
-  {id:8, name:'Muslin Bath Towel', cat:'bath', image:['images/towel1.png','images/bath towel.png'], price:299, size:'All', stars:4,  bg:'p6'},
-  {id:9, name:'Hooded Towel', cat:'bath', image:['images/towel2.png','images/hooded towel.png'], price:349, size:'All', stars:4,  bg:'p7'},
-{id:10, name:'Muslin Jabla Knot', cat:'dresses', image:['images/Jabla1.png','images/jabla knot.png'], price:499, orig:699, size:'0–3M', stars:5, bg:'p1', badge:'sale'},
+  {id:8, name:'Muslin Bath Towel', cat:'bath', image:['images/towel1.png','images/bath-towel.png'], price:299, size:'All', stars:4,  bg:'p6'},
+  {id:9, name:'Hooded Towel', cat:'bath', image:['images/towel2.png','images/hooded-towel.png'], price:349, size:'All', stars:4,  bg:'p7'},
+{id:10, name:'Muslin Jabla Knot', cat:'dresses', image:['images/Jabla1.png','images/jabla-knot.png'], price:499, orig:699, size:'0–3M', stars:5, bg:'p1', badge:'sale'},
 
-{id:11, name:'Muslin Jabla Button', cat:'dresses', image:['images/Jabla2.png','images/jabla button.png'], price:499, orig:699, size:'0–3M', stars:5,  bg:'p1', badge:'sale'}
+{id:11, name:'Muslin Jabla Button', cat:'dresses', image:['images/Jabla2.png','images/jabla-button.png'], price:499, orig:699, size:'0–3M', stars:5,  bg:'p1', badge:'sale'}
 ];
 
 async function loadProducts() {
@@ -121,13 +123,14 @@ async function loadProducts() {
 
     } else {
 
-      adminProducts = snapshot.docs.map(d => ({
-        id: d.id,
-        ...d.data()
-      }));
-
+      adminProducts = snapshot.docs.map(d => {
+      const data = d.data();
+      return { id: d.id, ...data,
+     image: data.image || 'images/placeholder.png',
+     images: data.images || [data.image]
+  };
+});
     }
-
     console.log('✅ Products loaded:', adminProducts.length);
     console.log(adminProducts);
     renderHomeProducts();
@@ -333,8 +336,9 @@ function logoutUser() {
 }
 window.logoutUser = logoutUser;
 
-function logoutAdmin() {
-  isAdmin    = false;
+async function logoutAdmin() {
+  await signOut(auth);
+  isAdmin = false;
   isLoggedIn = false;
   showToast('Logged out');
   showPage('home');
@@ -590,7 +594,7 @@ function renderCart() {
     updateCartTotals(); return;
   }
   list.innerHTML = cart.map(c => {
-    const p = adminProducts.find(x => x.id === c.id);
+    const p = adminProducts.find(x =>String( x.id) ===String(c.id));
     if (!p) return '';
     return `<div class="cart-item">
     <div class="cart-item-img ${p.bg}"><img src="${Array.isArray(p.image) ? p.image[0] : p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;"></div>
@@ -628,7 +632,7 @@ function clearCart() {
 }
 function updateCartTotals() {
   const subtotal = cart.reduce((s, c) => {
-    const p = adminProducts.find(x => x.id === c.id);
+    const p = adminProducts.find(x => String(x.id )===String( c.id));
     return s + (p ? p.price * c.qty : 0);
   }, 0);
   const dis   = Math.round(subtotal * discount);
@@ -659,7 +663,7 @@ function renderCheckoutSummary() {
   const list = document.getElementById('checkout-items-list');
   if (!list) return;
   list.innerHTML = cart.map(c => {
-    const p = adminProducts.find(x => x.id === c.id);
+    const p = adminProducts.find(x => String(x.id )=== String(c.id));
     if (!p) return '';
     return `<div style="display:flex;align-items:center;gap:.8rem;margin-bottom:.8rem;padding-bottom:.8rem;border-bottom:1px solid rgba(212,99,122,.06)">
       <div style="width:44px;height:44px;border-radius:10px;overflow:hidden;flex-shrink:0" class="${p.bg}"><img src="${Array.isArray(p.image) ? p.image[0] : p.image}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;"></div>
@@ -668,7 +672,7 @@ function renderCheckoutSummary() {
     </div>`;
   }).join('');
   const subtotal = cart.reduce((s, c) => {
-    const p = adminProducts.find(x => x.id === c.id);
+    const p = adminProducts.find(x =>String( x.id) ===String (c.id));
     return s + (p ? p.price * c.qty : 0);
   }, 0);
   const el1 = document.getElementById('co-subtotal');
@@ -701,11 +705,11 @@ function backToAddress() {
 async function placeOrder() {
   const orderData = {
     items: cart.map(c => {
-      const p = adminProducts.find(x => x.id === c.id);
+      const p = adminProducts.find(x =>String( x.id )=== String(c.id));
       return { id: c.id, name: p.name, price: p.price, qty: c.qty };
     }),
     total: cart.reduce((s, c) => {
-      const p = adminProducts.find(x => x.id === c.id);
+      const p = adminProducts.find(x =>String( x.id) === String(c.id));
       return s + p.price * c.qty;
     }, 0),
     status: 'Pending',
@@ -804,42 +808,29 @@ function quickView(id) {
   const stars =
     '★'.repeat(p.stars) +
     '☆'.repeat(5 - p.stars);
-
-  const allImages = Array.isArray(p.images) ? p.images : (Array.isArray(p.image) ? p.image : [p.image]);
-  const mainImg = allImages[0];
-
+   
+const allImages =Array.isArray(p.images)? p.images : Array.isArray(p.image)? p.image : [p.image];
+const mainImg =allImages[0] ||  'images/placeholder.png';
   document.getElementById('product-modal-content').innerHTML = `
-
     <div class="quickview-layout">
 
       <!-- LEFT IMAGES -->
 
       <div class="quickview-gallery">
-
         <div class="quickview-thumbs">
          ${allImages.map((img,index)=>`
-          
-
             <img
               src="${img}"
               class="thumb ${index===0 ? 'active-thumb' : ''}"
-              onclick="changeQuickImage('${img}',this)"
-            >
-
-          `).join('')}
-
-        </div>
-
+              onclick="changeQuickImage('${img}',this)">    `).join('')}
+ </div>
         <div class="quickview-main-image">
-
           <img
             id="quickview-main-img"
             src="${mainImg}"
             alt="${p.name}"
           >
-
         </div>
-
       </div>
 
 
@@ -1027,8 +1018,20 @@ window.toggleSearch = toggleSearch;
 // ============================================================
 function filterTab(el) {
   const siblings = el.closest('div').querySelectorAll('.tab');
-  siblings.forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
+  siblings.forEach(t =>  t.classList.remove('active')
+  );
+ el.classList.add('active');
+  const category =el.dataset.category;
+  const sections = ['cat-dresses-grid', 'cat-coord-grid','cat-gift-grid', 'cat-accessories-grid','cat-bath-grid'  ]; 
+sections.forEach(id => {
+    const section =document.getElementById(id);
+if (!section) return;
+ if (
+      category === 'all' || id.includes(category)
+    ) {
+      section.parentElement.style.display = 'block';
+    } else {section.parentElement.style.display =  'none';
+    }  });
 }
 window.filterTab = filterTab;
 
@@ -1164,7 +1167,7 @@ async function seedProductsToFirestore() {
   console.log('✅ All products seeded to Firestore!');
 }
 window.seedProductsToFirestore = seedProductsToFirestore;
-loadProducts();
+
 
 function openSidebar() {
   document.getElementById('sidebar')
@@ -1235,53 +1238,53 @@ window.addEventListener("DOMContentLoaded", () => {
     document.getElementById("search-input");
 
   if (!searchInput) return;
+searchInput.addEventListener("input", function () {
 
-  searchInput.addEventListener("input", function () {
+  const value =
+    this.value.toLowerCase().trim();
 
-    const value =
-      this.value.toLowerCase().trim();
+  const products =
+    document.querySelectorAll(".product-card");
 
-    const products =
-      document.querySelectorAll(".product-card");
+  let firstMatch = null;
 
-    let firstMatch = null;
+  products.forEach((card) => {
 
-    products.forEach((card) => {
+    const productNameEl =
+      card.querySelector(".product-name");
 
-      const productNameEl =
-        card.querySelector(".product-name");
+    if (!productNameEl) return;
 
-      if (!productNameEl) return;
+    const productName =
+      productNameEl.innerText.toLowerCase();
 
-      const productName =
-        productNameEl.innerText.toLowerCase();
+    if (
+      value === '' ||
+      productName.includes(value)
+    ) {
 
-      if (productName.includes(value)) {
+      card.style.display = '';
 
-        card.style.display = "block";
-
-        if (!firstMatch) {
-          firstMatch = card;
-        }
-
-      } else {
-
-        card.style.display = "none";
-
+      if (!firstMatch) {
+        firstMatch = card;
       }
 
-    });
+    } else {
 
-    if (firstMatch) {
-
-      firstMatch.scrollIntoView({
-        behavior: "smooth",
-        block: "center"
-      });
+      card.style.display = 'none';
 
     }
 
   });
+
+  if (firstMatch && value !== '') {
+
+    firstMatch.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+
+  }
 
 });
 
