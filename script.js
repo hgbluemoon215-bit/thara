@@ -1357,3 +1357,4 @@ async function loadDashboardStats() {
         </td>
       </tr>`;
 }
+})
