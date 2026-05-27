@@ -1179,3 +1179,38 @@ html, body {
   }
 
 }
+.socials{
+  display:flex;
+  gap:18px;
+  margin-top:28px;
+}
+
+.social-icon{
+  width:46px;
+  height:46px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,0.18);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  color:#f5d5da;
+  text-decoration:none;
+
+  background:rgba(255,255,255,0.03);
+  backdrop-filter:blur(10px);
+
+  transition:0.3s ease;
+}
+
+.social-icon i{
+  font-size:20px;
+}
+
+.social-icon:hover{
+  transform:translateY(-4px);
+  background:#d4637a;
+  color:white;
+  box-shadow:0 10px 25px rgba(212,99,122,.35);
+}
