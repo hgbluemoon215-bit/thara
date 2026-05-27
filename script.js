@@ -55,9 +55,6 @@ import { getFirestore, collection, getDocs, getDoc, addDoc, deleteDoc, doc }
 import { getStorage, ref, uploadBytes, getDownloadURL }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
-import {getFirestore,collection,getDocs,getDoc, addDoc,deleteDoc, doc }
-from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
 
 // ============================================================
 // FIREBASE CONFIG
